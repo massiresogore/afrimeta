@@ -70,6 +70,8 @@ public class ClientUser {
         this.user_id = user_id;
     }
 
+
+
     public Long getUser_id() {
         return user_id;
     }
@@ -148,5 +150,21 @@ public class ClientUser {
 
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
+    }
+
+    @Override
+    public String toString() {
+        return "ClientUser{" +
+                "user_id=" + user_id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", raisonSocial='" + raisonSocial + '\'' +
+                ", enable=" + enable +
+                ", role='" + role + '\'' +
+                ", adresse=" + adresse +
+                '}';
     }
 }

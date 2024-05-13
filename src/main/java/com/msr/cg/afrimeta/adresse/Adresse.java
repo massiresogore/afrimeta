@@ -12,18 +12,6 @@ public class Adresse {
     private String numero;
     private int cp;
 
-    @OneToOne(
-            fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE,
-                    CascadeType.REFRESH,
-                    CascadeType.DETACH
-            }
-    )
-    @JoinColumn(name = "user_id")
-    private ClientUser clientUser;
-
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = {
@@ -34,20 +22,19 @@ public class Adresse {
             }
     )
     @JoinColumn(name = "ville_id")
-    private Ville ville;// A changé
+    private Ville ville;
 
     public Adresse() {
     }
 
-    public Adresse(String numero, int cp, Ville ville, ClientUser clientUser) {
+    public Adresse(String numero, int cp, Ville ville) {
         this.numero = numero;
         this.cp = cp;
         this.ville = ville;
-        this.clientUser = clientUser;
     }
 
-    public Adresse (Long adresseId,String numero, int cp, Ville ville, ClientUser clientUser){
-        this(numero, cp, ville, clientUser);
+    public Adresse (Long adresseId,String numero, int cp, Ville ville){
+        this(numero, cp, ville);
         this.adresseId = adresseId;
     }
 
@@ -83,12 +70,6 @@ public class Adresse {
         this.ville = ville;
     }
 
-    public ClientUser getClientUser() {
-        return clientUser;
-    }
 
-    public void setClientUser(ClientUser clientUser) {
-        this.clientUser = clientUser;
-    }
 }
 

@@ -18,6 +18,6 @@ public record ClientUserDto(
         String raisonSocial,
         boolean enable,
         String role,
-        int adresse
+        int adresseId
 ) {
 }

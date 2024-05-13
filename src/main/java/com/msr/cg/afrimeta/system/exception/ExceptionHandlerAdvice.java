@@ -31,9 +31,11 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.INVALID_ARGUMENT,"Ivalid argument", errorMap);
     }
 
-    @ExceptionHandler(ObjectNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ObjectNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Result handleObjectNotFoundException(ObjectNotFoundException exception) {
-        return new Result(false, StatusCode.NOT_FOUND,"Object not found", exception.getMessage());
+        return new Result(false, StatusCode.NOT_FOUND, exception.getMessage());
     }
+
+
 }

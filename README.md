@@ -20,6 +20,19 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
     cohérence dans les enregistrements temporels, en particulier dans les systèmes 
     distribués ou internationaux.
 
+# Fonctionnement de service
+    - on inject la dépendance de JdbcClient
+        - pour crée des requette on appelle la fonction sql de jdbcClient
+            jdbcClient.sql("select * from ville where ville_id= :villeId ")
+        - pour mettre un parametre on on appelle la fonction param de jdbcClient
+            .param("villeId", id)
+        - pour mettre plusieur parametres, on on appelle la fonction params de jdbcClient
+            .params(List.of(ville.getNom()))
+        - s'il s'agit d'un optional on leve une xception
+             .optional().orElseThrow(()-> new ObjectNotFoundException("ville", id));
+        - puis on return jdbcClient
+
+
 # gestion de exception handler avec exception handler advice
     - on crée une classe avec le nom ExceptionHandler
     - on met l'anotation @RestControllerAdvice en important
@@ -131,3 +144,85 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
         System.out.println(map);
 
 
+# LEST TESTS DE SERVICE  tests unitaires avec le framework Mockito
+    - On génère la classe de test avec intelij idea avec control+enter.
+    
+      - on importe cette anotation  sur la classe de test
+        @ExtendWith(MockitoExtension.class).
+    
+      - dans la classe de test on inject le service et le repository en charge
+        des transaction via la base de donée dans notre cas
+        @Mock
+        VilleRepository villeRepository;
+
+        @InjectMocks
+        VilleService villeService;
+
+      - s'il s'agit d'une liste, on initialiste la liste
+        List<Ville> villeList = new ArrayList<>();
+    
+      - on crée un fake liste dans la fonction setup comme suit
+        @BeforeEach
+        void setUp() {
+         Ville paris = new Ville("Paris");
+         villeList.add(paris);
+        }
+    
+  # tester findAll doit etre suivie de l'anotation @Test,
+     ce test se fait en trois phase.
+    - Given, c'est la phase numéro un,Lorqu'on appelle villeService dans notre context doit retourner villeList
+      given(this.villeRepository.findAll()).willReturn(villeList);
+    - When,ici on  Appelle findAll de villeService
+      List<Ville> actualVilles = villeService.findAll();
+    - Then, Vérifie si la valeur de actualVilles == villeList, et on Invoque une fois findAll() de villeService
+      verify(this.villeRepository,times(1)).findAll();
+  
+  # tester findByIdNotFound
+    - Given, si on cherche un object qui nexiste pas, on remplace id par Mockito.any() et prend 
+      en paramètre l'id rechercher dans notre cas le type est en Long
+      given(this.villeRepository.findById(Mockito.any(Long.class))).willReturn(Optional.empty());
+    - when, la recherche de id 12 lèvera une exception et on la récupère
+      Throwable throwable = catchThrowable(() -> villeService.findById(Long.valueOf("12")));
+    - Then, on s'assure que l'exception levé est une instance de ObjectNotFoundException, et 
+      qu'il renvoie le message " Nous ne retrouvons pas l'entité Ville not found with id 12 "
+        assertThat(throwable)
+                .isInstanceOf(ObjectNotFoundException.class)
+                .hasMessage("Nous ne retrouvons pas l'entité Ville not found with id 12");
+        verify(this.villeRepository,Mockito.times(1)).findById(Long.valueOf("12"));
+
+  # tester deleteById
+    - on crée un fake data
+      Ville paris = new Ville(Long.valueOf("22"),"POLO");
+    - Given, on vérifie si d'abord un object avec id=22 nous renvoie un Optional de cet object,
+      puis on appelle la fonction static doNothin() pour quelle fasse rien lorsqu'on demande à supprimer
+      lobject par id
+        given(this.villeRepository.findById(1L)).willReturn(Optional.of(paris));
+        doNothing().when(this.villeRepository).deleteById(1L);
+    - When, 
+        this.villeService.deleteById(1L);
+    - Then
+        verify(this.villeRepository,times(1)).deleteById(1L);
+    NB:
+    un petit problème lors de test, javais oublié de de rechercher d'abord lexistance 
+    de lobject par id a supprimé dans le service et j'ai eu une erreur ....lenient()
+
+
+
+
+# CONCEPT DE TEST
+
+# @Mock: 
+    Cette annotation est utilisée pour créer un mock (une simulation) d'une dépendance
+    externe d'une classe que vous testez. Par exemple, si votre classe dépend d'un service 
+    externe, vous pouvez utiliser @Mock pour créer un mock de ce service, ce qui vous permet 
+    de simuler son comportement pendant le test.
+# @InjectMocks: 
+    Cette annotation est utilisée pour injecter les mocks créés avec @Mock dans la classe que 
+    vous testez. Elle est utilisée pour injecter les dépendances simulées dans la classe sous test.
+
+
+
+        
+
+        
+    
