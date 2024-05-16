@@ -1,4 +1,12 @@
 # PROJET DE FIN D'ANNEE 2024 Bachelor 3
+# Route convention
+  GET|HEAD   jobs .......................................................... JobController@index
+  POST       jobs .......................................................... JobController@store
+  GET|HEAD   jobs/create .................................................. JobController@create
+  GET|HEAD   jobs/{job} ..................................................... JobController@show
+  PATCH      jobs/{job} ................................................... JobController@update
+  DELETE     jobs/{job} ................................................... JobController@delete
+  GET|HEAD   jobs/{job}/edit ................................................ JobController@edit
 ## Afriméta
 
 # cette commande
@@ -219,6 +227,69 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
 # @InjectMocks: 
     Cette annotation est utilisée pour injecter les mocks créés avec @Mock dans la classe que 
     vous testez. Elle est utilisée pour injecter les dépendances simulées dans la classe sous test.
+
+# Test controller
+    - on importe ces annotations au dessus de la classe
+    @SpringBootTest, et @ActiveProfiles(value = "dev")
+    @AutoConfigureMockMvc(addFilters = false)// false désactive la sécurité
+    NB: En résumé, @Autowired est utilisé pour injecter les dépendances réelles dans votre application,
+    tandis que @MockBean est utilisé pour créer des mocks de beans pour les tests unitaires.
+    @MockBean
+    WizardService wizardService;
+    
+    
+    @Autowired
+    MockMvc mockMvc;
+    MockMvc est un outil fourni par Spring pour tester les contrôleurs web de manière unitaire,
+    sans démarrer un serveur web réel. Cela permet de simuler des requêtes HTTP et d'évaluer 
+    les réponses de manière simple et rapide dans un contexte de test.
+
+    @Mock
+    IdWorker idWorker; simule id
+
+    @Value("${api.endpoint.base-url}"), récupère la valeur crée dans application.properties
+    String baseUrl;
+
+    @Autowired
+    ObjectMapper mapper;
+    ObjectMapper est une classe centrale de la bibliothèque Jackson pour le traitement 
+    des données JSON en Java. Jackson est une bibliothèque populaire pour la sérialisation 
+    et la désérialisation d'objets Java vers et depuis JSON. ObjectMapper fournit des méthodes 
+    pour convertir des objets Java en représentations JSON et vice versa.
+
+# test getVille in controlleur
+        @Test
+    void getVilles() throws Exception {
+        //Given
+        given(villeService.findAll()).willReturn(villeList);
+
+        //When Then
+        this.mockMvc.perform(MockMvcRequestBuilders.get(url+"/ville")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("toutes les villes"))
+                .andExpect(jsonPath("$.sata", Matchers.hasSize(villeList.size())))
+                .andExpect(jsonPath("$.data[0].name").value("Paris"))
+                .andExpect(jsonPath("$.data[1].name").value("mossaka"));
+    }
+    - le Given, on test  le service injecter dans le controller
+    - When and Then on simule le request
+# test updateVilleByIdSuccess
+    //VilleDto ready to update
+    VilleDto villeDto = new VilleDto(1L,"Paris update");
+
+    //Convert VilleDto to json
+    String jsonMapper = objectMapper.writeValueAsString(villeDto);
+
+    //Convert Villedto to ville
+    Ville villeUpdated = new Ville(villeDto.villeId(), villeDto.nom());
+
+    //Given
+    given(this.villeService.update(Mockito.any(Ville.class),eq(1L))).willReturn(villeUpdated);
+
+
+
 
 
 
