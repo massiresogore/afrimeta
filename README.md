@@ -276,18 +276,33 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
     - le Given, on test  le service injecter dans le controller
     - When and Then on simule le request
 # test updateVilleByIdSuccess
+    ça se passe ne trois étape
+    - 1 on simule un object à metre à jour
     //VilleDto ready to update
     VilleDto villeDto = new VilleDto(1L,"Paris update");
 
+    - 2 on convertis cet object en json pour l'ajouter dans le contenue afin de l'envoyé 
+      sous forme de json dans notre controlleur
     //Convert VilleDto to json
     String jsonMapper = objectMapper.writeValueAsString(villeDto);
 
+    - 3 on convertis cet object qui est en dto en en objet initial
     //Convert Villedto to ville
     Ville villeUpdated = new Ville(villeDto.villeId(), villeDto.nom());
 
+    - 4 puis on test le service avec le given. 
+    dans ce given, on simule la classe avec Mockito.any(Entity.class) et le id on met eq(valeur de id)
     //Given
     given(this.villeService.update(Mockito.any(Ville.class),eq(1L))).willReturn(villeUpdated);
 
+# differencre entre :
+    doThrow(...).when(...) et doThrow(...).when(...):
+    les deux, Configurent une méthode mockée pour qu'elle lance une exception lorsqu'elle 
+    est appelée avec un argument spécifique.
+- doThrow(...).when(...):Utilisé pour des méthodes (**`void`**) qui doivent lancer une exception.
+- given(...).willThrow(...):Utilisé pour des méthodes qui retournent une **_`valeur`_** ou sont vérifiées 
+  dans une condition given.
+    
 
 
 

@@ -28,6 +28,14 @@ public class VilleController {
         this.villeToVilleDtoConverter = villeToVilleDtoConverter;
     }
 
+    @PostMapping
+    public Result store(@RequestBody VilleDto villeDto) {
+
+        return new Result(true, StatusCode.SUCCESS,"ville ajoutée",
+                this.villeToVilleDtoConverter
+                        .convert(this.villeService.save(villeDtoToVilleConverter.convert(villeDto))));
+    }
+
     @GetMapping
     public Result getVilles() {
         return new Result(
@@ -57,6 +65,13 @@ public class VilleController {
                 villeToVilleDtoConverter.convert(this.villeService
                         .update(this.villeDtoToVilleConverter.convert(villeDto),Long.parseLong(villeId)))
         );
+    }
+
+    @DeleteMapping("/{villeId}")
+    public Result deleteVille(@PathVariable("villeId") String villeId) {
+
+        this.villeService.deleteById(Long.parseLong(villeId));
+        return new Result(true, StatusCode.SUCCESS, "ville supprimée");
     }
 
 

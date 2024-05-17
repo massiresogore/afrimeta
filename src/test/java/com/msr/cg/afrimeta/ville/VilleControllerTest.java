@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,11 +21,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
@@ -109,6 +107,31 @@ class VilleControllerTest {
     }
 
     @Test
+    void saveVille() throws Exception {
+        //VilleDto ready to update
+        VilleDto villeDto = new VilleDto(1L,"Paris save new ville");
+
+        //Convert VilleDto to json
+        String jsonMapper = objectMapper.writeValueAsString(villeDto);
+
+        //Convert Villedto to ville
+        Ville villesaved = new Ville(villeDto.villeId(), villeDto.nom());
+
+        //Given
+        given(this.villeService.save(Mockito.any(Ville.class))).willReturn(villesaved);
+        //When and Then
+        this.mockMvc.perform(MockMvcRequestBuilders.post(url+"/villes")
+                        .content(jsonMapper)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("ville ajoutée"))
+                .andExpect(jsonPath("$.data.nom").value("Paris save new ville"));
+    }
+
+
+    @Test
     void updateVilleByIdSuccess() throws Exception {
         //VilleDto ready to update
         VilleDto villeDto = new VilleDto(1L,"Paris update");
@@ -133,10 +156,64 @@ class VilleControllerTest {
                 .andExpect(jsonPath("$.data.villeId").value(villeUpdated.getVilleId()))
                 .andExpect(jsonPath("$.data.nom").value(villeUpdated.getNom()));
         ;
-
     }
 
+    @Test
+    void updateVilleByIdNotFound() throws Exception {
+        //VilleDto ready to update
+        VilleDto villeDto = new VilleDto(10L,"Paris update");
 
+        //Convert VilleDto to json
+        String jsonMapper = objectMapper.writeValueAsString(villeDto);
+
+        //Given
+        given(this.villeService.update(Mockito.any(Ville.class),eq(10L))).willThrow(new ObjectNotFoundException("ville",Long.parseLong("10")));
+
+        //When and Then
+        this.mockMvc.perform(MockMvcRequestBuilders.put(url+"/villes/{villeId}/update", 10)
+        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(false))
+                .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
+                .andExpect(jsonPath("$.message").value("Nous ne retrouvons pas l'entité ville avec id 10"))
+                .andExpect(jsonPath("$.data", Matchers.nullValue()));
+        ;
+    }
+
+    @Test
+    void deleteVilleByIdSuccess() throws Exception {
+        //Given
+        doNothing().when(this.villeService).deleteById(1L);
+
+
+        //When and Then
+        this.mockMvc.perform(MockMvcRequestBuilders.delete(url+"/villes/{villeId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("ville supprimée"))
+                .andExpect(jsonPath("$.data", Matchers.nullValue()));
+        ;
+    }
+
+    @Test
+    void deleteVilleByIdNotFound() throws Exception {
+        //Given
+        doThrow(new ObjectNotFoundException("ville",Long.parseLong("13"))).when(this.villeService).deleteById(13L);
+
+
+        //When and Then
+        this.mockMvc.perform(MockMvcRequestBuilders.delete(url+"/villes/{villeId}", 13)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(false))
+                .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
+                .andExpect(jsonPath("$.message").value("Nous ne retrouvons pas l'entité ville avec id 13"))
+                .andExpect(jsonPath("$.data", Matchers.nullValue()));
+        ;
+    }
 
 
 
