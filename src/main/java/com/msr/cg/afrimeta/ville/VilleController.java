@@ -8,8 +8,6 @@ import com.msr.cg.afrimeta.ville.dto.VilleDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RestController

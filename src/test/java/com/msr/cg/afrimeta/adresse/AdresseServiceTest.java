@@ -68,7 +68,7 @@ class AdresseServiceTest {
         given(this.adresseRepository.findById(1L)).willReturn(Optional.of(adresse));
 
         //When
-        Adresse adresse1 = this.adresseService.finById(1L);
+        Adresse adresse1 = this.adresseService.findById(1L);
         //Then
         assertThat(adresse1.getAdresseId()).isEqualTo(adresse.getAdresseId());
         verify(this.adresseRepository,times(1)).findById(1L);
@@ -79,7 +79,7 @@ class AdresseServiceTest {
         //Given
         given(this.adresseRepository.findById(1L)).willReturn(Optional.empty());
         //When
-        Throwable exception = catchThrowable(() -> this.adresseService.finById(1L));
+        Throwable exception = catchThrowable(() -> this.adresseService.findById(1L));
         //Then
         assertThat(exception)
                 .isInstanceOf(ObjectNotFoundException.class)

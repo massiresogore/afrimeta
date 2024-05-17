@@ -16,7 +16,7 @@ public class ClientUserDtoToClientUserConverter implements Converter<ClientUserD
     public ClientUser convert(ClientUserDto source) {
         ClientUser clientUser = new ClientUser();
         clientUser.setUser_id(source.user_id());
-        clientUser.setAdresse(this.adresseService.finById((long) source.adresseId()));
+        clientUser.setAdresse(this.adresseService.findById((long) source.adresseId()));
         clientUser.setNom(source.nom());
         clientUser.setPrenom(source.prenom());
         clientUser.setEmail(source.email());

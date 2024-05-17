@@ -70,6 +70,14 @@ public class Adresse {
         this.ville = ville;
     }
 
-
+    @Override
+    public String toString() {
+        return "Adresse{" +
+                "adresseId=" + adresseId +
+                ", numero='" + numero + '\'' +
+                ", cp=" + cp +
+               // ", ville=" + ville +
+                '}';
+    }
 }
 

@@ -109,7 +109,7 @@ class VilleControllerTest {
     @Test
     void saveVille() throws Exception {
         //VilleDto ready to update
-        VilleDto villeDto = new VilleDto(1L,"Paris save new ville");
+        VilleDto villeDto = new VilleDto(null,"Paris save new ville");
 
         //Convert VilleDto to json
         String jsonMapper = objectMapper.writeValueAsString(villeDto);
