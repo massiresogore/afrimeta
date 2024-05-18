@@ -1,6 +1,5 @@
 package com.msr.cg.afrimeta.adresse;
 
-import com.msr.cg.afrimeta.clientUser.ClientUser;
 import com.msr.cg.afrimeta.ville.Ville;
 import jakarta.persistence.*;
 
@@ -70,6 +69,14 @@ public class Adresse {
         this.ville = ville;
     }
 
-
+    @Override
+    public String toString() {
+        return "Adresse{" +
+                "adresseId=" + adresseId +
+                ", numero='" + numero + '\'' +
+                ", cp=" + cp +
+               // ", ville=" + ville +
+                '}';
+    }
 }
 

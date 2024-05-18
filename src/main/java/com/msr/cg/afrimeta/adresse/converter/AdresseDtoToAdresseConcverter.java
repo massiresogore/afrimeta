@@ -6,7 +6,9 @@ import com.msr.cg.afrimeta.ville.VilleRepository;
 import com.msr.cg.afrimeta.ville.VilleService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AdresseDtoToAdresseConcverter implements Converter<AdresseDto, Adresse> {
 
 

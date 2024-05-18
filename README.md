@@ -275,7 +275,7 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
     }
     - le Given, on test  le service injecter dans le controller
     - When and Then on simule le request
-# test updateVilleByIdSuccess
+# test updateVilleByIdSuccess in controller
     ça se passe ne trois étape
     - 1 on simule un object à metre à jour
     //VilleDto ready to update
@@ -296,13 +296,34 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
     given(this.villeService.update(Mockito.any(Ville.class),eq(1L))).willReturn(villeUpdated);
 
 # differencre entre :
-    doThrow(...).when(...) et doThrow(...).when(...):
+    doThrow(...).when(...) et given(...).willThrow(...):
     les deux, Configurent une méthode mockée pour qu'elle lance une exception lorsqu'elle 
     est appelée avec un argument spécifique.
-- doThrow(...).when(...):Utilisé pour des méthodes (**`void`**) qui doivent lancer une exception.
-- given(...).willThrow(...):Utilisé pour des méthodes qui retournent une **_`valeur`_** ou sont vérifiées 
-  dans une condition given.
-    
+    - doThrow(...).when(...):Utilisé pour des méthodes (**`void`**) qui doivent lancer une exception.
+    - given(...).willThrow(...):Utilisé pour des méthodes qui retournent une **_`valeur`_** ou sont vérifiées 
+        dans une condition given.
+# test save in controller
+        //VilleDto ready to update
+        VilleDto villeDto = new VilleDto(null,"Paris save new ville");
+
+        //Convert VilleDto to json
+        String jsonMapper = objectMapper.writeValueAsString(villeDto);
+
+        //Convert Villedto to ville
+        Ville villesaved = new Ville(villeDto.villeId(), villeDto.nom());
+
+        //Given, on utilise Mockito.any(Ville.class)), pour qu'on est pas de problème avec l'id en testant
+        given(this.villeService.save(Mockito.any(Ville.class))).willReturn(villesaved);
+
+        //When and Then
+        this.mockMvc.perform(MockMvcRequestBuilders.post(url+"/villes")
+                        .content(jsonMapper)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("ville ajoutée"))
+                .andExpect(jsonPath("$.data.nom").value("Paris save new ville"));
 
 
 

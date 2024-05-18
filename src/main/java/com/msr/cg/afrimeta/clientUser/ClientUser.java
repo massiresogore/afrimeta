@@ -72,6 +72,7 @@ public class ClientUser {
 
 
 
+
     public Long getUser_id() {
         return user_id;
     }

@@ -4,7 +4,9 @@ import com.msr.cg.afrimeta.adresse.AdresseService;
 import com.msr.cg.afrimeta.clientUser.ClientUser;
 import com.msr.cg.afrimeta.clientUser.dto.ClientUserDto;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ClientUserDtoToClientUserConverter implements Converter<ClientUserDto, ClientUser> {
    private final AdresseService adresseService;
 
@@ -16,7 +18,7 @@ public class ClientUserDtoToClientUserConverter implements Converter<ClientUserD
     public ClientUser convert(ClientUserDto source) {
         ClientUser clientUser = new ClientUser();
         clientUser.setUser_id(source.user_id());
-        clientUser.setAdresse(this.adresseService.finById((long) source.adresseId()));
+        clientUser.setAdresse(this.adresseService.findById((long) source.adresseId()));
         clientUser.setNom(source.nom());
         clientUser.setPrenom(source.prenom());
         clientUser.setEmail(source.email());

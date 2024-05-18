@@ -17,7 +17,7 @@ public class AdresseService {
     public List<Adresse> findAll() {
         return adresseRepository.findAll();
     }
-    public Adresse finById(Long id) {
+    public Adresse findById(Long id) {
         return adresseRepository.findById(id).orElseThrow(()->new ObjectNotFoundException("Adresse with id " + id + " not found", id));
     }
     public Adresse save(Adresse adresse) {
@@ -33,7 +33,7 @@ public class AdresseService {
     }
 
     public void deleteById(Long id) {
-        this.finById(id);
+        this.findById(id);
         this.adresseRepository.deleteById(id);
     }
 }

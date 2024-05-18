@@ -109,7 +109,7 @@ class VilleControllerTest {
     @Test
     void saveVille() throws Exception {
         //VilleDto ready to update
-        VilleDto villeDto = new VilleDto(1L,"Paris save new ville");
+        VilleDto villeDto = new VilleDto(null,"Paris save new ville");
 
         //Convert VilleDto to json
         String jsonMapper = objectMapper.writeValueAsString(villeDto);
@@ -146,7 +146,7 @@ class VilleControllerTest {
         given(this.villeService.update(Mockito.any(Ville.class),eq(1L))).willReturn(villeUpdated);
 
         //When and Then
-        this.mockMvc.perform(MockMvcRequestBuilders.put(url+"/villes/{villeId}/update", 1)
+        this.mockMvc.perform(MockMvcRequestBuilders.put(url+"/villes/{villeId}", 1)
         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonMapper)
                         .accept(MediaType.APPLICATION_JSON))
@@ -170,7 +170,7 @@ class VilleControllerTest {
         given(this.villeService.update(Mockito.any(Ville.class),eq(10L))).willThrow(new ObjectNotFoundException("ville",Long.parseLong("10")));
 
         //When and Then
-        this.mockMvc.perform(MockMvcRequestBuilders.put(url+"/villes/{villeId}/update", 10)
+        this.mockMvc.perform(MockMvcRequestBuilders.put(url+"/villes/{villeId}", 10)
         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonMapper)
                         .accept(MediaType.APPLICATION_JSON))

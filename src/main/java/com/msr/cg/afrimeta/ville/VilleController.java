@@ -8,8 +8,6 @@ import com.msr.cg.afrimeta.ville.dto.VilleDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RestController
@@ -55,7 +53,7 @@ public class VilleController {
                 .convert(this.villeService.findById(Integer.parseInt(id))));
     }
 
-    @PutMapping("/{villeId}/update")
+    @PutMapping("/{villeId}")
     public Result updateVille(@PathVariable("villeId") String villeId, @RequestBody VilleDto villeDto) {
         // convert villeDto to Ville
         // update
