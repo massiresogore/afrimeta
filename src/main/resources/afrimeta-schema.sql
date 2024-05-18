@@ -26,6 +26,7 @@ CREATE TABLE if not exists `client_user`(
     role varchar(50) not null,
     email varchar(100) not null unique ,
     password varchar(100) not null ,
+    telephone varchar(100),
     raison_sociale varchar(100) not null ,
     enable bit(1) not null ,
     adresse_id int not null,

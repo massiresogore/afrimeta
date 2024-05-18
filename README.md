@@ -331,9 +331,11 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
     - 4 puis on test le service avec le given.
       dans ce given, on simule la classe avec Mockito.any(Entity.class) et le id on met eq(valeur de id)
 
-
-
-        
+# sql COLLATE
+    c'est-à-dire un ensemble de règles qui déterminent comment les chaînes de caractères sont comparées et ordonnées.
+# CHARSET
+     fait référence à l'ensemble de caractères utilisé pour stocker et interpréter les données textuelles dans une base
+      de données
 
         
     
