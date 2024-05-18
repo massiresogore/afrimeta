@@ -336,6 +336,7 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
 # CHARSET
      fait référence à l'ensemble de caractères utilisé pour stocker et interpréter les données textuelles dans une base
       de données
-
+# NB GIt
+    les branches doient être crée au fure et à messure que le projet avances
         
     
