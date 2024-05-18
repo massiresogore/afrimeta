@@ -1,0 +1,93 @@
+package com.msr.cg.afrimeta.clientUser;
+
+import com.msr.cg.afrimeta.clientUser.converter.ClientUserDtoToClientUserConverter;
+import com.msr.cg.afrimeta.clientUser.converter.ClientUserToClientUserDtoConverter;
+import com.msr.cg.afrimeta.clientUser.dto.ClientUserDto;
+import com.msr.cg.afrimeta.system.Result;
+import com.msr.cg.afrimeta.system.StatusCode;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RestController
+@RequestMapping("${api.endpoint.base-url}/users")
+public class UserController {
+
+    private final ClientUserService clientUserService;
+    private final ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter;
+    private final ClientUserToClientUserDtoConverter clientUserToClientUserDtoConverter;
+
+    public UserController(ClientUserService clientUserService,
+                          ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter,
+                          ClientUserToClientUserDtoConverter clientUserToClientUserDtoConverter) {
+        this.clientUserService = clientUserService;
+        this.clientUserDtoToClientUserConverter = clientUserDtoToClientUserConverter;
+        this.clientUserToClientUserDtoConverter = clientUserToClientUserDtoConverter;
+    }
+
+    @GetMapping
+    public Result getAllUsers()
+    {
+        return new Result(
+                true,
+                StatusCode.SUCCESS,
+                "tous les users",
+                this.clientUserService
+                        .findAll().stream().map(client -> new ClientUserDto(
+                        client.getUser_id(),
+                        client.getNom(),
+                        client.getPrenom(),
+                        client.getEmail(),
+                        client.getPassword(),
+                        client.getTelephone(),
+                        client.getRaisonSocial(),
+                        client.isEnable(),
+                        client.getRole(),
+                        Math.toIntExact(client.getAdresse().getAdresseId())
+                )).toList()
+        );
+    }
+
+    @GetMapping("/{userId}")
+    public Result getUserById(@PathVariable("userId") String userId){
+
+        return new Result(
+                true,
+                StatusCode.SUCCESS,
+                "l'utilisateur trouvé",
+                this.clientUserToClientUserDtoConverter
+                        .convert(this.clientUserService
+                                .findById(Long.parseLong(userId))));
+    }
+
+    @PatchMapping("/{userId}")
+    public Result updateUser(@PathVariable("userId") String userId, @RequestBody ClientUserDto clientUserDto){
+       return new Result(
+               true,
+               StatusCode.SUCCESS,
+               "user mis à jours",
+               this.clientUserService
+                       .update(this.clientUserDtoToClientUserConverter
+                               .convert(clientUserDto), Long.parseLong(userId)));
+    }
+
+    @DeleteMapping("/{userId}")
+    public Result deleteUser(@PathVariable("userId") String userId){
+        this.clientUserService.deleteById(Long.parseLong(userId));
+        return new Result(true,StatusCode.SUCCESS,"l'utilisateur supprimé");
+    }
+
+    @PostMapping
+    public Result saveUser(@RequestBody ClientUserDto clientUserDto){
+
+        return new Result(
+                true,
+                StatusCode.SUCCESS,
+                "user créé",
+                this.clientUserToClientUserDtoConverter
+                        .convert(this.clientUserService
+                                .save(this.clientUserDtoToClientUserConverter
+                                        .convert(clientUserDto)))
+        );
+    }
+}
