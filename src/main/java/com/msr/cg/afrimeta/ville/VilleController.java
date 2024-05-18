@@ -53,7 +53,7 @@ public class VilleController {
                 .convert(this.villeService.findById(Integer.parseInt(id))));
     }
 
-    @PutMapping("/{villeId}/update")
+    @PutMapping("/{villeId}")
     public Result updateVille(@PathVariable("villeId") String villeId, @RequestBody VilleDto villeDto) {
         // convert villeDto to Ville
         // update

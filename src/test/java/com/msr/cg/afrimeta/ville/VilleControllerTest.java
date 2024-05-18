@@ -146,7 +146,7 @@ class VilleControllerTest {
         given(this.villeService.update(Mockito.any(Ville.class),eq(1L))).willReturn(villeUpdated);
 
         //When and Then
-        this.mockMvc.perform(MockMvcRequestBuilders.put(url+"/villes/{villeId}/update", 1)
+        this.mockMvc.perform(MockMvcRequestBuilders.put(url+"/villes/{villeId}", 1)
         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonMapper)
                         .accept(MediaType.APPLICATION_JSON))
@@ -170,7 +170,7 @@ class VilleControllerTest {
         given(this.villeService.update(Mockito.any(Ville.class),eq(10L))).willThrow(new ObjectNotFoundException("ville",Long.parseLong("10")));
 
         //When and Then
-        this.mockMvc.perform(MockMvcRequestBuilders.put(url+"/villes/{villeId}/update", 10)
+        this.mockMvc.perform(MockMvcRequestBuilders.put(url+"/villes/{villeId}", 10)
         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonMapper)
                         .accept(MediaType.APPLICATION_JSON))

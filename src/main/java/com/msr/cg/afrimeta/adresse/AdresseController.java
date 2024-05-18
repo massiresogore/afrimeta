@@ -47,7 +47,7 @@ public class AdresseController {
                 .convert(this.adresseService.findById(Long.parseLong(adresseId))));
     }
 
-    @PatchMapping("/{adresseId}/update")
+    @PatchMapping("/{adresseId}")
     public Result updateAdresse(@PathVariable("adresseId") String adresseId, @RequestBody AdresseDto adresseDto) {
         return new Result(true, StatusCode.SUCCESS,"adresse mis à jour",
                 adresseToAdresseDtoConverter.convert(this.adresseService

@@ -20,6 +20,7 @@ public class ClientUserService implements AfrimetaCrudInterface<ClientUser> {
       return (List<ClientUser>) this.clientUserRepository.findAll();
     }
 
+
     @Override
     public ClientUser findById(Long id) {
         return this.clientUserRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("clientUser",id));

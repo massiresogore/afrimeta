@@ -1,6 +1,5 @@
 package com.msr.cg.afrimeta.adresse;
 
-import com.msr.cg.afrimeta.clientUser.ClientUser;
 import com.msr.cg.afrimeta.ville.Ville;
 import jakarta.persistence.*;
 

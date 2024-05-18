@@ -145,7 +145,7 @@ class AdresseControllerTest {
         given(this.adresseService.update(Mockito.any(Adresse.class), Mockito.anyLong())).willReturn(adresse);
 
         //When and Then
-        this.mockMvc.perform(MockMvcRequestBuilders.patch(url+"/adresses/{adresseId}/update", 1)
+        this.mockMvc.perform(MockMvcRequestBuilders.patch(url+"/adresses/{adresseId}", 1)
                         .content(jsonAdresses)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -169,7 +169,7 @@ class AdresseControllerTest {
         given(this.adresseService.update(Mockito.any(Adresse.class), Mockito.anyLong())).willThrow(new ObjectNotFoundException("adresse",13L));
 
         //When and Then
-        this.mockMvc.perform(MockMvcRequestBuilders.patch(url+"/adresses/{adresseId}/update", 13)
+        this.mockMvc.perform(MockMvcRequestBuilders.patch(url+"/adresses/{adresseId}", 13)
                         .content(jsonAdresses)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -194,7 +194,6 @@ class AdresseControllerTest {
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("adresse supprimée"))
                 .andExpect(jsonPath("$.data",Matchers.nullValue()));
-
     }
 
     @Test
