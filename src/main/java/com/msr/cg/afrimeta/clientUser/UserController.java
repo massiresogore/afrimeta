@@ -66,9 +66,13 @@ public class UserController {
                true,
                StatusCode.SUCCESS,
                "user mis à jours",
-               this.clientUserService
-                       .update(this.clientUserDtoToClientUserConverter
-                               .convert(clientUserDto), Long.parseLong(userId)));
+               this.clientUserToClientUserDtoConverter
+                       .convert(this.clientUserService
+                               .update(this.clientUserDtoToClientUserConverter
+                                       .convert(clientUserDto),Long.parseLong(userId)
+                               )
+                       )
+       );
     }
 
     @DeleteMapping("/{userId}")

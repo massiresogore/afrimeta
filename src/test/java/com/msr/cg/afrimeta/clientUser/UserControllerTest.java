@@ -160,7 +160,7 @@ class UserControllerTest {
     void updateUserByIdNotFound() throws Exception {
         //Dto
         ClientUserDto userDto = new ClientUserDto(
-                12L,
+                null,
                 "Parolie",
                 "Moile",
                 "moile@gmail.com",
@@ -176,6 +176,7 @@ class UserControllerTest {
         String jsonDtoUser = objectMapper.writeValueAsString(userDto);
 
         given(this.clientUserService.update(Mockito.any(ClientUser.class),eq(12L))).willThrow(new ObjectNotFoundException("user",12L));
+
         this.mockMvc.perform(MockMvcRequestBuilders.patch(url+"/users/{userId}", 12)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -203,13 +204,27 @@ class UserControllerTest {
                 1
         );
 
+        Ville paris = new Ville(1L,"Paris");
+        Adresse adresse = new Adresse(1L,"77440",77440,paris);
+
         //Stringify dto o json
         String jsonDtoUser = objectMapper.writeValueAsString(userDto);
 
         //Convert dto to objec
-        ClientUser clientUser = this.clientUserDtoToClientUserConverter.convert(userDto);
+        ClientUser user = new ClientUser(
+                12L,
+                "Mona",
+                "Berthe",
+                "e@gmail.com",
+                "12345678",
+                "0909090099",
+                adresse,
+                "Patron",
+                true,
+                "Admin"
+        );
 
-        given(this.clientUserService.update(clientUser,12L)).willReturn(clientUser);
+        given(this.clientUserService.update(Mockito.any(ClientUser.class),eq(12L))).willReturn(user);
         this.mockMvc.perform(MockMvcRequestBuilders.patch(url+"/users/{userId}", 12)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -218,7 +233,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.message").value("user mis à jours"))
-                .andExpect(jsonPath("$.data", Matchers.nullValue()));
+                .andExpect(jsonPath("$.data").exists());
     }
 
     @Test
@@ -266,8 +281,24 @@ class UserControllerTest {
 
         //Stringify dto o json
         String jsonDtoUser = objectMapper.writeValueAsString(userDto);
+
+        // simulation de ville existante
+        Ville paris = new Ville(1L,"Paris");
+        // simulation de Adresse existante
+        Adresse adresse = new Adresse(1L,"77440",77440,paris);
         //Convert dto to objec
-        ClientUser clientUser = this.clientUserDtoToClientUserConverter.convert(userDto);
+        ClientUser clientUser = new ClientUser(
+                "Parolie",
+                "Moile",
+                "moile@gmail.com",
+                "12345678",
+                "0909090099",
+                adresse,
+                "Boss",
+                true,
+                "Admin"
+        );
+
 
         //Given
         given(this.clientUserService.save(Mockito.any(ClientUser.class))).willReturn(clientUser);

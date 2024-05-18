@@ -35,7 +35,6 @@ public class ClientUserService implements AfrimetaCrudInterface<ClientUser> {
     public ClientUser update(ClientUser clientUser, Long id) {
         return this.clientUserRepository.findById(id)
                 .map(oldClient -> {
-                    oldClient.setUser_id(clientUser.getUser_id());
                     oldClient.setAdresse(clientUser.getAdresse());
                     oldClient.setNom(clientUser.getNom());
                     oldClient.setPrenom(clientUser.getPrenom());

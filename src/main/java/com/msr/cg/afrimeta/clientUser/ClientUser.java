@@ -13,7 +13,7 @@ public class ClientUser {
     private String email;
     private String password;
     private String telephone;
-    @Column(name = "raison_social")
+    @Column(name = "raison_sociale")
     private String raisonSocial;
     private boolean enable;
     private String role;

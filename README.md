@@ -325,7 +325,11 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
                 .andExpect(jsonPath("$.message").value("ville ajoutée"))
                 .andExpect(jsonPath("$.data.nom").value("Paris save new ville"));
 
-
+# rename column
+    alter table client_user rename column rason_social to raison_sociale;
+# NOTE BIEN pour le test controller update
+    - 4 puis on test le service avec le given.
+      dans ce given, on simule la classe avec Mockito.any(Entity.class) et le id on met eq(valeur de id)
 
 
 
