@@ -67,11 +67,16 @@ class AdresseControllerTest {
 
     @Test
     void store() throws Exception {
-        Ville paris = new Ville(1L,"Paris");
-        AdresseDto adresseDto = new AdresseDto(null,"090909",77440,1L);
+        Ville paris = new Ville();
+        paris.setNom("paris");
+        AdresseDto adresseDto = new AdresseDto(null,"090909",77440,paris);
 
-        Adresse adresse = new Adresse(adresseDto.numero(),adresseDto.cp(),paris);
-      String jsonAdresses =   mapper.writeValueAsString(adresseDto);
+        Adresse adresse = new Adresse();
+        adresse.setNumero("090909");
+        adresse.setVille(paris);
+        adresse.setCp(77777);
+        adresse.setVille(paris);
+        String jsonAdresses =   mapper.writeValueAsString(adresseDto);
 
         //Given
         given(this.adresseService.save(Mockito.any(Adresse.class))).willReturn(adresse);
@@ -133,7 +138,7 @@ class AdresseControllerTest {
     void updateAdresseById() throws Exception {
         // simule un object à mettre à jours
         Ville paris = new Ville(1L,"Paris");
-        AdresseDto adresseDto =new AdresseDto(1L,"090909",77440,1L);
+        AdresseDto adresseDto =new AdresseDto(1L,"090909",77440,paris);
 
         //Convertion en json
         String jsonAdresses = mapper.writeValueAsString(adresseDto);
@@ -153,11 +158,13 @@ class AdresseControllerTest {
                 .andExpect(jsonPath("$.message").value("adresse mis à jour"))
                 .andExpect(jsonPath("$.data.numero").value("090909"))
                 .andExpect(jsonPath("$.data.cp").value(77440));
-    } @Test
+    }
+
+    @Test
     void updateAdresseByIdNotFound() throws Exception {
         // simule un object à mettre à jours
         Ville paris = new Ville(1L,"Paris");
-        AdresseDto adresseDto =new AdresseDto(13L,"090909",77440,1L);
+        AdresseDto adresseDto =new AdresseDto(13L,"090909",77440,paris);
 
         //Convertion en json
         String jsonAdresses = mapper.writeValueAsString(adresseDto);

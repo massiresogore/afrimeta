@@ -1,5 +1,6 @@
 package com.msr.cg.afrimeta.clientUser.dto;
 
+import com.msr.cg.afrimeta.adresse.Adresse;
 import jakarta.validation.constraints.NotNull;
 
 public record ClientUserDto(
@@ -18,6 +19,6 @@ public record ClientUserDto(
         String raisonSocial,
         boolean enable,
         String role,
-        int adresseId
+        Adresse adresse
 ) {
 }

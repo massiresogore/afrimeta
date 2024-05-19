@@ -19,7 +19,7 @@ public class ClientUserToClientUserDtoConverter implements Converter<ClientUser,
                 source.getRaisonSocial(),
                 source.isEnable(),
                 source.getRole(),
-                Math.toIntExact(source.getAdresse().getAdresseId())
+                source.getAdresse()
         );
 
     }

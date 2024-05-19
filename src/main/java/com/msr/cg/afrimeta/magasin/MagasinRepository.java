@@ -1,8 +1,8 @@
-package com.msr.cg.afrimeta.ville;
+package com.msr.cg.afrimeta.magasin;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VilleRepository extends JpaRepository<Ville, Long> {
+public interface MagasinRepository extends JpaRepository<Magasin, Long> {
 }

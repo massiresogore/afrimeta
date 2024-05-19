@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -219,7 +218,6 @@ class ClientUserServiceTest {
      @Test
     void deleteByIdNotFound() {
         given(this.clientUserRepository.findById(Mockito.anyLong())).willReturn(Optional.empty());
-
         Throwable throwable = catchThrowable(() -> this.clientUserService.deleteById(13L));
         assertThat(throwable)
                 .isInstanceOf(ObjectNotFoundException.class)

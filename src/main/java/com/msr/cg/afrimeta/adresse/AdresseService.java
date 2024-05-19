@@ -2,10 +2,12 @@ package com.msr.cg.afrimeta.adresse;
 
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class AdresseService {
 
    private final AdresseRepository adresseRepository;

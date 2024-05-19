@@ -25,10 +25,12 @@ public class AdresseController {
 
     @PostMapping
     public Result store(@RequestBody AdresseDto adresseDto) {
+       Adresse adresse = adresseDtoToAdresseConcverter.convert(adresseDto);
 
-        return new Result(true, StatusCode.SUCCESS,"adresse ajoutée",
-                this.adresseToAdresseDtoConverter
-                        .convert(this.adresseService.save(adresseDtoToAdresseConcverter.convert(adresseDto))));
+       Adresse savedAdresse = adresseService.save(adresse);
+       AdresseDto addressDtoSaved =  adresseToAdresseDtoConverter.convert(savedAdresse);
+
+        return new Result(true, StatusCode.SUCCESS,"adresse ajoutée", addressDtoSaved);
     }
 
     @GetMapping

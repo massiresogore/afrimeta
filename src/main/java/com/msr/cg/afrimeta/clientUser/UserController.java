@@ -43,7 +43,7 @@ public class UserController {
                         client.getRaisonSocial(),
                         client.isEnable(),
                         client.getRole(),
-                        Math.toIntExact(client.getAdresse().getAdresseId())
+                        client.getAdresse()
                 )).toList()
         );
     }

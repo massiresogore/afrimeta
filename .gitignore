@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .DS_Store
-src/main/resources/conception/uml/fichierBrute/.DS_Store
+conception/uml/fichierBrute/.DS_Store
 ### STS ###
 .apt_generated
 .classpath
@@ -18,8 +18,8 @@ src/main/.DS_Store
 src/main/java/.DS_Store
 src/main/java/com/.DS_Store
 src/main/resources/.DS_Store
-src/main/resources/conception/.DS_Store
-src/main/resources/conception/useCaseValide.DS_Store
+conception/.DS_Store
+conception/useCaseValide.DS_Store
 
 
 ### IntelliJ IDEA ###
