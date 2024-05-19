@@ -1,5 +1,6 @@
 package com.msr.cg.afrimeta.clientUser;
 
+import com.msr.cg.afrimeta.profile.Profile;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +14,10 @@ public class ClientUser {
     private boolean enable;
     private String role;
 
+    @OneToOne(cascade = CascadeType.ALL )
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
     public ClientUser() {
     }
 
@@ -22,7 +27,8 @@ public class ClientUser {
         String email,
         String password,
         boolean enable,
-        String role
+        String role,
+        Profile profile
     ) {
         this.username = username;
         this.email = email;
@@ -38,13 +44,12 @@ public class ClientUser {
                       String email,
                       String password,
                       boolean enable,
-                      String role
+                      String role,
+                    Profile profile
             ){
-        this(username,email,password,enable,role);
+        this(username,email,password,enable,role,profile);
         this.user_id = user_id;
     }
-
-
 
 
     public Long getUser_id() {
@@ -93,6 +98,14 @@ public class ClientUser {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     @Override

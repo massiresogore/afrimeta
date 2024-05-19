@@ -17,6 +17,7 @@ public class ClientUserDtoToClientUserConverter implements Converter<ClientUserD
         clientUser.setRole(source.role());
         clientUser.setEnable(source.enable());
         clientUser.setUsername(source.username());
+        clientUser.setProfile(source.profile());
         return clientUser;
     }
 }

@@ -39,7 +39,8 @@ public class UserController {
                         client.getEmail(),
                         client.getPassword(),
                         client.isEnable(),
-                        client.getRole()
+                        client.getRole(),
+                        client.getProfile()
                 )).toList()
         );
     }
