@@ -11,16 +11,11 @@ public class ClientUserToClientUserDtoConverter implements Converter<ClientUser,
     public ClientUserDto convert(ClientUser source) {
         return new ClientUserDto(
                 source.getUser_id(),
-                source.getNom(),
-                source.getPrenom(),
+                source.getUsername(),
                 source.getEmail(),
                 source.getPassword(),
-                source.getTelephone(),
-                source.getRaisonSocial(),
                 source.isEnable(),
-                source.getRole(),
-                source.getAdresse()
+                source.getRole()
         );
-
     }
 }

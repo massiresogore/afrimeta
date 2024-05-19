@@ -12,15 +12,11 @@ public class ClientUserDtoToClientUserConverter implements Converter<ClientUserD
     public ClientUser convert(ClientUserDto source) {
         ClientUser clientUser = new ClientUser();
         clientUser.setUser_id(source.user_id());
-        clientUser.setAdresse(source.adresse());
-        clientUser.setNom(source.nom());
-        clientUser.setPrenom(source.prenom());
         clientUser.setEmail(source.email());
-        clientUser.setTelephone(source.telephone());
         clientUser.setPassword(source.password());
         clientUser.setRole(source.role());
         clientUser.setEnable(source.enable());
-        clientUser.setRaisonSocial(source.raisonSocial());
+        clientUser.setUsername(source.username());
         return clientUser;
     }
 }

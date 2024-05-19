@@ -35,15 +35,11 @@ public class UserController {
                 this.clientUserService
                         .findAll().stream().map(client -> new ClientUserDto(
                         client.getUser_id(),
-                        client.getNom(),
-                        client.getPrenom(),
+                        client.getUsername(),
                         client.getEmail(),
                         client.getPassword(),
-                        client.getTelephone(),
-                        client.getRaisonSocial(),
                         client.isEnable(),
-                        client.getRole(),
-                        client.getAdresse()
+                        client.getRole()
                 )).toList()
         );
     }

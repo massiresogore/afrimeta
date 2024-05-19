@@ -1,11 +1,9 @@
 package com.msr.cg.afrimeta.clientUser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.msr.cg.afrimeta.adresse.Adresse;
 import com.msr.cg.afrimeta.clientUser.converter.ClientUserDtoToClientUserConverter;
 import com.msr.cg.afrimeta.clientUser.dto.ClientUserDto;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
-import com.msr.cg.afrimeta.ville.Ville;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,40 +49,28 @@ class UserControllerTest {
 
     @BeforeEach
     void setUp() {
-        Ville paris = new Ville(1L,"Paris");
-        Adresse adresse = new Adresse(1L,"40",77440,paris);
-
         users = new ArrayList<>();
         ClientUser user1 = new ClientUser(
+                1L,
                 "Mona",
-                "Berthe",
                 "e@gmail.com",
                 "12345678",
-                "0909090099",
-                adresse,
-                "Patron",
                 true,
                 "Admin"
         );
         ClientUser user2 = new ClientUser(
-                "Parolie",
-                "Moile",
-                "moile@gmail.com",
+                2L,
+                "Mona",
+                "e@gmail.com",
                 "12345678",
-                "0909090099",
-                adresse,
-                "Patron",
                 true,
                 "Admin"
         );
         ClientUser user3 = new ClientUser(
-                "Lianne",
-                "Piole",
-                "piole@gmail.com",
+                3L,
+                "Mona",
+                "e@gmail.com",
                 "12345678",
-                "0909090099",
-                adresse,
-                "Patron",
                 true,
                 "Admin"
         );
@@ -106,22 +92,16 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.message").value("tous les users"))
                 .andExpect(jsonPath("$.data", Matchers.hasSize(this.users.size())))
-                .andExpect(jsonPath("$.data[0].nom").value(this.users.get(0).getNom()));
+                .andExpect(jsonPath("$.data[0].email").value(this.users.get(0).getEmail()));
     }
 
     @Test
     void getUserByIdSuccess() throws Exception {
-        Ville paris = new Ville(1L,"Paris");
-        Adresse adresse = new Adresse(1L,"40",77440,paris);
         ClientUser user2 = new ClientUser(
-                1L,
-                "Parolie",
-                "Moile",
-                "moile@gmail.com",
+                2L,
+                "Mona",
+                "e@gmail.com",
                 "12345678",
-                "0909090099",
-                adresse,
-                "Patron",
                 true,
                 "Admin"
         );
@@ -135,7 +115,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.message").value("l'utilisateur trouvé"))
                 .andExpect(jsonPath("$.data").exists())
-                .andExpect(jsonPath("$.data.nom").value(user2.getNom()));
+                .andExpect(jsonPath("$.data.email").value(user2.getEmail()));
 
     }
 
@@ -160,14 +140,10 @@ class UserControllerTest {
         ClientUserDto userDto = new ClientUserDto(
                 12L,
                 "Parolie",
-                "Moile",
                 "moile@gmail.com",
-                "12345678",
-                "0909090099",
-                "Boss",
+                "1273637383",
                 true,
-                "Admin",
-                new Adresse(null,"9898989",999090,new Ville("Malie"))
+                "0909090099"
         );
 
         //Stringify dto o json
@@ -190,21 +166,14 @@ class UserControllerTest {
     void updateUserByIdSuccess() throws Exception {
         //Dto
         ClientUserDto userDto = new ClientUserDto(
-                null,
+                12L,
                 "Parolie",
-                "Moile",
                 "moile@gmail.com",
-                "12345678",
-                "0909090099",
-                "Boss",
+                "1273637383",
                 true,
-                "Admin",
-                new Adresse(1L,"9898989",999090,new Ville(1L,"Malie"))
-
+                "0909090099"
         );
 
-        Ville paris = new Ville(1L,"Paris");
-        Adresse adresse = new Adresse(1L,"77440",77440,paris);
 
         //Stringify dto o json
         String jsonDtoUser = objectMapper.writeValueAsString(userDto);
@@ -213,12 +182,8 @@ class UserControllerTest {
         ClientUser user = new ClientUser(
                 12L,
                 "Mona",
-                "Berthe",
                 "e@gmail.com",
                 "12345678",
-                "0909090099",
-                adresse,
-                "Patron",
                 true,
                 "Admin"
         );
@@ -248,6 +213,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.message").value("l'utilisateur supprimé"))
                 .andExpect(jsonPath("$.data", Matchers.nullValue()));
     }
+
     @Test
     void deleteUserByIdNotFound() throws Exception {
         //given
@@ -262,25 +228,21 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.data",Matchers.nullValue()));
     }
 
+
+
     @Test
     void saveUser() throws Exception {
 
 
-        Ville paris = new Ville(null,"Paris");
-        // simulation de Adresse existante
-        Adresse adresse = new Adresse(null,"77440",77440,paris);
+
         //Dto
         ClientUserDto userDto = new ClientUserDto(
                 null,
                 "Parolie",
-                "Moile",
                 "moile@gmail.com",
-                "12345678",
-                "0909090099",
-                "Boss",
+                "1273637383",
                 true,
-                "Admin",
-                adresse
+                "0909090099"
         );
 
         //Stringify dto o json
@@ -288,16 +250,13 @@ class UserControllerTest {
 
         //Convert dto to objec
         ClientUser clientUser = new ClientUser(
-                "Parolie",
-                "Moile",
-                "moile@gmail.com",
+                "Mona",
+                "e@gmail.com",
                 "12345678",
-                "0909090099",
-                adresse,
-                "Boss",
                 true,
                 "Admin"
         );
+
 
 
         //Given
@@ -312,7 +271,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.message").value("user créé"))
                 .andExpect(jsonPath("$.data").exists())
-                .andExpect(jsonPath("$.data.nom").value(clientUser.getNom()));
+                .andExpect(jsonPath("$.data.role").value(clientUser.getRole()));
     }
 }
 

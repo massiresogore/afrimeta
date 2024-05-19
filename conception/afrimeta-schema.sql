@@ -9,35 +9,15 @@ drop database if exists `afrimeta`;
 create database `afrimeta`;
 use `afrimeta`;
 
-create table if not exists `ville`(
-                                      ville_id int not null primary key auto_increment,
-                                      nom varchar(50) not null
-    )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-create table if not exists  `adresse`(
-                                         adresse_id int primary key not null auto_increment,
-                                         numero varchar(50) not null,
-    cp int(50) not null,
-    ville_id int not null,
-    key `FK_ville_id`(`ville_id`),
-    constraint `FK_ville_id` foreign key (`ville_id`) references `ville` (`ville_id`)
-    on DELETE NO ACTION on UPDATE NO ACTION
-    )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE if not exists `client_user`(
                                             user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                                            nom varchar(30) unique not null ,
-    prenom varchar(30),
+                                            username varchar(30) unique not null ,
     role varchar(50) not null,
-    email varchar(100) not null unique ,
+    email varchar(100) not null unique,
     password varchar(100) not null ,
-    telephone varchar(100),
-    raison_sociale varchar(100) not null ,
-    enable bit(1) not null ,
-    adresse_id int not null,
-    key `FK_adresse_id` (`adresse_id`),
-    constraint `FK_adresse_id` foreign key (`adresse_id`) references `adresse` (`adresse_id`)
-    on DELETE NO ACTION on UPDATE NO ACTION
+    enable bit(1) default 1
     )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- start
@@ -238,4 +218,21 @@ create table if not exists paiment(
     on delete no action on update no action
     )ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
+CREATE TABLE profile (
+                         profile_id INT AUTO_INCREMENT PRIMARY KEY,
+                         user_id INT NOT NULL,
+                         nom VARCHAR(50),
+                         prenom VARCHAR(50),
+                         numero_telephone VARCHAR(15),
+                         date_naissance DATE,
+                         genre ENUM('male', 'female', 'other'),
+                         addresse TEXT,
+                         ville VARCHAR(100),
+                         code_postal VARCHAR(10),
+                         pays VARCHAR(50),
+                         profile_picture_url VARCHAR(255),
+                         bio TEXT,
+                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                         FOREIGN KEY (user_id) REFERENCES `client_user` (user_id) ON DELETE CASCADE
+);
