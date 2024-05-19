@@ -43,8 +43,6 @@ class UserControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Autowired
-    ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter;
 
     @Value("${api.endpoint.base-url}")
     String url;
@@ -160,7 +158,7 @@ class UserControllerTest {
     void updateUserByIdNotFound() throws Exception {
         //Dto
         ClientUserDto userDto = new ClientUserDto(
-                null,
+                12L,
                 "Parolie",
                 "Moile",
                 "moile@gmail.com",
@@ -169,7 +167,7 @@ class UserControllerTest {
                 "Boss",
                 true,
                 "Admin",
-                1
+                new Adresse(null,"9898989",999090,new Ville("Malie"))
         );
 
         //Stringify dto o json
@@ -201,7 +199,8 @@ class UserControllerTest {
                 "Boss",
                 true,
                 "Admin",
-                1
+                new Adresse(1L,"9898989",999090,new Ville(1L,"Malie"))
+
         );
 
         Ville paris = new Ville(1L,"Paris");
@@ -265,6 +264,11 @@ class UserControllerTest {
 
     @Test
     void saveUser() throws Exception {
+
+
+        Ville paris = new Ville(null,"Paris");
+        // simulation de Adresse existante
+        Adresse adresse = new Adresse(null,"77440",77440,paris);
         //Dto
         ClientUserDto userDto = new ClientUserDto(
                 null,
@@ -276,16 +280,12 @@ class UserControllerTest {
                 "Boss",
                 true,
                 "Admin",
-                1
+                adresse
         );
 
         //Stringify dto o json
         String jsonDtoUser = objectMapper.writeValueAsString(userDto);
 
-        // simulation de ville existante
-        Ville paris = new Ville(1L,"Paris");
-        // simulation de Adresse existante
-        Adresse adresse = new Adresse(1L,"77440",77440,paris);
         //Convert dto to objec
         ClientUser clientUser = new ClientUser(
                 "Parolie",

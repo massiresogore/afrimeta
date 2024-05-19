@@ -11,13 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdresseDtoToAdresseConcverter implements Converter<AdresseDto, Adresse> {
 
-
-  private final VilleService villeService;
-
-    public AdresseDtoToAdresseConcverter(VilleService villeService) {
-        this.villeService = villeService;
-    }
-
     @Override
     public Adresse convert(AdresseDto source) {
 
@@ -25,7 +18,7 @@ public class AdresseDtoToAdresseConcverter implements Converter<AdresseDto, Adre
                 source.adresseId(),
                 source.numero(),
                 source.cp(),
-                this.villeService.findById(Math.toIntExact(source.villeId()))
+                source.ville()
         );
     }
 }

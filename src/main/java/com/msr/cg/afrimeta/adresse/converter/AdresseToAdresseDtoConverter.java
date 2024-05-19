@@ -15,6 +15,6 @@ public class AdresseToAdresseDtoConverter implements Converter<Adresse, AdresseD
                 source.getAdresseId(),
                 source.getNumero(),
                 source.getCp(),
-                source.getVille().getVilleId()        );
+                source.getVille());
     }
 }

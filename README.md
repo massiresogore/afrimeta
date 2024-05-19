@@ -183,7 +183,7 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
     - When,ici on  Appelle findAll de villeService
       List<Ville> actualVilles = villeService.findAll();
     - Then, Vérifie si la valeur de actualVilles == villeList, et on Invoque une fois findAll() de villeService
-      verify(this.villeRepository,times(1)).findAll();
+      verify(this.villeRepository,times(1)).findAll();, on vérify le given
   
   # tester findByIdNotFound
     - Given, si on cherche un object qui nexiste pas, on remplace id par Mockito.any() et prend 
@@ -338,5 +338,137 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
       de données
 # NB GIt
     les branches doient être crée au fure et à messure que le projet avances
+
+# GESTION DE BASE DE DONNEE TWO pour la premier base de donnée
+1.       on importe sur la classe configuration
+        @Configuration(proxyBeanMethods = false)
+        - proxyBeanMethods = false,Quand proxyBeanMethods est défini à true, Spring crée un proxy CGLIB
+          pour la classe de configuration. Cela permet de garantir que les appels de méthode au sein de 
+          la classe de configuration qui retournent des beans utilisent le proxy, et donc retournent le même 
+          instance de bean plutôt que de créer une nouvelle instance.
+        - Quand proxyBeanMethods est défini à false, Spring n'utilise pas de proxy pour la classe de configuration.
+          Les appels de méthode à l'intérieur de la classe ne seront pas interceptés par le proxy, ce qui peut 
+          améliorer les performances en éliminant l'overhead du proxy.
+          Cependant, cela signifie que si une méthode de bean est appelée directement dans la classe de configuration,
+          elle ne sera pas gérée par Spring, ce qui peut mener à la création de plusieurs instances de beans si la méthode
+          est appelée plusieurs fois.
+
+2.        on configure le custom propertie, avec l'anotation de primary,
+           @Bean
+           @Primary
+           @ConfigurationProperties("app.datasource.afrimeta")
+           public DataSourceProperties dataSourceProperties() {
+            return new DataSourceProperties();
+           }
+
+          ce que fait la méthode
+          Elle définit un bean de type DataSourceProperties.
+          La méthode retourne une nouvelle instance de DataSourceProperties, 
+          qui sera configurée avec les propriétés définies sous le préfixe app.datasource.afrimeta
+
+           - @ConfigurationProperties est une annotation en Spring Boot utilisée pour la gestion de la configuration
+             externe. Elle permet de lier les propriétés définies dans les fichiers de configuration 
+             (comme application.properties ou application.yml) directement à des objets Java.
+            @Bean :
+                  Cette annotation indique que la méthode dataSourceProperties produit un bean 
+                  à gérer par le conteneur Spring. Un bean est un objet qui est instancié, assemblé
+                  et géré par le conteneur Spring.
+            @Primary:
+                   indique que c'st la source principale
+
+3.         On initialise la base de donné
+           @Bean
+           @Primary
+           public HikariDataSource afrimetaDataSource(DataSourceProperties afrimetaDataSourceProperties) {
+           return afrimetaDataSourceProperties.initializeDataSourceBuilder()
+                                               .type(HikariDataSource.class)
+                                              .build();
+           }
+           explication:
+                      initializeDataSourceBuilder() utilise les propriétés encapsulées pour initialiser 
+                       un constructeur de source de données.
+                      .type(HikariDataSource.class): indique que nous voulons que la source de données
+                        soit de type HikariDataSource. HikariDataSource est une implémentation de DataSource
+                          qui offre des performances et une efficacité élevées grâce à un pool de connexions léger.
+                      .build(): construit l'instance de HikariDataSource en utilisant les propriétés fournies.
+
+4.          @Bean
+            public DataSourceScriptDatabaseInitializer afrimetaDataSourceScriptDatabaseInitializer(
+            @Qualifier("afrimetaDataSource")DataSource dataSource) {
+              var settings = new DatabaseInitializationSettings();
+              settings.setSchemaLocations(List.of("classpath:afrimeta-schema.sql"));
+              settings.setMode(DatabaseInitializationMode.EMBEDDED);
+              return new DataSourceScriptDatabaseInitializer(dataSource, settings);
+            }   
+            explication:
+            DataSourceScriptDatabaseInitializer qui initialise une base de données en exécutant un script SQL spécifié,
+            en utilisant la source de données afrimetaDataSource. Cette initialisation est configurée pour s'appliquer 
+            uniquement aux bases de données embarquées(ce qui signifie qu'elle ne sera pas exécutée pour des bases de 
+                                                        données externes comme MySQL, PostgreSQL, etc.).
+
+# GESTION DE BASE DE DONNEE TWO pour la deuxieme base de donnée
+1.          comme la premiere base de donné, la datasource utilisé pour ce bean  
+            sera app.datasource.afrimeta.client.shop ,
+            @Bean
+            @ConfigurationProperties("app.datasource.afrimeta.client.shop")
+            public DataSourceProperties afrimetaClientDataSourceProperties() {return new DataSourceProperties();}
+            
+            explication:
+            Ce code crée un bean DataSourceProperties configuré avec des propriétés spécifiques définies dans
+            les fichiers de configuration de l'application, en le marquant comme la source de données principale.
+
+
+2.           @Bean
+             public DataSource afrimetaClientDataSource(DataSourceProperties afrimetaClientDataSourceProperties) {
+             return DataSourceBuilder
+               .create()
+               .url(afrimetaClientDataSourceProperties.getUrl())
+               .username(afrimetaClientDataSourceProperties.getUsername())
+               .password(afrimetaClientDataSourceProperties.getPassword())
+               .build();
+             }
+
+             explication:
+                Ce code définit un bean DataSource nommé afrimetaClientDataSource dans le contexte Spring. 
+                Il utilise les propriétés (url, username, password) fournies par un objet DataSourceProperties 
+                pour configurer et construire le DataSource à l'aide de DataSourceBuilder.
+
+3.           on utilise la meme methode que la configuration de la premiere Bd
+            
+            @Bean
+            public DataSourceScriptDatabaseInitializer afrimetaDataSourceScriptDatabaseInitializer(
+            @Qualifier("afrimetaDataSource")DataSource dataSource) {
+              var settings = new DatabaseInitializationSettings();
+              settings.setSchemaLocations(List.of("classpath:afrimeta-schema.sql"));
+              settings.setMode(DatabaseInitializationMode.EMBEDDED);
+              return new DataSourceScriptDatabaseInitializer(dataSource, settings);
+            }   
+            explication:
+            DataSourceScriptDatabaseInitializer qui initialise une base de données en exécutant un script SQL spécifié,
+            en utilisant la source de données afrimetaDataSource. Cette initialisation est configurée pour s'appliquer 
+            uniquement aux bases de données embarquées(ce qui signifie qu'elle ne sera pas exécutée pour des bases de 
+                                                        données externes comme MySQL, PostgreSQL, etc.).
+
+
+
+## NB
+       - par défault si le username n'est pas définit, il prend le nom de l'ordinateur
+       dans mon cas c'est esprit,
+       ** Access denied for user 'esprit'@'localhost' (using password: YES)**
+       or le username dans mon application propertie est root
+       ** app.datasource.afrimeta.client.shop.username=root **
+
+      -  le repository utilise le nom de la méthode crée dans AfrimetaApplication,
+         dans notre cas c'est afrimetaClientJdbcClient
+                           @Bean
+                           JdbcClient afrimetaClientJdbcClient(@Qualifier("afrimetaClientDataSource") DataSource afrimeClienttaDataSource){
+                           return JdbcClient.create(afrimeClienttaDataSource);
+                           }
+      @Repository
+      @Qualifier("afrimetaClientJdbcClient")
+      public interface MagasinRepository extends JpaRepository<Magasin, Long> {
+      }
+
+    
         
     
