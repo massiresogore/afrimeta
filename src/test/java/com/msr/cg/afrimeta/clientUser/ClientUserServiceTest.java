@@ -152,7 +152,7 @@ class ClientUserServiceTest {
     }
      @Test
     void deleteByIdNotFound() {
-        given(this.clientUserRepository.findById(Mockito.anyLong())).willReturn(Optional.empty());
+        given(this.clientUserRepository.findById(13L)).willReturn(Optional.empty());
         Throwable throwable = catchThrowable(() -> this.clientUserService.deleteById(13L));
         assertThat(throwable)
                 .isInstanceOf(ObjectNotFoundException.class)
