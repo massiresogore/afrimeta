@@ -1,6 +1,7 @@
 package com.msr.cg.afrimeta.magasin.converter;
 
 import com.msr.cg.afrimeta.magasin.Magasin;
+import com.msr.cg.afrimeta.magasin.MagasinResponse;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -19,9 +20,19 @@ public class MagasinToMagasinDtoConverter implements Converter<Magasin, MagasinD
         return new MagasinDto(
                 source.getMagasinId(),
                 source.getLibele(),
-                source.getLogo(),
                 source.getDescription(),
+                source.getLogo(),
                 source.getClientUser()
+        );
+    }
+
+    public MagasinResponse convertToResponse(Magasin source) {
+        return new MagasinResponse(
+                source.getMagasinId(),
+                source.getLibele(),
+                source.getDescription(),
+                source.getLogo(),
+                source.getClientUser().getUser_id()
         );
     }
 }

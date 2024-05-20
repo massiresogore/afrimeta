@@ -24,4 +24,6 @@ public class MagasinDtoToMagasinConverter implements Converter<MagasinDto, Magas
                 source.logo()
         );
     }
+
+
 }

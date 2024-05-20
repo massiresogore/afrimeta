@@ -38,7 +38,7 @@ public class MagasinService implements AfrimetaCrudInterface<Magasin> {
                     oldWebsite.setLibele(magasin.getLibele());
                     oldWebsite.setDescription(magasin.getDescription());
                     oldWebsite.setLogo(magasin.getLogo());
-                    oldWebsite.setClientUser(magasin.getClientUser());
+                   // oldWebsite.setClientUser(magasin.getClientUser());
                     return this.magasinRepository.save(oldWebsite);
                 })
                 .orElseThrow(()-> new ObjectNotFoundException("Magasin",id));

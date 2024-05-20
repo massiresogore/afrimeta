@@ -8,10 +8,11 @@ import jakarta.persistence.*;
 public class Magasin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long magasinId;
-    String libele;
-    String description;
-    String logo;
+    private Long magasinId;
+    private String libele;
+    private String description;
+    @Column(name = "logo_url")
+   private String logo;
 
     @ManyToOne(
             fetch = FetchType.LAZY,
@@ -23,7 +24,7 @@ public class Magasin {
             }
     )
     @JoinColumn(name = "user_id")
-    ClientUser clientUser;
+    private ClientUser clientUser;
 
     public Magasin() {
     }
@@ -86,6 +87,7 @@ public class Magasin {
                 "magasinId=" + magasinId +
                 ", libele='" + libele + '\'' +
                 ", description='" + description + '\'' +
+                ", logo='" + logo + '\'' +
                 '}';
     }
 }
