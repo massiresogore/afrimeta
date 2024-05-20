@@ -1,13 +1,11 @@
 package com.msr.cg.afrimeta.magasin.dto;
 
-import jakarta.validation.constraints.NotNull;
+import com.msr.cg.afrimeta.clientUser.ClientUser;
 
 public record MagasinDto(
         Long magasinId,
         String libele,
-        String logoUrl,
         String description,
-        @NotNull
-        int userId
-) {
-}
+        String logo,
+        ClientUser clientUser
+) {}

@@ -10,26 +10,33 @@ public class Magasin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long magasinId;
     String libele;
-    @Column(name = "logo_url")
-    String logoUrl;
     String description;
+    String logo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private ClientUser clientUser;
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.PERSIST
+            }
+    )
+    @JoinColumn(name = "user_id")
+    ClientUser clientUser;
 
     public Magasin() {
     }
 
-    public Magasin(String libele, String logoUrl, String description, ClientUser clientUser) {
+    public Magasin(String libele, String description, ClientUser clientUser, String logo) {
         this.libele = libele;
-        this.logoUrl = logoUrl;
         this.description = description;
         this.clientUser = clientUser;
+        this.logo = logo;
     }
 
-    public Magasin(Long magasinId, String libele, String logoUrl, String description, ClientUser clientUser) {
-        this(libele, logoUrl, description, clientUser);
+    public Magasin(Long magasinId, String libele, String description, ClientUser clientUser, String logo) {
+        this(libele, description, clientUser,logo);
         this.magasinId = magasinId;
     }
 
@@ -49,14 +56,6 @@ public class Magasin {
         this.libele = libele;
     }
 
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -73,14 +72,20 @@ public class Magasin {
         this.clientUser = clientUser;
     }
 
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
     @Override
     public String toString() {
         return "Magasin{" +
                 "magasinId=" + magasinId +
                 ", libele='" + libele + '\'' +
-                ", logoUrl='" + logoUrl + '\'' +
                 ", description='" + description + '\'' +
-                ", clientUser=" + clientUser +
                 '}';
     }
 }

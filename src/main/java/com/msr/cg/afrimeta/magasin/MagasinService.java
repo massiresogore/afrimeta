@@ -21,7 +21,9 @@ public class MagasinService implements AfrimetaCrudInterface<Magasin> {
 
     @Override
     public Magasin findById(Long id) {
-        return this.magasinRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("magasin",id));
+
+        return this.magasinRepository.findById(id)
+                .orElseThrow(()-> new ObjectNotFoundException("Magasin",id));
     }
 
     @Override
@@ -31,14 +33,16 @@ public class MagasinService implements AfrimetaCrudInterface<Magasin> {
 
     @Override
     public Magasin update(Magasin magasin, Long id) {
-      return   this.magasinRepository.findById(id)
-                .map(oldMagasin->{
-                    oldMagasin.setLibele(magasin.getLibele());
-                    oldMagasin.setLogoUrl(magasin.getLogoUrl());
-                    oldMagasin.setDescription(magasin.getDescription());
-                  return this.magasinRepository.save(oldMagasin);
+        return this.magasinRepository.findById(id)
+                .map(oldWebsite ->{
+                    oldWebsite.setLibele(magasin.getLibele());
+                    oldWebsite.setDescription(magasin.getDescription());
+                    oldWebsite.setLogo(magasin.getLogo());
+                    oldWebsite.setClientUser(magasin.getClientUser());
+                    return this.magasinRepository.save(oldWebsite);
                 })
-                .orElseThrow(() -> new ObjectNotFoundException("magasin",id));
+                .orElseThrow(()-> new ObjectNotFoundException("Magasin",id));
+
     }
 
     @Override
@@ -49,7 +53,6 @@ public class MagasinService implements AfrimetaCrudInterface<Magasin> {
 
     @Override
     public void delete(Magasin magasin) {
-        this.findById(magasin.magasinId);
         this.magasinRepository.delete(magasin);
     }
 }

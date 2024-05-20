@@ -1,6 +1,5 @@
 package com.msr.cg.afrimeta.magasin.converter;
 
-import com.msr.cg.afrimeta.clientUser.ClientUserService;
 import com.msr.cg.afrimeta.magasin.Magasin;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
 import org.springframework.core.convert.converter.Converter;
@@ -8,21 +7,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MagasinToMagasinDtoConverter implements Converter<Magasin, MagasinDto> {
-
-    private final ClientUserService clientUserService;
-
-    public MagasinToMagasinDtoConverter(ClientUserService clientUserService) {
-        this.clientUserService = clientUserService;
-    }
-
+    /**
+     * Convert the source object of type {@code S} to target type {@code T}.
+     *
+     * @param source the source object to convert, which must be an instance of {@code S} (never {@code null})
+     * @return the converted object, which must be an instance of {@code T} (potentially {@code null})
+     * @throws IllegalArgumentException if the source cannot be converted to the desired target type
+     */
     @Override
     public MagasinDto convert(Magasin source) {
-       return new MagasinDto(
+        return new MagasinDto(
                 source.getMagasinId(),
                 source.getLibele(),
-                source.getLogoUrl(),
+                source.getLogo(),
                 source.getDescription(),
-               Math.toIntExact(this.clientUserService.findById(source.getClientUser().getUser_id()).getUser_id())
+                source.getClientUser()
         );
     }
 }

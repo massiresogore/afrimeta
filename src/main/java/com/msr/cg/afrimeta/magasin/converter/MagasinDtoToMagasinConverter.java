@@ -1,6 +1,5 @@
 package com.msr.cg.afrimeta.magasin.converter;
 
-import com.msr.cg.afrimeta.clientUser.ClientUserService;
 import com.msr.cg.afrimeta.magasin.Magasin;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
 import org.springframework.core.convert.converter.Converter;
@@ -8,13 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MagasinDtoToMagasinConverter implements Converter<MagasinDto, Magasin> {
-
-    private final ClientUserService clientUserService;
-
-    public MagasinDtoToMagasinConverter(ClientUserService clientUserService) {
-        this.clientUserService = clientUserService;
-    }
-
     /**
      * Convert the source object of type {@code S} to target type {@code T}.
      *
@@ -27,9 +19,9 @@ public class MagasinDtoToMagasinConverter implements Converter<MagasinDto, Magas
         return new Magasin(
                 source.magasinId(),
                 source.libele(),
-                source.logoUrl(),
                 source.description(),
-                this.clientUserService.findById((long) source.userId())
+                source.clientUser(),
+                source.logo()
         );
     }
 }
