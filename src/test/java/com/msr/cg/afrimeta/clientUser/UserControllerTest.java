@@ -56,7 +56,8 @@ class UserControllerTest {
                 "e@gmail.com",
                 "12345678",
                 true,
-                "Admin"
+                "Admin",
+                null
         );
         ClientUser user2 = new ClientUser(
                 2L,
@@ -64,7 +65,8 @@ class UserControllerTest {
                 "e@gmail.com",
                 "12345678",
                 true,
-                "Admin"
+                "Admin",
+                null
         );
         ClientUser user3 = new ClientUser(
                 3L,
@@ -72,7 +74,8 @@ class UserControllerTest {
                 "e@gmail.com",
                 "12345678",
                 true,
-                "Admin"
+                "Admin",
+                null
         );
 
         users.add(user1);
@@ -103,7 +106,8 @@ class UserControllerTest {
                 "e@gmail.com",
                 "12345678",
                 true,
-                "Admin"
+                "Admin",
+                null
         );
         //Given
         given(this.clientUserService.findById(1L)).willReturn(user2);
@@ -143,7 +147,8 @@ class UserControllerTest {
                 "moile@gmail.com",
                 "1273637383",
                 true,
-                "0909090099"
+                "0909090099",
+                null
         );
 
         //Stringify dto o json
@@ -171,7 +176,8 @@ class UserControllerTest {
                 "moile@gmail.com",
                 "1273637383",
                 true,
-                "0909090099"
+                "0909090099",
+                null
         );
 
 
@@ -185,7 +191,8 @@ class UserControllerTest {
                 "e@gmail.com",
                 "12345678",
                 true,
-                "Admin"
+                "Admin",
+                null
         );
 
         given(this.clientUserService.update(Mockito.any(ClientUser.class),eq(12L))).willReturn(user);
@@ -242,7 +249,8 @@ class UserControllerTest {
                 "moile@gmail.com",
                 "1273637383",
                 true,
-                "0909090099"
+                "0909090099",
+                null
         );
 
         //Stringify dto o json
@@ -254,7 +262,8 @@ class UserControllerTest {
                 "e@gmail.com",
                 "12345678",
                 true,
-                "Admin"
+                "Admin",
+                null
         );
 
 

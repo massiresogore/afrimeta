@@ -15,7 +15,8 @@ public class ClientUserToClientUserDtoConverter implements Converter<ClientUser,
                 source.getEmail(),
                 source.getPassword(),
                 source.isEnable(),
-                source.getRole()
+                source.getRole(),
+                source.getProfile()
         );
     }
 }

@@ -12,13 +12,17 @@ use `afrimeta`;
 
 
 CREATE TABLE if not exists `client_user`(
-                                            user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                                            username varchar(30) unique not null ,
+    user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username varchar(30) unique not null ,
     role varchar(50) not null,
     email varchar(100) not null unique,
     password varchar(100) not null ,
-    enable bit(1) default 1
-    )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    enable bit(1) default 1,
+    profile_id int default null,
+    key `FK_profile_id`(`profile_id`),
+    constraint `FK_profile_id` foreign key (`profile_id`) references `profile`(`profile_id`)
+    on delete cascade on update cascade
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- start
 create table if not exists taille(

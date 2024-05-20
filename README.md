@@ -469,6 +469,46 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
       public interface MagasinRepository extends JpaRepository<Magasin, Long> {
       }
 
-    
-        
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# comprehension des anotations    
+#  @InjectMocks
+      @Mock
+      private DependencyService dependencyService;
+
+      @InjectMocks
+      private MyService myService;
+      # Explication:
+      Ici, @InjectMocks va injecter le mock dependencyService dans l'instance de myService.
+- Bibliothèque : Utilisée avec Mockito.
+- Portée : Locale au test.
+- Usage : Injecte les mocks créés avec @Mock ou @Spy dans l'objet testé.
+- Contexte : Utilisée pour préparer l'objet sous test et injecter les dépendances nécessaires
+
+# @MockBean
+      @MockBean
+      private DependencyService dependencyService;
+      
+      @Autowired
+      private MyService myService;
+      
+      Explication:
+      @MockBean va enregistrer dependencyService comme un bean mock dans le contexte Spring,
+      et Spring injectera ce mock dans myService
+
+- Bibliothèque : Utilisée avec Spring Boot (et le module Spring Boot Test).
+- Portée : Context global de l'application.
+- Usage : Crée et enregistre un bean mock dans le contexte de Spring Application.
+- Contexte : Utilisée pour les tests d'intégration où un contexte Spring est chargé
