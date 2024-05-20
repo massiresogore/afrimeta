@@ -5,6 +5,10 @@ import com.msr.cg.afrimeta.profile.dto.ProfileDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
+
 @Component
 public class ProfileDtoToProfileConverter implements Converter<ProfileDto, Profile> {
     /**
@@ -21,7 +25,7 @@ public class ProfileDtoToProfileConverter implements Converter<ProfileDto, Profi
                 source.nom(),
                 source.prenom(),
                 source.numeroTelephone(),
-                source.dateNaissance(),
+                LocalDate.parse(source.dateNaissance()),
                 source.genre(),
                 source.addresse(),
                 source.ville(),

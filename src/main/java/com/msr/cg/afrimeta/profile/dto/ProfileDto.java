@@ -9,7 +9,7 @@ public record ProfileDto(
      String nom,
      String prenom,
      String numeroTelephone,
-     Date dateNaissance,
+     String dateNaissance,
      GenreEnum genre,
      String addresse,
      String ville,

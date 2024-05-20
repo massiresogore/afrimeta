@@ -15,6 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,11 +42,11 @@ class ProfileServiceTest {
     @BeforeEach
     void setUp() {
 
-        Profile profile1 = new Profile(1L,  "Doe", "John", "1234567890",new Date(1290), GenreEnum.male, "123 Main St", "Paris", "75001", "France", "http://example.com/johndoe.jpg", "Bio of John Doe");
-        Profile profile2 = new Profile(2L,  "Smith", "Jane", "0987654321", new Date(2024), GenreEnum.female, "456 Elm St", "Lyon", "69001", "France", "http://example.com/janesmith.jpg", "Bio of Jane Smith");
-        Profile profile3 = new Profile(3L,  "Jones", "Alice", "1122334455", new Date(2022), GenreEnum.female, "789 Oak St", "Marseille", "13001", "France", "http://example.com/alicejones.jpg", "Bio of Alice Jones");
-        Profile profile4 = new Profile(4L,  "Brown", "Bob", "2233445566", new Date(2021), GenreEnum.female, "101 Pine St", "Nice", "06000", "France", "http://example.com/bobbrown.jpg", "Bio of Bob Brown");
-        Profile profile5 = new Profile(5L,  "White", "Carol", "3344556677",new Date(2024), GenreEnum.female, "202 Birch St", "Toulouse", "31000", "France", "http://example.com/carolwhite.jpg", "Bio of Carol White");
+        Profile profile1 = new Profile(1L,  "Doe", "John", "1234567890", LocalDate.now(), GenreEnum.male, "123 Main St", "Paris", "75001", "France", "http://example.com/johndoe.jpg", "Bio of John Doe");
+        Profile profile2 = new Profile(2L,  "Smith", "Jane", "0987654321", LocalDate.now(), GenreEnum.female, "456 Elm St", "Lyon", "69001", "France", "http://example.com/janesmith.jpg", "Bio of Jane Smith");
+        Profile profile3 = new Profile(3L,  "Jones", "Alice", "1122334455", LocalDate.now(), GenreEnum.female, "789 Oak St", "Marseille", "13001", "France", "http://example.com/alicejones.jpg", "Bio of Alice Jones");
+        Profile profile4 = new Profile(4L,  "Brown", "Bob", "2233445566", LocalDate.now(), GenreEnum.female, "101 Pine St", "Nice", "06000", "France", "http://example.com/bobbrown.jpg", "Bio of Bob Brown");
+        Profile profile5 = new Profile(5L,  "White", "Carol", "3344556677",LocalDate.now(), GenreEnum.female, "202 Birch St", "Toulouse", "31000", "France", "http://example.com/carolwhite.jpg", "Bio of Carol White");
 
         profiles.add(profile1);
         profiles.add(profile2);
@@ -71,7 +73,7 @@ class ProfileServiceTest {
                 "Doe",
                 "John",
                 "1234567890",
-                new Date(1290),
+                LocalDate.now(),
                 GenreEnum.male,
                 "123 Main St",
                 "Paris",
@@ -98,7 +100,7 @@ class ProfileServiceTest {
                 "Doe",
                 "John",
                 "1234567890",
-                new Date(1290),
+               "2019-08-07",
                 GenreEnum.male,
                 "123 Main St",
                 "Paris",
@@ -113,7 +115,7 @@ class ProfileServiceTest {
                 profileDto.nom(),
                 profileDto.prenom(),
                 profileDto.numeroTelephone(),
-                profileDto.dateNaissance(),
+                LocalDate.parse(profileDto.dateNaissance()),
                 profileDto.genre(),
                 profileDto.addresse(),
                 profileDto.ville(),
@@ -147,7 +149,7 @@ class ProfileServiceTest {
                 "Doe updaded",
                 "John update",
                 "1234567890",
-                new Date(1980),
+                "2021-09-09",
                 GenreEnum.male,
                 "123 Main St",
                 "Paris",
@@ -161,7 +163,7 @@ class ProfileServiceTest {
                 profileDto.nom(),
                 profileDto.prenom(),
                 profileDto.numeroTelephone(),
-                profileDto.dateNaissance(),
+                LocalDate.parse(profileDto.dateNaissance()),
                 profileDto.genre(),
                 profileDto.addresse(),
                 profileDto.ville(),
@@ -208,7 +210,7 @@ class ProfileServiceTest {
                 "Doe",
                 "John",
                 "1234567890",
-                new Date(1290),
+                LocalDate.now(),
                 GenreEnum.male,
                 "123 Main St",
                 "Paris",

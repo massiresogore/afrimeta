@@ -22,11 +22,11 @@ public class AfrimetaApplication {
 		SpringApplication.run(AfrimetaApplication.class, args);
 	}
 
-    @Bean
-    public CommandLineRunner commandLineRunner(ProfileService profileService) {
-        List<Profile> profiles = profileService.findAll();
-        return args -> {
-            System.out.println(profiles);
-        };
-    }
+//    @Bean
+//    public CommandLineRunner commandLineRunner(ProfileService profileService) {
+//        List<Profile> profiles = profileService.findAll();
+//        return args -> {
+//            System.out.println(profiles);
+//        };
+//    }
 }

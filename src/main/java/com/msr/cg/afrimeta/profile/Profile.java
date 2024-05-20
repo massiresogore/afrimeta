@@ -2,6 +2,8 @@ package com.msr.cg.afrimeta.profile;
 
 import com.msr.cg.afrimeta.clientUser.ClientUser;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -12,16 +14,14 @@ public class Profile {
     @Column(name = "profile_id")
     private Long profileId;
 
-    @OneToOne(mappedBy = "profile", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "user_id")
-    private ClientUser user;
 
     private String nom;
     private String prenom;
     @Column(name = "numero_telephone")
     private String numeroTelephone;
     @Column(name = "date_naissance")
-    private Date dateNaissance;
+    private LocalDate dateNaissance;
+    @Enumerated(EnumType.STRING)
     private GenreEnum genre;
     private String addresse;
     private String ville;
@@ -34,7 +34,14 @@ public class Profile {
 
     private String bio;
 
-    @OneToOne(mappedBy = "profile", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "profile",
+            fetch = FetchType.LAZY,cascade = {
+                                                CascadeType.DETACH,
+                                                CascadeType.MERGE,
+                                                CascadeType.REFRESH,
+                                                CascadeType.PERSIST
+                                            }
+            )
     private ClientUser clientUser;
 
     public Profile() {
@@ -44,7 +51,7 @@ public class Profile {
            String nom,
            String prenom,
            String numeroTelephone,
-           Date dateNaissance,
+           LocalDate dateNaissance,
            GenreEnum genre,
            String addresse,
            String ville,
@@ -71,7 +78,7 @@ public class Profile {
            String nom,
            String prenom,
            String numeroTelephone,
-           Date dateNaissance,
+           LocalDate dateNaissance,
            GenreEnum genre,
            String addresse,
            String ville,
@@ -92,13 +99,6 @@ public class Profile {
         this.profileId = profileId;
     }
 
-    public ClientUser getUser() {
-        return user;
-    }
-
-    public void setUser(ClientUser user) {
-        this.user = user;
-    }
 
     public String getNom() {
         return nom;
@@ -124,11 +124,11 @@ public class Profile {
         this.numeroTelephone = numeroTelephone;
     }
 
-    public Date getDateNaissance() {
+    public LocalDate getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance(Date dateNaissance) {
+    public void setDateNaissance(LocalDate dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 
@@ -200,7 +200,6 @@ public class Profile {
     public String toString() {
         return "Profile{" +
                 "profileId=" + profileId +
-                ", user=" + user +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", numeroTelephone='" + numeroTelephone + '\'' +

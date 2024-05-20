@@ -34,7 +34,6 @@ public class ProfileService implements AfrimetaCrudInterface<Profile> {
     public Profile update(Profile profile, Long id) {
       return this.profileRepository.findById(id)
               .map(oldProfile ->{
-                  oldProfile.setUser(profile.getUser());
                   oldProfile.setNom(profile.getNom());
                   oldProfile.setPrenom(profile.getPrenom());
                   oldProfile.setNumeroTelephone(profile.getNumeroTelephone());
