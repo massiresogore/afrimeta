@@ -1,4 +1,5 @@
 package com.msr.cg.afrimeta;
+import com.msr.cg.afrimeta.magasin.Magasin;
 import com.msr.cg.afrimeta.magasin.MagasinRepository;
 import com.msr.cg.afrimeta.magasin.MagasinService;
 import com.msr.cg.afrimeta.profile.Profile;
@@ -21,10 +22,10 @@ public class AfrimetaApplication {
     public static void main(String[] args) {
 		SpringApplication.run(AfrimetaApplication.class, args);
 	}
-
+//
 //    @Bean
-//    public CommandLineRunner commandLineRunner(ProfileService profileService) {
-//        List<Profile> profiles = profileService.findAll();
+//    public CommandLineRunner commandLineRunner(MagasinService service) {
+//        List<Magasin> profiles = service.findAll();
 //        return args -> {
 //            System.out.println(profiles);
 //        };

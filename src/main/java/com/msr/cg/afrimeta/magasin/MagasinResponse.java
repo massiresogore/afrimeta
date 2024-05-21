@@ -1,11 +1,12 @@
-package com.msr.cg.afrimeta.magasin.dto;
+package com.msr.cg.afrimeta.magasin;
 
 import com.msr.cg.afrimeta.clientUser.ClientUser;
 
-public record MagasinDto(
+public record MagasinResponse(
         Long magasinId,
         String libele,
         String description,
         String logo,
-        ClientUser clientUser
-) {}
+        Long clientUser
+) {
+}
