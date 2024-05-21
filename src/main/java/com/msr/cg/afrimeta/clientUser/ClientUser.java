@@ -2,16 +2,29 @@ package com.msr.cg.afrimeta.clientUser;
 
 import com.msr.cg.afrimeta.profile.Profile;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class ClientUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
+    @Column(nullable = false, unique = true)
+    @Length(min = 3, max = 50)
     private String username;
+
+    @Column(nullable = false, unique = true)
+    @Length(min = 5, max = 50)
     private String email;
+
+    @Column(nullable = false)
+    @Length(min = 8, max = 200)
     private String password;
+
+    @Column(nullable = false)
     private boolean enable;
+    @Column(nullable = false)
     private String role;
 
     @OneToOne(cascade = CascadeType.ALL )

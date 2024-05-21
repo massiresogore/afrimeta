@@ -2,6 +2,8 @@ package com.msr.cg.afrimeta.system.exception;
 
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -42,13 +44,26 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.NOT_FOUND, exception.getMessage());
     }
 
+    @ExceptionHandler({ConstraintViolationException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result handleConstraintViolationException(ConstraintViolationException exception) {
+        Map<String, String> errorMap = new HashMap<>();
+        for (ConstraintViolation<?> constraintViolation : exception.getConstraintViolations()) {
+            String key = constraintViolation.getPropertyPath().toString();
+            String value = constraintViolation.getMessage();
+            errorMap.put(key, value);
+        }
+        //System.out.println();
+        return new Result(false, StatusCode.NOT_FOUND,"", errorMap);
+    }
+
     //Récupérer des éreurs des  valeurs insérées doublement
     @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception) {
 
-        String input = exception.getMessage();
-
+//        String input = exception.getMessage();
+/*
         // Définir l'expression régulière pour correspondre à la première valeur entre simples guillemets
         String regex = "'([^']*)'";
 
@@ -62,8 +77,9 @@ public class ExceptionHandlerAdvice {
         if (matcher.find()) {
             // matcher.group(1) contient la valeur capturée par les parenthèses dans l'expression régulière
             return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"la valeur '"+matcher.group(1)+"' exist déjà ");
-        }
-            return null;
+        }*/
+
+        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,exception.getMessage());
     }
 
 
