@@ -25,7 +25,7 @@ public class WebsiteToWebsiteDtoConverter implements Converter<Website, WebsiteD
 
     }
 
-    public WebsiteResponse WebsiteResponse(Website source){
+    public WebsiteResponse websiteResponse(Website source){
         return new WebsiteResponse(
                 source.getWebsiteId(),
                 source.getWebsiteUrl(),

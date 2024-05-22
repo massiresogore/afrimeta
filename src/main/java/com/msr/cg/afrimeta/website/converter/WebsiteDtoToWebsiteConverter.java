@@ -2,6 +2,7 @@ package com.msr.cg.afrimeta.website.converter;
 
 import com.msr.cg.afrimeta.website.Website;
 import com.msr.cg.afrimeta.website.dto.WebsiteDto;
+import com.msr.cg.afrimeta.website.dto.WebsiteResponse;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,14 @@ public class WebsiteDtoToWebsiteConverter implements Converter<WebsiteDto, Websi
                 source.websiteId(),
                 source.websiteUrl(),
                 source.magasin()
+        );
+    }
+
+    public WebsiteResponse WebsiteResponse(Website source){
+        return new WebsiteResponse(
+                source.getWebsiteId(),
+                source.getWebsiteUrl(),
+                source.getMagasin().getMagasinId()
         );
     }
 }

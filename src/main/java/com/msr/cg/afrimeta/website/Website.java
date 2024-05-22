@@ -15,12 +15,13 @@ public class Website {
     private String websiteUrl;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,
-                            CascadeType.MERGE,
-                            CascadeType.REFRESH,
+                           // CascadeType.MERGE,
+                            //CascadeType.REFRESH,
                             CascadeType.DETACH
                             },
             fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "magasin_id")
     private Magasin magasin;
 
     public Website() {
