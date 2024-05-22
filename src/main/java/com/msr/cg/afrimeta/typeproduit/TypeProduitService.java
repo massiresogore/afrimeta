@@ -33,7 +33,7 @@ public class TypeProduitService implements AfrimetaCrudInterface<TypeProduit> {
     public TypeProduit update(TypeProduit typeProduit, Long id) {
         return this.repository.findById(id)
                 .map(oldTypeProduit->{
-                    oldTypeProduit.setNom(oldTypeProduit.getNom());
+                    oldTypeProduit.setNom(typeProduit.getNom());
                     return repository.save(oldTypeProduit);
                 })
                 .orElseThrow(() -> new ObjectNotFoundException("Typeproduit",id));
