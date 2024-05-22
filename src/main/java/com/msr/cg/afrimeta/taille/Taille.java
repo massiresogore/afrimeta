@@ -11,7 +11,7 @@ public class Taille {
     @JoinColumn(name = "taille_id")
     private Long tailleId;
 
-    @Length(min = 3, max = 50)
+    @Length(min = 1, max = 50)
     private String nom;
 
     public Taille() {

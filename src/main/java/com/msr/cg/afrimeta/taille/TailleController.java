@@ -8,21 +8,19 @@ import com.msr.cg.afrimeta.taille.converter.TailleDtoToTailleConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
 @Controller
+@RestController
 @RequestMapping("${api.endpoint.base-url}/taille")
 public class TailleController {
     private final TailleService tailleService;
     private final TailleDtoToTailleConverter tailleDtoToTaille;
     private final TailleToTailleDtoConverter tailleToTailleDto;
 
-
     public TailleController(TailleService tailleService, TailleDtoToTailleConverter tailleDtoToTaille, TailleToTailleDtoConverter tailleToTailleDto) {
         this.tailleService = tailleService;
         this.tailleDtoToTaille = tailleDtoToTaille;
         this.tailleToTailleDto = tailleToTailleDto;
     }
-
 
     @GetMapping
     public Result getAllTailles()
@@ -43,7 +41,7 @@ public class TailleController {
         return new Result(
                 true,
                 StatusCode.SUCCESS,
-                "taille retrouvé",
+                "taille retrouvée",
                 this.tailleToTailleDto.convert(this.tailleService.findById(Long.parseLong(tailleId))));
     }
 
@@ -64,7 +62,7 @@ public class TailleController {
     @DeleteMapping("/{tailleId}")
     public Result deleteTaille(@PathVariable("tailleId") String tailleId){
         this.tailleService.deleteById(Long.parseLong(tailleId));
-        return new Result(true,StatusCode.SUCCESS,"taille supprimé");
+        return new Result(true,StatusCode.SUCCESS,"taille supprimée");
     }
 
     @PostMapping

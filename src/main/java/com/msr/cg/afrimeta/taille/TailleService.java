@@ -33,8 +33,8 @@ public class TailleService implements AfrimetaCrudInterface<Taille> {
     public Taille update(Taille taille, Long id) {
         return this.repository.findById(id)
                 .map(oldTaille->{
-                    taille.setNom(taille.getNom());
-                    return repository.save(taille);
+                    oldTaille.setNom(taille.getNom());
+                    return repository.save(oldTaille);
                 })
                 .orElseThrow(() -> new ObjectNotFoundException("taille",id));
     }
