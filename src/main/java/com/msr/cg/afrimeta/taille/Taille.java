@@ -1,7 +1,10 @@
 package com.msr.cg.afrimeta.taille;
 
+import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 @Entity
 @Table(name = "taille")
@@ -13,6 +16,15 @@ public class Taille {
 
     @Length(min = 1, max = 50)
     private String nom;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name="lier",
+            joinColumns = @JoinColumn(name = "taille_id"),
+            inverseJoinColumns = @JoinColumn(name = "type_produit_id")
+    )
+    private List<TypeProduit> typeProduits;
 
     public Taille() {
     }
@@ -40,6 +52,14 @@ public class Taille {
 
     public void setNom(@Length(min = 3, max = 50) String nom) {
         this.nom = nom;
+    }
+
+    public List<TypeProduit> getTypeProduits() {
+        return typeProduits;
+    }
+
+    public void setTypeProduits(List<TypeProduit> typeProduits) {
+        this.typeProduits = typeProduits;
     }
 
     @Override
