@@ -512,3 +512,26 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
 - Portée : Context global de l'application.
 - Usage : Crée et enregistre un bean mock dans le contexte de Spring Application.
 - Contexte : Utilisée pour les tests d'intégration où un contexte Spring est chargé
+
+# SQL 
+## utilitie
+            SET FOREIGN_KEY_CHECKS = 0; //Désactiver la vérification des clés étrangères
+            SET FOREIGN_KEY_CHECKS = 1; // Réactiver la vérification des clés étrangères
+## ManyToMany
+      @OneToMany(fetch = FetchType.LAZY,
+         cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+      @JoinTable(
+         name="lier",
+         joinColumns = @JoinColumn(name = "taille_id"),
+         inverseJoinColumns = @JoinColumn(name = "type_produit_id")
+      )
+      private List<TypeProduit> typeProduits;
+1. dans les deux sens on crée une liste de l'inverse de lentité
+      private List<TypeProduit> typeProduits
+2. puis on joint la table qui portera les deux clé
+   - on nomme cette table
+   - on précise le nom de la collonne de la table ou on se trouve
+   - on précise le nom de la collonne de la table inverse
+     @JoinTable(
+     name="lier",
+     joinColumns = @JoinColumn(name = "taille_id"),

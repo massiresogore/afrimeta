@@ -10,10 +10,28 @@ create database `afrimeta`;
 use `afrimeta`;
 
 
+create table if not exists profile (
+                                       profile_id INT AUTO_INCREMENT PRIMARY KEY,
+                                       nom VARCHAR(50),
+    prenom VARCHAR(50),
+    numero_telephone VARCHAR(15),
+    date_naissance DATE,
+    genre ENUM('male', 'female', 'other'),
+    addresse TEXT,
+    ville VARCHAR(100),
+    code_postal VARCHAR(10),
+    pays VARCHAR(50),
+    profile_picture_url VARCHAR(255),
+    bio TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
+
+
 
 CREATE TABLE if not exists `client_user`(
-    user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    username varchar(30) unique not null ,
+                                            user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                                            username varchar(30) unique not null ,
     role varchar(50) not null,
     email varchar(100) not null unique,
     password varchar(100) not null ,
@@ -22,7 +40,7 @@ CREATE TABLE if not exists `client_user`(
     key `FK_profile_id`(`profile_id`),
     constraint `FK_profile_id` foreign key (`profile_id`) references `profile`(`profile_id`)
     on delete cascade on update cascade
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- start
 create table if not exists taille(
@@ -141,11 +159,10 @@ create table if not exists commande(
 -- COMPOSITE TABLE
 
 -- TYPE PRODUIT ET TAILL TABLE
-create table if not exists liee(
-                                   type_produit_id int not null,
-                                   taille_id int not null,
-                                   quantite int not null,
-                                   key `FK_type_produit_id`(`type_produit_id`),
+create table if not exists taille_type_produit(
+                                                  type_produit_id int not null,
+                                                  taille_id int not null,
+                                                  key `FK_type_produit_id`(`type_produit_id`),
     key `FK_taille_id`(`taille_id`),
     primary key (`type_produit_id`, `taille_id`),
     constraint `FKl_type_produit_id` foreign key  (`type_produit_id`) references `type_produit`(`type_produit_id`)
@@ -222,21 +239,4 @@ create table if not exists paiment(
     on delete no action on update no action
     )ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE profile (
-                         profile_id INT AUTO_INCREMENT PRIMARY KEY,
-                         user_id INT NOT NULL,
-                         nom VARCHAR(50),
-                         prenom VARCHAR(50),
-                         numero_telephone VARCHAR(15),
-                         date_naissance DATE,
-                         genre ENUM('male', 'female', 'other'),
-                         addresse TEXT,
-                         ville VARCHAR(100),
-                         code_postal VARCHAR(10),
-                         pays VARCHAR(50),
-                         profile_picture_url VARCHAR(255),
-                         bio TEXT,
-                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                         FOREIGN KEY (user_id) REFERENCES `client_user` (user_id) ON DELETE CASCADE
-);
+SET FOREIGN_KEY_CHECKS = 1;
