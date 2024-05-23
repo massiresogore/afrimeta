@@ -62,8 +62,8 @@ public class ExceptionHandlerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception) {
 
-//        String input = exception.getMessage();
-/*
+        String input = exception.getMessage();
+
         // Définir l'expression régulière pour correspondre à la première valeur entre simples guillemets
         String regex = "'([^']*)'";
 
@@ -77,8 +77,14 @@ public class ExceptionHandlerAdvice {
         if (matcher.find()) {
             // matcher.group(1) contient la valeur capturée par les parenthèses dans l'expression régulière
             return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"la valeur '"+matcher.group(1)+"' exist déjà ");
-        }*/
+        }
 
+        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,exception.getMessage());
+    }
+
+    @ExceptionHandler({Exception.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result handleExceptionunkwown(Exception exception) {
         return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,exception.getMessage());
     }
 
