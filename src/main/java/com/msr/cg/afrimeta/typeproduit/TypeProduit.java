@@ -4,6 +4,7 @@ import com.msr.cg.afrimeta.taille.Taille;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -51,6 +52,21 @@ public class TypeProduit {
 
     public void setNom(@Length(min = 3, max = 50) String nom) {
         this.nom = nom;
+    }
+
+    public List<Taille> getTailles() {
+        return tailles;
+    }
+
+    public void setTailles(List<Taille> tailles) {
+        this.tailles = tailles;
+    }
+
+    public void addTaille(Taille taille) {
+        if(this.tailles == null) {
+            this.tailles = new ArrayList<>();
+        }
+            this.tailles.add(taille);
     }
 
     @Override
