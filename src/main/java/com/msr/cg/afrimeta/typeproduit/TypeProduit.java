@@ -19,7 +19,7 @@ public class TypeProduit {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(
-            name = "lier",
+            name = "taille_type_produit",
             joinColumns = @JoinColumn(name = "type_produit_id"),
             inverseJoinColumns = @JoinColumn(name = "taille_id")
     )
