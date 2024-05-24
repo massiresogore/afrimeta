@@ -16,7 +16,7 @@ create table if not exists profile (
     prenom VARCHAR(50),
     numero_telephone VARCHAR(15),
     date_naissance DATE,
-    genre ENUM('male', 'female', 'other'),
+    genre ENUM('homme', 'femme', 'autre'),
     addresse TEXT,
     ville VARCHAR(100),
     code_postal VARCHAR(10),
@@ -62,7 +62,7 @@ create table if not exists magasin(
 create table if not exists website(
                                       website_id int primary key auto_increment,
                                       website_url varchar(100) not null,
-    magasin_id int not null,
+    magasin_id int default null,
     key `FK_magasin_id` (`magasin_id`),
     constraint `FK_magasin_id` foreign key (`magasin_id`) references magasin(`magasin_id`)
     on delete no action on update no action
@@ -85,9 +85,9 @@ create table if not exists produit(
     quantite_stock int(11),
     image_url varchar (200),
     prix numeric(10,2) not null,
-    data_ajout datetime DEFAULT current_timestamp not null,
-    categorie_id int not null,
-    type_produit_id int not null,
+    date_ajout datetime DEFAULT current_timestamp not null,
+    categorie_id int default null,
+    type_produit_id int default null,
     website_id int not null,
     key `FK_categorie_id`(`categorie_id`),
     key `FK_type_produit_id`(`type_produit_id`),
