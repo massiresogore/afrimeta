@@ -43,4 +43,12 @@ public class Categorie {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+    @Override
+    public String toString() {
+        return "Categorie{" +
+                "categorieId=" + categorieId +
+                ", nom='" + nom + '\'' +
+                '}';
+    }
 }

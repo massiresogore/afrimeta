@@ -2,7 +2,11 @@ package com.msr.cg.afrimeta.website;
 
 
 import com.msr.cg.afrimeta.magasin.Magasin;
+import com.msr.cg.afrimeta.produit.Produit;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "website")
@@ -11,6 +15,7 @@ public class Website {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "website_id")
     private Long websiteId;
+
     @Column(name = "website_url")
     private String websiteUrl;
 
@@ -23,6 +28,11 @@ public class Website {
     )
     @JoinColumn(name = "magasin_id")
     private Magasin magasin;
+
+    @OneToMany(mappedBy = "website",
+            fetch = FetchType.LAZY
+            ,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.MERGE})
+    List<Produit> produits;
 
     public Website() {
     }
@@ -59,6 +69,14 @@ public class Website {
 
     public void setMagasin(Magasin magasin) {
         this.magasin = magasin;
+    }
+
+    public void addProduit(Produit produit) {
+        if (produits == null) {
+            produits = new ArrayList<>();
+        }
+        produits.add(produit);
+        produit.setWebsite(this);
     }
 
     @Override

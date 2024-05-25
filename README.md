@@ -535,3 +535,11 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
      @JoinTable(
      name="lier",
      joinColumns = @JoinColumn(name = "taille_id"),
+
+# définition de BDDMockito
+      Behavior Driven Development style of writing tests uses 
+      // given // when // then comments as fundamental parts of
+      your test methods. This is exactly how we write our tests
+      and we warmly encourage you to do so!
+# test
+      Throwable throwable = assertThrows(ObjectNotFoundException.class, () -> service.findById(1L));
