@@ -2,7 +2,10 @@ package com.msr.cg.afrimeta;
 import com.msr.cg.afrimeta.magasin.Magasin;
 import com.msr.cg.afrimeta.magasin.MagasinRepository;
 import com.msr.cg.afrimeta.magasin.MagasinService;
+import com.msr.cg.afrimeta.produit.Produit;
+import com.msr.cg.afrimeta.produit.ProduitRepository;
 import com.msr.cg.afrimeta.profile.Profile;
+import com.msr.cg.afrimeta.profile.ProfileRepository;
 import com.msr.cg.afrimeta.profile.ProfileService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,12 +25,17 @@ public class AfrimetaApplication {
     public static void main(String[] args) {
 		SpringApplication.run(AfrimetaApplication.class, args);
 	}
-//
-//    @Bean
-//    public CommandLineRunner commandLineRunner(MagasinService service) {
-//        List<Magasin> profiles = service.findAll();
-//        return args -> {
-//            System.out.println(profiles);
-//        };
-//    }
+
+   /* @Bean
+    public CommandLineRunner commandLineRunner(ProduitRepository repo) {
+        List<Produit> profiles =repo.selectProduitByWebsiteId(1) ;
+        for (Produit p : profiles) {
+            System.out.println(p);
+            System.out.println(p.getTypeProduit());
+            System.out.println(p.getCategorie());
+        }
+        return args -> {
+            //System.out.println(profiles);
+        };
+    }*/
 }

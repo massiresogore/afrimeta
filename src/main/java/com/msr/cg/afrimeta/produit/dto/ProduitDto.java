@@ -13,7 +13,7 @@ public record ProduitDto(
     Long produitId,
 
     @Length(max = 100, min = 5)
-    String tite,
+    String titre,
 
     @Length(max = 500, min = 5)
     String description,

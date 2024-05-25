@@ -1,9 +1,8 @@
-package com.msr.cg.afrimeta.produit;
+package com.msr.cg.afrimeta.produit.dto;
 
 import com.msr.cg.afrimeta.categorie.Categorie;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
@@ -12,27 +11,21 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
-@Entity
-@Table(name = "produit")
-public class Produit {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "produit_id")
+
+public class ProduitDtos {
+
     Long produitId;
 
-    @Column(name = "titre", nullable = false)
     @Length(max = 100, min = 5)
     String titre;
 
     @Length(max = 500, min = 5)
     String description;
 
-    @Column(name = "quantite_stock", nullable = false)
     @Min(1)
     @Max(100000)
     int quantiteStock;
 
-    @Column(name = "image_url")
     @Length(max = 100, min = 5)
     String imageUrl;
 
@@ -41,35 +34,44 @@ public class Produit {
     @DecimalMax("1000000")
     double prix;
 
-    @Column(name = "date_ajout", nullable = false)
     @CreationTimestamp
     LocalDate dateAjout;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinColumn(name = "categorie_id")
     Categorie categorie;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinColumn(name = "type_produit_id")
     TypeProduit typeProduit;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinColumn(name = "website_id", nullable = false)
     Website website;
 
-    public Produit() {}
+    public ProduitDtos() {
+    }
 
-    public Produit(Long produitId, String titre, String description, int quantite_stock, String image_url, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit, Website website) {
+    public ProduitDtos(Long produitId, String titre, String description, int quantiteStock, String imageUrl, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit) {
         this.produitId = produitId;
         this.titre = titre;
         this.description = description;
-        this.quantiteStock = quantite_stock;
-        this.imageUrl = image_url;
+        this.quantiteStock = quantiteStock;
+        this.imageUrl = imageUrl;
         this.prix = prix;
         this.dateAjout = dateAjout;
         this.categorie = categorie;
         this.typeProduit = typeProduit;
-        this.website = website;
+    }
+
+    @Override
+    public String toString() {
+        return "ProduitDtos{" +
+                "produitId=" + produitId +
+                ", titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", quantiteStock=" + quantiteStock +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", prix=" + prix +
+                ", dateAjout=" + dateAjout +
+                ", categorie=" + categorie +
+                ", typeProduit=" + typeProduit +
+                ", website=" + website +
+                '}';
     }
 
     public Long getProduitId() {
@@ -102,16 +104,16 @@ public class Produit {
         return quantiteStock;
     }
 
-    public void setQuantiteStock(@Min(1) @Max(100000) int quantite_stock) {
-        this.quantiteStock = quantite_stock;
+    public void setQuantiteStock(@Min(1) @Max(100000) int quantiteStock) {
+        this.quantiteStock = quantiteStock;
     }
 
     public @Length(max = 100, min = 5) String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(@Length(max = 100, min = 5) String image_url) {
-        this.imageUrl = image_url;
+    public void setImageUrl(@Length(max = 100, min = 5) String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @DecimalMin("0.5")
@@ -154,18 +156,5 @@ public class Produit {
 
     public void setWebsite(Website website) {
         this.website = website;
-    }
-
-    @Override
-    public String toString() {
-        return "Produit{" +
-                "produitId=" + produitId +
-                ", titre='" + titre + '\'' +
-                ", description='" + description + '\'' +
-                ", quantiteStock=" + quantiteStock +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", prix=" + prix +
-                ", dateAjout=" + dateAjout +
-                '}';
     }
 }

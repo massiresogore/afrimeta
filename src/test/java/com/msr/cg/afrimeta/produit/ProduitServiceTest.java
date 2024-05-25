@@ -98,7 +98,7 @@ class ProduitServiceTest {
         //object
         Produit produitToSave = new Produit(
                 produitDto.produitId(),
-                produitDto.tite(),
+                produitDto.titre(),
                 produitDto.description(),
                 produitDto.quantiteStock(),
                 produitDto.imageUrl(),
@@ -131,7 +131,7 @@ class ProduitServiceTest {
         //object
         Produit produitToSave = new Produit(
                 produitDto.produitId(),
-                produitDto.tite(),
+                produitDto.titre(),
                 produitDto.description(),
                 produitDto.quantiteStock(),
                 produitDto.imageUrl(),
@@ -167,7 +167,7 @@ class ProduitServiceTest {
         //object
         Produit produitToSave = new Produit(
                 produitDto.produitId(),
-                produitDto.tite(),
+                produitDto.titre(),
                 produitDto.description(),
                 produitDto.quantiteStock(),
                 produitDto.imageUrl(),
