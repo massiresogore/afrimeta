@@ -4,6 +4,7 @@ import com.msr.cg.afrimeta.produit.dto.ProduitDtoToProduitConverter;
 import com.msr.cg.afrimeta.produit.dto.ProduitDtoSercice;
 import com.msr.cg.afrimeta.produit.dto.ProduitDto;
 import com.msr.cg.afrimeta.system.Result;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +52,7 @@ public class ProduitController{
     }
 
     @PatchMapping("/{produitId}")
-    public Result update(@PathVariable("produitId") String produitId,@RequestBody ProduitDto produitDto) {
+    public Result update(@PathVariable("produitId") String produitId,@Valid @RequestBody ProduitDto produitDto) {
         return new Result(
                 true,
                 200,

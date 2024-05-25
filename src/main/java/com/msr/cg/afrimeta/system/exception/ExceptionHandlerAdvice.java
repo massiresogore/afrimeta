@@ -4,6 +4,7 @@ import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -13,29 +14,27 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestControllerAdvice
 public class ExceptionHandlerAdvice {
 
-    private Throwable x;
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Result handleException(MethodArgumentNotValidException exception) {
-        List<ObjectError> errors = exception.getBindingResult().getAllErrors();
-        Map<String, String> errorMap = new HashMap<>();
-        errors.forEach(error -> {
-            String key =((FieldError) error).getField();
-            String value =  error.getDefaultMessage();
-            errorMap.put(key, value);
+    Result handleValidationException(MethodArgumentNotValidException ex) {
+        List<ObjectError> errors = ex.getBindingResult().getAllErrors();
+        Map<String, String> map = new HashMap<>(errors.size());
+
+        errors.forEach((error) -> {
+            String key = ((FieldError) error).getField();
+            String val = error.getDefaultMessage();
+            map.put(key, val);
         });
-        return new Result(false, StatusCode.INVALID_ARGUMENT,"Ivalid argument", errorMap);
+
+        return new Result(false, StatusCode.INVALID_ARGUMENT, "Provided Arguments are invalid, see data for details. ", map);
     }
 
     @ExceptionHandler({ObjectNotFoundException.class})
@@ -53,7 +52,6 @@ public class ExceptionHandlerAdvice {
             String value = constraintViolation.getMessage();
             errorMap.put(key, value);
         }
-        //System.out.println();
         return new Result(false, StatusCode.NOT_FOUND,"", errorMap);
     }
 
@@ -61,9 +59,25 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception) {
-
         String input = exception.getMessage();
+        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"la valeur '"+ this.findValueInSimpleQuote(input)+"' exist déjà ");
+    }
 
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Result handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+        String input = exception.getMessage();
+        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"la valeur '"+ this.findValueInSimpleQuote(input)+"' exist déjà ");
+    }
+
+    @ExceptionHandler({Exception.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result handleExceptionunkwown(Exception exception) {
+        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"imposible",exception.getMessage());
+    }
+
+    private String findValueInSimpleQuote(String input)
+    {
         // Définir l'expression régulière pour correspondre à la première valeur entre simples guillemets
         String regex = "'([^']*)'";
 
@@ -74,18 +88,11 @@ public class ExceptionHandlerAdvice {
         Matcher matcher = pattern.matcher(input);
 
         // Trouver la première correspondance et l'imprimer
-        if (matcher.find()) {
-            // matcher.group(1) contient la valeur capturée par les parenthèses dans l'expression régulière
-            return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"la valeur '"+matcher.group(1)+"' exist déjà ");
+        if(!matcher.find()){
+            return null;
         }
 
-        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,exception.getMessage());
-    }
-
-    @ExceptionHandler({Exception.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result handleExceptionunkwown(Exception exception) {
-        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,exception.getMessage());
+        return matcher.group(1);
     }
 
 

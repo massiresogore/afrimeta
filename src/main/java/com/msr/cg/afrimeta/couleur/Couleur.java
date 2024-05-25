@@ -17,6 +17,7 @@ public class Couleur {
     private Long couleurId;
 
     @Length(min = 1, max = 50)
+    @Column(unique = true, nullable = false)
     private String nom;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})

@@ -112,7 +112,7 @@ create table if not exists commentaire(
 
 create table if not exists couleur(
                                       couleur_id int primary key auto_increment,
-                                      nom varchar(50)
+                                      nom varchar(50) unique not null
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 create table if not exists image(
@@ -173,15 +173,15 @@ create table if not exists taille_type_produit(
 
 -- PRODUIT ET COULEUR TABLE
 create table if not exists couleur_produit(
-                                      produit_id int not null,
-                                      couleur_id int not null,
-                                      key `FKf_produit_id`(`produit_id`),
-                                      key `FK_couleur_id`(`couleur_id`),
-                                      primary key (`produit_id`, `couleur_id`),
-                                      constraint `FKf_produit_id` foreign key  (`produit_id`) references `produit`(`produit_id`)
-                                          on update no action on delete no action,
-                                      constraint `FK_couleur_id` foreign key (`couleur_id`) references `couleur`(`couleur_id`)
-                                          on update no action on delete no action
+                                              produit_id int not null,
+                                              couleur_id int not null,
+                                              key `FKf_produit_id`(`produit_id`),
+                                              key `FK_couleur_id`(`couleur_id`),
+                                              primary key (`produit_id`, `couleur_id`),
+                                              constraint `FKf_produit_id` foreign key  (`produit_id`) references `produit`(`produit_id`)
+                                                  on update no action on delete no action,
+                                              constraint `FK_couleur_id` foreign key (`couleur_id`) references `couleur`(`couleur_id`)
+                                                  on update no action on delete no action
 )ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- produit_commade relation table

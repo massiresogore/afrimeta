@@ -14,7 +14,9 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "produit")
@@ -67,7 +69,7 @@ public class Produit {
                     joinColumns = @JoinColumn(name = "produit_id"),
                     inverseJoinColumns = @JoinColumn(name = "couleur_id")
             )
-    List<Couleur> couleurs;
+    Set<Couleur> couleurs;
 
     public Produit() {}
 
@@ -168,17 +170,17 @@ public class Produit {
         this.website = website;
     }
 
-    public List<Couleur> getCouleurs() {
+    public Set<Couleur> getCouleurs() {
         return couleurs;
     }
 
-    public void setCouleurs(List<Couleur> couleurs) {
+    public void setCouleurs(Set<Couleur> couleurs) {
         this.couleurs = couleurs;
     }
 
     public void addCouleur(Couleur couleur) {
         if (couleurs == null) {
-            couleurs = new ArrayList<>();
+            couleurs = new HashSet<>();
         }
         couleurs.add(couleur);
     }

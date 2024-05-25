@@ -5,6 +5,7 @@ import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 public record ProduitDto(
     Long produitId,
 
+    @NotNull
     @Length(max = 100, min = 5)
     String titre,
 
@@ -35,6 +37,7 @@ public record ProduitDto(
 
     Website website,
 
+//    @NotNull
     String[] couleur
 ) {
 }
