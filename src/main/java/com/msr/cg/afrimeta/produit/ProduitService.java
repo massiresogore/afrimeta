@@ -1,5 +1,6 @@
 package com.msr.cg.afrimeta.produit;
 
+import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.produit.dto.ProduitDto;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
@@ -42,6 +43,18 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
 
     @Override
     public Produit save(Produit produit) {
+
+        return this.repository.save(produit);
+    }
+
+    public Produit save(Produit produit, String[] couleurValues) {
+        if (couleurValues != null) {
+
+            for (String value : couleurValues) {
+              Couleur  saveCouleur = new Couleur(value);
+              produit.addCouleur(saveCouleur);
+            }
+        }
         return this.repository.save(produit);
     }
 
@@ -74,5 +87,7 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
         this.findById(produit.produitId);
         this.repository.delete(produit);
     }
+
+
 
 }

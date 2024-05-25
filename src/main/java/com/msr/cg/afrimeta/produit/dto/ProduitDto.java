@@ -33,6 +33,8 @@ public record ProduitDto(
 
     TypeProduit typeProduit,
 
-    Website website
+    Website website,
+
+    String[] couleur
 ) {
 }

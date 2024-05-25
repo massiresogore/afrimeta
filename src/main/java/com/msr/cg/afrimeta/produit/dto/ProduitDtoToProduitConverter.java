@@ -16,7 +16,6 @@ public class ProduitDtoToProduitConverter  {
                 source.dateAjout(),
                 source.categorie(),
                 source.typeProduit(),
-                source.website()
-        );
+                source.website());
     }
 }

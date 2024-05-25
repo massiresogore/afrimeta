@@ -172,10 +172,9 @@ create table if not exists taille_type_produit(
 )ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- PRODUIT ET COULEUR TABLE
-create table if not exists faconne(
+create table if not exists couleur_produit(
                                       produit_id int not null,
                                       couleur_id int not null,
-                                      quantite int not null,
                                       key `FKf_produit_id`(`produit_id`),
                                       key `FK_couleur_id`(`couleur_id`),
                                       primary key (`produit_id`, `couleur_id`),

@@ -46,7 +46,7 @@ public class ProduitController{
                 true,
                 200,
                 "produit crée",
-                this.produitDtoSercice.converterToProduitDto(this.produitService.save(this.produitDtoToProduitConverter.convert(produitDto)))
+                this.produitDtoSercice.converterToProduitDto(this.produitService.save(this.produitDtoToProduitConverter.convert(produitDto),produitDto.couleur()))
         );
     }
 

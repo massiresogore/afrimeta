@@ -1,6 +1,7 @@
 package com.msr.cg.afrimeta.produit;
 
 import com.msr.cg.afrimeta.categorie.Categorie;
+import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
 import jakarta.persistence.*;
@@ -12,6 +13,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "produit")
 public class Produit {
@@ -56,6 +60,14 @@ public class Produit {
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "website_id", nullable = false)
     Website website;
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+            @JoinTable(
+                    name = "couleur_produit",
+                    joinColumns = @JoinColumn(name = "produit_id"),
+                    inverseJoinColumns = @JoinColumn(name = "couleur_id")
+            )
+    List<Couleur> couleurs;
 
     public Produit() {}
 
@@ -154,6 +166,21 @@ public class Produit {
 
     public void setWebsite(Website website) {
         this.website = website;
+    }
+
+    public List<Couleur> getCouleurs() {
+        return couleurs;
+    }
+
+    public void setCouleurs(List<Couleur> couleurs) {
+        this.couleurs = couleurs;
+    }
+
+    public void addCouleur(Couleur couleur) {
+        if (couleurs == null) {
+            couleurs = new ArrayList<>();
+        }
+        couleurs.add(couleur);
     }
 
     @Override

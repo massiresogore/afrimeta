@@ -1,8 +1,11 @@
 package com.msr.cg.afrimeta.couleur;
 
+import com.msr.cg.afrimeta.produit.Produit;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -15,6 +18,14 @@ public class Couleur {
 
     @Length(min = 1, max = 50)
     private String nom;
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+            @JoinTable(
+                    name = "couleur_produit",
+                    joinColumns = @JoinColumn(name = "couleur_id"),
+                    inverseJoinColumns = @JoinColumn(name = "produit_id")
+            )
+    private List<Produit> produits;
 
     public Couleur() {
     }
@@ -42,5 +53,21 @@ public class Couleur {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public  void addProduit(Produit produit) {
+        if (produits == null) {
+            produits = new ArrayList<>();
+        }
+        produits.add(produit);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Couleur{" +
+                "couleurId=" + couleurId +
+                ", nom='" + nom + '\'' +
+                '}';
     }
 }
