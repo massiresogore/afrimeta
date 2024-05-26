@@ -1,8 +1,11 @@
-package com.msr.cg.afrimeta.produit.dto;
+package com.msr.cg.afrimeta.produit;
 
 import com.msr.cg.afrimeta.categorie.Categorie;
+import com.msr.cg.afrimeta.couleur.Couleur;
+import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
@@ -11,9 +14,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
-public class ProduitDtos {
 
+public class ProduitResponse {
     Long produitId;
 
     @Length(max = 100, min = 5)
@@ -26,10 +31,6 @@ public class ProduitDtos {
     @Max(100000)
     int quantiteStock;
 
-    @Length(max = 100, min = 5)
-    String imageUrl;
-
-
     @DecimalMin("0.5")
     @DecimalMax("1000000")
     double prix;
@@ -37,42 +38,18 @@ public class ProduitDtos {
     @CreationTimestamp
     LocalDate dateAjout;
 
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinColumn(name = "categorie_id")
     Categorie categorie;
 
     TypeProduit typeProduit;
 
     Website website;
 
-    public ProduitDtos() {
-    }
+    Set<Couleur> couleurs;
 
-    public ProduitDtos(Long produitId, String titre, String description, int quantiteStock, String imageUrl, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit) {
-        this.produitId = produitId;
-        this.titre = titre;
-        this.description = description;
-        this.quantiteStock = quantiteStock;
-        this.imageUrl = imageUrl;
-        this.prix = prix;
-        this.dateAjout = dateAjout;
-        this.categorie = categorie;
-        this.typeProduit = typeProduit;
-    }
 
-    @Override
-    public String toString() {
-        return "ProduitDtos{" +
-                "produitId=" + produitId +
-                ", titre='" + titre + '\'' +
-                ", description='" + description + '\'' +
-                ", quantiteStock=" + quantiteStock +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", prix=" + prix +
-                ", dateAjout=" + dateAjout +
-                ", categorie=" + categorie +
-                ", typeProduit=" + typeProduit +
-                ", website=" + website +
-                '}';
-    }
+    private Set<Image> images = new HashSet<>();
 
     public Long getProduitId() {
         return produitId;
@@ -106,14 +83,6 @@ public class ProduitDtos {
 
     public void setQuantiteStock(@Min(1) @Max(100000) int quantiteStock) {
         this.quantiteStock = quantiteStock;
-    }
-
-    public @Length(max = 100, min = 5) String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(@Length(max = 100, min = 5) String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     @DecimalMin("0.5")
@@ -156,5 +125,21 @@ public class ProduitDtos {
 
     public void setWebsite(Website website) {
         this.website = website;
+    }
+
+    public Set<Couleur> getCouleurs() {
+        return couleurs;
+    }
+
+    public void setCouleurs(Set<Couleur> couleurs) {
+        this.couleurs = couleurs;
+    }
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
     }
 }

@@ -1,10 +1,12 @@
 package com.msr.cg.afrimeta.produit;
 
 import com.msr.cg.afrimeta.couleur.Couleur;
+import com.msr.cg.afrimeta.image.ImageService;
 import com.msr.cg.afrimeta.produit.dto.ProduitDto;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +18,7 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
 
     private final ProduitRepository repository;
 
-    public ProduitService(ProduitRepository repository) {
+    public ProduitService( ProduitRepository repository) {
         this.repository = repository;
     }
 
@@ -25,15 +27,15 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
         return this.repository.findAll();
     }
 
-    public List<Produit> selectProduitByWebsiteId(String websiteId) {
-        return this.repository.selectProduitWithCategorieAndTypeProduitByWebsiteId(Long.parseLong(websiteId));
+    public List<Produit> selectProduitWithCategorieAndTypeProduitAndImagesByWebsiteId(String websiteId) {
+        return this.repository.selectProduitWithCategorieAndTypeProduitAndImagesByWebsiteId(Long.parseLong(websiteId));
     }
 
     public Produit singleProduitByProduitId (String produitId) throws ObjectNotFoundException {
-
-
-            return this.repository.singleProduitWithCategorieAndTypeProduitByProduitId(Integer.parseInt(produitId));
+                Produit p = this.repository.singleProduitWithCategorieAndTypeProduitByProduitId(Integer.parseInt(produitId));
+        return this.repository.singleProduitWithCategorieAndTypeProduitByProduitId(Integer.parseInt(produitId));
     }
+
 
     @Override
     public Produit findById(Long id) {
@@ -47,7 +49,7 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
         return this.repository.save(produit);
     }
 
-    public Produit save(Produit produit, String[] couleurValues) {
+    public Produit save(Produit produit, String[] couleurValues, MultipartFile file) {
         if (couleurValues != null) {
 
             for (String value : couleurValues) {
@@ -55,7 +57,11 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
               produit.addCouleur(saveCouleur);
             }
         }
+
+
+
         return this.repository.save(produit);
+
     }
 
     @Override
@@ -65,7 +71,6 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
                     oldProduit.setTitre(newProduit.getTitre());
                     oldProduit.setDescription(newProduit.getDescription());
                     oldProduit.setQuantiteStock(newProduit.getQuantiteStock());
-                    oldProduit.setImageUrl(newProduit.getImageUrl());
                     oldProduit.setPrix(newProduit.getPrix());
                     oldProduit.setCategorie(newProduit.getCategorie());
                     oldProduit.setTypeProduit(newProduit.getTypeProduit());
@@ -87,6 +92,7 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
         this.findById(produit.produitId);
         this.repository.delete(produit);
     }
+
 
 
 

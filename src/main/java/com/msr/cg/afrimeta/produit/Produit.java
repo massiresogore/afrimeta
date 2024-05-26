@@ -2,6 +2,7 @@ package com.msr.cg.afrimeta.produit;
 
 import com.msr.cg.afrimeta.categorie.Categorie;
 import com.msr.cg.afrimeta.couleur.Couleur;
+import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -38,11 +40,6 @@ public class Produit {
     @Max(100000)
     int quantiteStock;
 
-    @Column(name = "image_url")
-    @Length(max = 100, min = 5)
-    String imageUrl;
-
-
     @DecimalMin("0.5")
     @DecimalMax("1000000")
     double prix;
@@ -71,20 +68,35 @@ public class Produit {
             )
     Set<Couleur> couleurs;
 
+    @OneToMany(mappedBy = "produit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Image> images;
+
+  /*  @ElementCollection
+    @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "produit_id"))
+    @AttributeOverrides({
+            @AttributeOverride(name = "type", column = @Column(name = "type")),
+            @AttributeOverride(name = "filePath", column = @Column(name = "file_path")),
+            @AttributeOverride(name = "name", column = @Column(name = "name"))
+    })
+
+    private Set<Image> images = new HashSet<>();*/
+
+
     public Produit() {}
 
-    public Produit(Long produitId, String titre, String description, int quantite_stock, String image_url, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit, Website website) {
+    public Produit(Long produitId, String titre, String description, int quantite_stock, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit, Website website) {
         this.produitId = produitId;
         this.titre = titre;
         this.description = description;
         this.quantiteStock = quantite_stock;
-        this.imageUrl = image_url;
         this.prix = prix;
         this.dateAjout = dateAjout;
         this.categorie = categorie;
         this.typeProduit = typeProduit;
         this.website = website;
     }
+
+
 
     public Long getProduitId() {
         return produitId;
@@ -120,13 +132,6 @@ public class Produit {
         this.quantiteStock = quantite_stock;
     }
 
-    public @Length(max = 100, min = 5) String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(@Length(max = 100, min = 5) String image_url) {
-        this.imageUrl = image_url;
-    }
 
     @DecimalMin("0.5")
     @DecimalMax("1000000")
@@ -185,6 +190,37 @@ public class Produit {
         couleurs.add(couleur);
     }
 
+    public void addImage(Image image) {
+        if (images == null) {
+            images = new HashSet<>();
+        }
+        images.add(image);
+        image.setProduct(this);
+    }
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
+    }
+
+
+
+//    public Set<Image> getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(Set<Image> images) {
+//        this.images = images;
+//    }
+
+
+
+
+
+
     @Override
     public String toString() {
         return "Produit{" +
@@ -192,7 +228,6 @@ public class Produit {
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", quantiteStock=" + quantiteStock +
-                ", imageUrl='" + imageUrl + '\'' +
                 ", prix=" + prix +
                 ", dateAjout=" + dateAjout +
                 '}';

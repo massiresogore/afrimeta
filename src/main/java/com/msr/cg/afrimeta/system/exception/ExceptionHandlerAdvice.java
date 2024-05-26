@@ -6,6 +6,8 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -70,12 +72,12 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"la valeur '"+ this.findValueInSimpleQuote(input)+"' exist déjà ");
     }
 
-    @ExceptionHandler({Exception.class})
+    /*@ExceptionHandler({Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result handleExceptionunkwown(Exception exception) {
         return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"imposible",exception.getMessage());
     }
-
+*/
     private String findValueInSimpleQuote(String input)
     {
         // Définir l'expression régulière pour correspondre à la première valeur entre simples guillemets
@@ -94,6 +96,16 @@ public class ExceptionHandlerAdvice {
 
         return matcher.group(1);
     }
+
+
+
+       /* @ExceptionHandler(HttpMessageConversionException.class)
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        public Result handleHttpMessageConversionException(HttpMessageConversionException ex) {
+            return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"la valeur '", ex.getMessage());
+
+        }*/
+
 
 
 

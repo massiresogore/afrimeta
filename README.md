@@ -543,3 +543,14 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
       and we warmly encourage you to do so!
 # test
       Throwable throwable = assertThrows(ObjectNotFoundException.class, () -> service.findById(1L));
+
+# GESTION D'IMAGE avec insertion de plusieur images pour un produit
+-  créé lentité image avec ces attibuts et l'anotation @Embeddable , 
+   sur la class Image ainsi que ces constructeurs et getters, setters
+- dans la class produit, on cree une liste set de images avec ces anotations 
+  - @ElementCollection : Indique que la collection d'éléments doit être gérée comme une entité intégrée.
+  - @CollectionTable : Spécifie le nom de la table qui contiendra les éléments intégrés. joinColumns définit la clé étrangère qui lie cette table à l'entité principale.
+  - @AttributeOverrides : Utilisé pour redéfinir les noms des colonnes pour les champs de la classe embeddable.
+
+# gestion affichage image
+on coverti en string
