@@ -112,7 +112,7 @@ create table if not exists commentaire(
 
 create table if not exists couleur(
                                       couleur_id int primary key auto_increment,
-                                      nom varchar(50) unique not null
+                                      nom varchar(100)  not null
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 create table if not exists image(
@@ -121,12 +121,8 @@ create table if not exists image(
                                     type varchar(100) not null,
                                     file_path varchar(150) not null,
                                     produit_id int,
-                                    magasin_id int,
                                     key `FK_produit_id`(`produit_id`),
-                                    key `FKm_magasin_id`(`magasin_id`),
                                     constraint `FK_produit_id` foreign key (`produit_id`) references `produit`(`produit_id`)
-                                        on delete no action on update no action,
-                                    constraint `FKm_magasin_id` foreign key (`magasin_id`) references `magasin`(`magasin_id`)
                                         on delete no action on update no action
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

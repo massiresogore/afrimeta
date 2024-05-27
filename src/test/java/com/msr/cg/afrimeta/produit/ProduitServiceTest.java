@@ -2,7 +2,7 @@ package com.msr.cg.afrimeta.produit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.BDDMockito.given;
-import com.msr.cg.afrimeta.produit.dto.ProduitDto;
+import com.msr.cg.afrimeta.produit.dto.dto.ProduitDto;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.website.Website;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,11 +39,11 @@ class ProduitServiceTest {
         Website website4 = new Website(4L,"http://google.com",null);
         Website website5 = new Website(5L,"http://google.com",null);
 
-        Produit produit1 = new Produit(null, "Apple iPhone 14", "Latest model with advanced features", 50, "http://example.com/image1.jpg", 999.99, null, null, null, website1);
-        Produit produit2 = new Produit(null, "Samsung Galaxy S21", "High performance and sleek design", 30, "http://example.com/image2.jpg", 799.99, null, null, null, website2);
-        Produit produit3 = new Produit(null, "Sony WH-1000XM4", "Noise cancelling wireless headphones", 100, "http://example.com/image3.jpg", 349.99, null, null, null, website3);
-        Produit produit4 = new Produit(null, "Dell XPS 13", "Compact and powerful laptop", 20, "http://example.com/image4.jpg", 1299.99, null, null, null, website4);
-        Produit produit5 = new Produit(null, "Nintendo Switch", "Versatile gaming console", 70, "http://example.com/image5.jpg", 299.99, null, null, null, website5);
+        Produit produit1 = new Produit(null, "Apple iPhone 14", "Latest model with advanced features", 50, 999.99, null, null, null, website1);
+        Produit produit2 = new Produit(null, "Samsung Galaxy S21", "High performance and sleek design", 30,  799.99, null, null, null, website2);
+        Produit produit3 = new Produit(null, "Sony WH-1000XM4", "Noise cancelling wireless headphones", 100, 349.99, null, null, null, website3);
+        Produit produit4 = new Produit(null, "Dell XPS 13", "Compact and powerful laptop", 20,  1299.99, null, null, null, website4);
+        Produit produit5 = new Produit(null, "Nintendo Switch", "Versatile gaming console", 70,  299.99, null, null, null, website5);
 
         produits.add(produit1);
         produits.add(produit2);
@@ -93,7 +93,7 @@ class ProduitServiceTest {
     void save() {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(null, "Apple iPhone 14", "Latest model with advanced features", 50, "http://example.com/image1.jpg", 999.99, null, null, null, website1,null);
+        ProduitDto produitDto = new ProduitDto(null, "Apple iPhone 14", "Latest model with advanced features", 50,  999.99, null, null, null, website1,null,null,null);
 
         //object
         Produit produitToSave = new Produit(
@@ -101,7 +101,6 @@ class ProduitServiceTest {
                 produitDto.titre(),
                 produitDto.description(),
                 produitDto.quantiteStock(),
-                produitDto.imageUrl(),
                 produitDto.prix(),
                 produitDto.dateAjout(),
                 produitDto.categorie(),
@@ -117,7 +116,6 @@ class ProduitServiceTest {
         assertThat(savedProduit.getTypeProduit()).isEqualTo(produitToSave.getTypeProduit());
         assertThat(savedProduit.getDescription()).isEqualTo(produitToSave.getDescription());
         assertThat(savedProduit.getPrix()).isEqualTo(produitToSave.getPrix());
-        assertThat(savedProduit.getImageUrl()).isEqualTo(produitToSave.getImageUrl());
         assertThat(savedProduit.getCategorie()).isEqualTo(produitToSave.getCategorie());
         verify(this.repository,times(1)).save(produitToSave);
     }
@@ -126,7 +124,7 @@ class ProduitServiceTest {
     void updateById() {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 updated", "Latest model with advanced features", 50, "http://example.com/image1.jpg", 999.99, null, null, null, website1,null);
+        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 updated", "Latest model with advanced features", 50,  999.99, null, null, null, website1,null,null,null);
 
         //object
         Produit produitToSave = new Produit(
@@ -134,7 +132,6 @@ class ProduitServiceTest {
                 produitDto.titre(),
                 produitDto.description(),
                 produitDto.quantiteStock(),
-                produitDto.imageUrl(),
                 produitDto.prix(),
                 produitDto.dateAjout(),
                 produitDto.categorie(),
@@ -151,7 +148,6 @@ class ProduitServiceTest {
         assertThat(savedProduit.getTypeProduit()).isEqualTo(produitToSave.getTypeProduit());
         assertThat(savedProduit.getDescription()).isEqualTo(produitToSave.getDescription());
         assertThat(savedProduit.getPrix()).isEqualTo(produitToSave.getPrix());
-        assertThat(savedProduit.getImageUrl()).isEqualTo(produitToSave.getImageUrl());
         assertThat(savedProduit.getCategorie()).isEqualTo(produitToSave.getCategorie());
         verify(this.repository,times(1)).findById(1L);
         verify(this.repository,times(1)).save(produitToSave);
@@ -162,7 +158,7 @@ class ProduitServiceTest {
     void updateByIdNotFound() {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 updated", "Latest model with advanced features", 50, "http://example.com/image1.jpg", 999.99, null, null, null, website1,null);
+        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 updated", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null,null);
 
         //object
         Produit produitToSave = new Produit(
@@ -170,7 +166,6 @@ class ProduitServiceTest {
                 produitDto.titre(),
                 produitDto.description(),
                 produitDto.quantiteStock(),
-                produitDto.imageUrl(),
                 produitDto.prix(),
                 produitDto.dateAjout(),
                 produitDto.categorie(),

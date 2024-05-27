@@ -543,3 +543,36 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
       and we warmly encourage you to do so!
 # test
       Throwable throwable = assertThrows(ObjectNotFoundException.class, () -> service.findById(1L));
+
+# GESTION D'IMAGE avec insertion de plusieur images pour un produit
+-  créé lentité image avec ces attibuts et l'anotation @Embeddable , 
+   sur la class Image ainsi que ces constructeurs et getters, setters
+- dans la class produit, on cree une liste set de images avec ces anotations 
+  - @ElementCollection : Indique que la collection d'éléments doit être gérée comme une entité intégrée.
+  - @CollectionTable : Spécifie le nom de la table qui contiendra les éléments intégrés. joinColumns définit la clé étrangère qui lie cette table à l'entité principale.
+  - @AttributeOverrides : Utilisé pour redéfinir les noms des colonnes pour les champs de la classe embeddable.
+
+# gestion affichage image
+on coverti en string
+
+# Note bien 
+-  si on ajoute un produit, on insert des categorie par défaut, type de produit par défault, une image par défault
+
+pagination
+# {{baseUrl}}/produits/bataclan?paage=1&size=10&sort=titre,asc
+-  jai ignore les object dans produit avec @jsonIgnore pour empecher spring de serealiser lobject de relation
+- donné de pagination
+  "last": false,
+  "totalElements": 40,
+  "totalPages": 2,
+  "first": true,
+  "size": 20,
+  "number": 0,
+  "sort": {
+  "empty": true,
+  "unsorted": true,
+  "sorted": false
+  },
+  "numberOfElements": 20,
+  "empty": false
+  }

@@ -1,7 +1,9 @@
 package com.msr.cg.afrimeta.produit;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.msr.cg.afrimeta.categorie.Categorie;
 import com.msr.cg.afrimeta.couleur.Couleur;
+import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
 import jakarta.persistence.*;
@@ -38,11 +40,6 @@ public class Produit {
     @Max(100000)
     int quantiteStock;
 
-    @Column(name = "image_url")
-    @Length(max = 100, min = 5)
-    String imageUrl;
-
-
     @DecimalMin("0.5")
     @DecimalMax("1000000")
     double prix;
@@ -53,14 +50,17 @@ public class Produit {
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "categorie_id")
+            @JsonIgnore
     Categorie categorie;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "type_produit_id")
+            @JsonIgnore
     TypeProduit typeProduit;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "website_id", nullable = false)
+            @JsonIgnore
     Website website;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
@@ -69,22 +69,39 @@ public class Produit {
                     joinColumns = @JoinColumn(name = "produit_id"),
                     inverseJoinColumns = @JoinColumn(name = "couleur_id")
             )
-    Set<Couleur> couleurs;
+            @JsonIgnore
+    List<Couleur> couleurs;
+
+    @OneToMany(mappedBy = "produit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Image> images;
+
+  /*  @ElementCollection
+    @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "produit_id"))
+    @AttributeOverrides({
+            @AttributeOverride(name = "type", column = @Column(name = "type")),
+            @AttributeOverride(name = "filePath", column = @Column(name = "file_path")),
+            @AttributeOverride(name = "name", column = @Column(name = "name"))
+    })
+
+    private List<Image> images = new HashSet<>();*/
+
 
     public Produit() {}
 
-    public Produit(Long produitId, String titre, String description, int quantite_stock, String image_url, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit, Website website) {
+    public Produit(Long produitId, String titre, String description, int quantite_stock, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit, Website website) {
         this.produitId = produitId;
         this.titre = titre;
         this.description = description;
         this.quantiteStock = quantite_stock;
-        this.imageUrl = image_url;
         this.prix = prix;
         this.dateAjout = dateAjout;
         this.categorie = categorie;
         this.typeProduit = typeProduit;
         this.website = website;
     }
+
+
 
     public Long getProduitId() {
         return produitId;
@@ -120,13 +137,6 @@ public class Produit {
         this.quantiteStock = quantite_stock;
     }
 
-    public @Length(max = 100, min = 5) String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(@Length(max = 100, min = 5) String image_url) {
-        this.imageUrl = image_url;
-    }
 
     @DecimalMin("0.5")
     @DecimalMax("1000000")
@@ -170,20 +180,51 @@ public class Produit {
         this.website = website;
     }
 
-    public Set<Couleur> getCouleurs() {
+    public List<Couleur> getCouleurs() {
         return couleurs;
     }
 
-    public void setCouleurs(Set<Couleur> couleurs) {
+    public void setCouleurs(List<Couleur> couleurs) {
         this.couleurs = couleurs;
     }
 
     public void addCouleur(Couleur couleur) {
         if (couleurs == null) {
-            couleurs = new HashSet<>();
+            couleurs = new ArrayList<>();
         }
         couleurs.add(couleur);
     }
+
+    public void addImage(Image image) {
+        if (images == null) {
+            images =new  ArrayList<>();
+        }
+        images.add(image);
+        image.setProduct(this);
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+
+
+//    public List<Image> getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(List<Image> images) {
+//        this.images = images;
+//    }
+
+
+
+
+
 
     @Override
     public String toString() {
@@ -192,7 +233,6 @@ public class Produit {
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", quantiteStock=" + quantiteStock +
-                ", imageUrl='" + imageUrl + '\'' +
                 ", prix=" + prix +
                 ", dateAjout=" + dateAjout +
                 '}';
