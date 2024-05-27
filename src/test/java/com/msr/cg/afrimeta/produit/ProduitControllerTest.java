@@ -1,7 +1,7 @@
 package com.msr.cg.afrimeta.produit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.msr.cg.afrimeta.produit.dto.ProduitDto;
+import com.msr.cg.afrimeta.produit.dto.dto.ProduitDto;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.website.Website;
 import org.hamcrest.Matchers;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,8 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -147,7 +144,7 @@ class ProduitControllerTest {
     void updateSuccess() throws Exception {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 update", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null);
+        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 update", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null,null);
 
         String jsonDto = objectMapper.writeValueAsString(produitDto);
         //object
@@ -183,7 +180,7 @@ class ProduitControllerTest {
     void updateNotSuccess() throws Exception {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 update", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null);
+        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 update", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null,null);
 
         String jsonDto = objectMapper.writeValueAsString(produitDto);
         //object

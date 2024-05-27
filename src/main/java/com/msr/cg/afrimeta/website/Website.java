@@ -34,6 +34,14 @@ public class Website {
             ,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.MERGE})
     List<Produit> produits;
 
+    public List<Produit> getProduits() {
+        return produits;
+    }
+
+    public void setProduits(List<Produit> produits) {
+        this.produits = produits;
+    }
+
     public Website() {
     }
 

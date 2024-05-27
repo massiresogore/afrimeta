@@ -112,7 +112,7 @@ create table if not exists commentaire(
 
 create table if not exists couleur(
                                       couleur_id int primary key auto_increment,
-                                      nom varchar(50) unique not null
+                                      nom varchar(100)  not null
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 create table if not exists image(

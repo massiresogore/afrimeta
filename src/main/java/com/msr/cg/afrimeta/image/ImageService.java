@@ -101,6 +101,25 @@ public class ImageService implements AfrimetaCrudInterface<Image> {
     }
 
     //recupère une image par nom
+    public List<byte[]> downloadImageFromFileSystem(String fileName) throws IOException {
+//        Optional<FileData> fileData = fileDataRepository.findByName(fileName);
+//        Image image = this.imageRepository.findByName(fileName);
+        List<Image> images = this.imageRepository.findByName(fileName);
+
+        List<String>  filesPath = new ArrayList<>();
+        List<byte[]> imagesListByte = new ArrayList<>();
+
+        for (Image image : images) {
+            //Récupère le chemin du fichier
+            String filePath=image.getFilePath();
+            //lis le ficher se trouvant dans le chemin
+            byte[] imageByte = Files.readAllBytes(new File(filePath).toPath());
+            imagesListByte.add(imageByte);
+        }
+
+        return imagesListByte;
+    }
+   /* //recupère une image par nom
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
 //        Optional<FileData> fileData = fileDataRepository.findByName(fileName);
         Image image = this.imageRepository.findByName(fileName);
@@ -110,7 +129,7 @@ public class ImageService implements AfrimetaCrudInterface<Image> {
         byte[] images = Files.readAllBytes(new File(filePath).toPath());
         return images;
     }
-
+*/
 
     //image par produit id
     public List<byte[]> downloadImagesFromFileSystem(Long produitId) throws IOException {

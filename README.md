@@ -554,3 +554,25 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
 
 # gestion affichage image
 on coverti en string
+
+# Note bien 
+-  si on ajoute un produit, on insert des categorie par défaut, type de produit par défault, une image par défault
+
+pagination
+# {{baseUrl}}/produits/bataclan?paage=1&size=10&sort=titre,asc
+-  jai ignore les object dans produit avec @jsonIgnore pour empecher spring de serealiser lobject de relation
+- donné de pagination
+  "last": false,
+  "totalElements": 40,
+  "totalPages": 2,
+  "first": true,
+  "size": 20,
+  "number": 0,
+  "sort": {
+  "empty": true,
+  "unsorted": true,
+  "sorted": false
+  },
+  "numberOfElements": 20,
+  "empty": false
+  }

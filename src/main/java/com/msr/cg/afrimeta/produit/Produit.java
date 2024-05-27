@@ -1,5 +1,6 @@
 package com.msr.cg.afrimeta.produit;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.msr.cg.afrimeta.categorie.Categorie;
 import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.image.Image;
@@ -10,7 +11,6 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -50,14 +50,17 @@ public class Produit {
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "categorie_id")
+            @JsonIgnore
     Categorie categorie;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "type_produit_id")
+            @JsonIgnore
     TypeProduit typeProduit;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "website_id", nullable = false)
+            @JsonIgnore
     Website website;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
@@ -66,10 +69,12 @@ public class Produit {
                     joinColumns = @JoinColumn(name = "produit_id"),
                     inverseJoinColumns = @JoinColumn(name = "couleur_id")
             )
-    Set<Couleur> couleurs;
+            @JsonIgnore
+    List<Couleur> couleurs;
 
     @OneToMany(mappedBy = "produit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Image> images;
+    @JsonIgnore
+    private List<Image> images;
 
   /*  @ElementCollection
     @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "produit_id"))
@@ -79,7 +84,7 @@ public class Produit {
             @AttributeOverride(name = "name", column = @Column(name = "name"))
     })
 
-    private Set<Image> images = new HashSet<>();*/
+    private List<Image> images = new HashSet<>();*/
 
 
     public Produit() {}
@@ -175,44 +180,44 @@ public class Produit {
         this.website = website;
     }
 
-    public Set<Couleur> getCouleurs() {
+    public List<Couleur> getCouleurs() {
         return couleurs;
     }
 
-    public void setCouleurs(Set<Couleur> couleurs) {
+    public void setCouleurs(List<Couleur> couleurs) {
         this.couleurs = couleurs;
     }
 
     public void addCouleur(Couleur couleur) {
         if (couleurs == null) {
-            couleurs = new HashSet<>();
+            couleurs = new ArrayList<>();
         }
         couleurs.add(couleur);
     }
 
     public void addImage(Image image) {
         if (images == null) {
-            images = new HashSet<>();
+            images =new  ArrayList<>();
         }
         images.add(image);
         image.setProduct(this);
     }
 
-    public Set<Image> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(Set<Image> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
 
 
-//    public Set<Image> getImages() {
+//    public List<Image> getImages() {
 //        return images;
 //    }
 //
-//    public void setImages(Set<Image> images) {
+//    public void setImages(List<Image> images) {
 //        this.images = images;
 //    }
 

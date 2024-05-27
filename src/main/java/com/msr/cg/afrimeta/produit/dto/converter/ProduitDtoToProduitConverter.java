@@ -1,7 +1,7 @@
 package com.msr.cg.afrimeta.produit.dto.converter;
 
 import com.msr.cg.afrimeta.produit.Produit;
-import com.msr.cg.afrimeta.produit.dto.ProduitDto;
+import com.msr.cg.afrimeta.produit.dto.dto.ProduitDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

@@ -1,17 +1,17 @@
 package com.msr.cg.afrimeta.produit;
 
+import com.msr.cg.afrimeta.categorie.Categorie;
 import com.msr.cg.afrimeta.couleur.Couleur;
-import com.msr.cg.afrimeta.image.ImageService;
-import com.msr.cg.afrimeta.produit.dto.ProduitDto;
+import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
+import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ProduitService implements AfrimetaCrudInterface<Produit> {
@@ -36,7 +36,6 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
         return this.repository.singleProduitWithCategorieAndTypeProduitByProduitId(Integer.parseInt(produitId));
     }
 
-
     @Override
     public Produit findById(Long id) {
         return this.repository.findById(id)
@@ -46,22 +45,17 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
     @Override
     public Produit save(Produit produit) {
 
-        return this.repository.save(produit);
-    }
+        Categorie defaultCategorie = new Categorie("default categorie");
+        TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
+        Couleur defaultCouleur = new Couleur("default couleur");
+        Image defaultImage = new Image("image/png","/Users/esprit/www_java/projet_personnel_b3/afrimeta/afrimeta_server/src/main/resources/uploads/defaultImage.png","defaultImage.png",produit);
 
-    public Produit save(Produit produit, String[] couleurValues, MultipartFile file) {
-        if (couleurValues != null) {
-
-            for (String value : couleurValues) {
-              Couleur  saveCouleur = new Couleur(value);
-              produit.addCouleur(saveCouleur);
-            }
-        }
-
-
+        produit.setCategorie(defaultCategorie);
+        produit.setTypeProduit(defaultTypeProduit);
+        produit.addImage(defaultImage);
+        produit.addCouleur(defaultCouleur);
 
         return this.repository.save(produit);
-
     }
 
     @Override
@@ -74,7 +68,6 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
                     oldProduit.setPrix(newProduit.getPrix());
                     oldProduit.setCategorie(newProduit.getCategorie());
                     oldProduit.setTypeProduit(newProduit.getTypeProduit());
-                    oldProduit.setWebsite(newProduit.getWebsite());
                     return this.repository.save(oldProduit);
                 })
                 .orElseThrow(()->new ObjectNotFoundException(Produit.class.getSimpleName(),id));
@@ -93,6 +86,12 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
         this.repository.delete(produit);
     }
 
+    @Transactional(readOnly = true)
+    public Page<Produit> findAllPageable(Pageable pageable) {
+
+//       return this.repository.findAll(pageable);
+       return this.repository.findAllProduitWithPagination(pageable);
+    }
 
 
 
