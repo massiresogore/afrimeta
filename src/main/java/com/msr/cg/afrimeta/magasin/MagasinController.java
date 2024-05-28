@@ -3,6 +3,7 @@ package com.msr.cg.afrimeta.magasin;
 import com.msr.cg.afrimeta.magasin.converter.MagasinDtoToMagasinConverter;
 import com.msr.cg.afrimeta.magasin.converter.MagasinToMagasinDtoConverter;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
+import com.msr.cg.afrimeta.magasin.dto.MagasinResponse;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
 import org.springframework.data.domain.Pageable;
