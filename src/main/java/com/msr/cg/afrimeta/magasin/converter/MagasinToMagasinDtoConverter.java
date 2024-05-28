@@ -1,7 +1,7 @@
 package com.msr.cg.afrimeta.magasin.converter;
 
 import com.msr.cg.afrimeta.magasin.Magasin;
-import com.msr.cg.afrimeta.magasin.MagasinResponse;
+import com.msr.cg.afrimeta.magasin.dto.MagasinResponse;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

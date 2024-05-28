@@ -576,3 +576,6 @@ pagination
   "numberOfElements": 20,
   "empty": false
   }
+
+# documentation spring
+        https://docs.spring.io/spring-boot/docs/3.2.5/reference/htmlsingle/index.html#web

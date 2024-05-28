@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.Reference;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "produit")
+@NamedEntityGraph(name = "Produit.categorie", attributeNodes = {@NamedAttributeNode("categorie"),@NamedAttributeNode("typeProduit"),@NamedAttributeNode("website"),@NamedAttributeNode("images")})
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,19 +50,22 @@ public class Produit {
     @CreationTimestamp
     LocalDate dateAjout;
 
+    @Column(name = "image_url")
+    String image_url;
+
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "categorie_id")
-            @JsonIgnore
+//            @JsonIgnore
     Categorie categorie;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "type_produit_id")
-            @JsonIgnore
+//            @JsonIgnore
     TypeProduit typeProduit;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "website_id", nullable = false)
-            @JsonIgnore
+           // @JsonIgnore
     Website website;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
@@ -69,11 +74,11 @@ public class Produit {
                     joinColumns = @JoinColumn(name = "produit_id"),
                     inverseJoinColumns = @JoinColumn(name = "couleur_id")
             )
-            @JsonIgnore
+//            @JsonIgnore
     List<Couleur> couleurs;
 
     @OneToMany(mappedBy = "produit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
+//    @JsonIgnore
     private List<Image> images;
 
   /*  @ElementCollection
@@ -211,9 +216,15 @@ public class Produit {
         this.images = images;
     }
 
+    public String getImage_url() {
+        return image_url;
+    }
 
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
 
-//    public List<Image> getImages() {
+    //    public List<Image> getImages() {
 //        return images;
 //    }
 //

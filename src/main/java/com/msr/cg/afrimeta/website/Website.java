@@ -1,6 +1,7 @@
 package com.msr.cg.afrimeta.website;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.msr.cg.afrimeta.magasin.Magasin;
 import com.msr.cg.afrimeta.produit.Produit;
 import jakarta.persistence.*;
@@ -33,7 +34,6 @@ public class Website {
             fetch = FetchType.LAZY
             ,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.MERGE})
     List<Produit> produits;
-
     public List<Produit> getProduits() {
         return produits;
     }

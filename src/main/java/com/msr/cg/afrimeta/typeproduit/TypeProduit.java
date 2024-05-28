@@ -1,5 +1,6 @@
 package com.msr.cg.afrimeta.typeproduit;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.msr.cg.afrimeta.taille.Taille;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
@@ -24,6 +25,7 @@ public class TypeProduit {
             joinColumns = @JoinColumn(name = "type_produit_id"),
             inverseJoinColumns = @JoinColumn(name = "taille_id")
     )
+    @JsonIgnore
     private List<Taille> tailles;
 
     public TypeProduit() {

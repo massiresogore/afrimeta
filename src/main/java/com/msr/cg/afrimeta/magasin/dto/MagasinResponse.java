@@ -1,6 +1,4 @@
-package com.msr.cg.afrimeta.magasin;
-
-import com.msr.cg.afrimeta.clientUser.ClientUser;
+package com.msr.cg.afrimeta.magasin.dto;
 
 public record MagasinResponse(
         Long magasinId,

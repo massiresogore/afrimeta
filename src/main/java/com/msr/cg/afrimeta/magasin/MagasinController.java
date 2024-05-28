@@ -5,6 +5,7 @@ import com.msr.cg.afrimeta.magasin.converter.MagasinToMagasinDtoConverter;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,20 +28,20 @@ public class MagasinController {
 
 
     @GetMapping
-    public Result getAllMagasins()
+    public Result getAllMagasins(Pageable pageable)
     {
         return new Result(
                 true,
                 StatusCode.SUCCESS,
                 "tous les magasins",
                 this.magasinService
-                        .findAll().stream().map(magasin -> new MagasinResponse(
+                        .findAll(pageable).map(magasin -> new MagasinResponse(
                             magasin.getMagasinId(),
                             magasin.getLibele(),
                             magasin.getDescription(),
                             magasin.getLogo(),
                             magasin.getClientUser().getUser_id()
-                        )).toList()
+                        ))
         );
     }
 

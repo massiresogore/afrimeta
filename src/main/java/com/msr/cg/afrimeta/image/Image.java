@@ -1,6 +1,7 @@
 package com.msr.cg.afrimeta.image;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.msr.cg.afrimeta.produit.Produit;
 import jakarta.persistence.*;
 

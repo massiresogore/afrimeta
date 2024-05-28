@@ -2,6 +2,8 @@ package com.msr.cg.afrimeta.magasin;
 
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,11 @@ public class MagasinService implements AfrimetaCrudInterface<Magasin> {
     @Override
     public List<Magasin> findAll() {
         return this.magasinRepository.findAll();
+    }
+
+
+    public Page<Magasin> findAll(Pageable pageable) {
+        return this.magasinRepository.findAll(pageable);
     }
 
     @Override

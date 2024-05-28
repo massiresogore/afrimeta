@@ -1,20 +1,15 @@
 package com.msr.cg.afrimeta.produit;
 
-import com.msr.cg.afrimeta.categorie.Categorie;
-import com.msr.cg.afrimeta.couleur.Couleur;
-import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.image.ImageService;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitDto;
 import com.msr.cg.afrimeta.produit.dto.converter.ProduitDtoToProduitConverter;
 import com.msr.cg.afrimeta.produit.dto.converter.ProduitToProduitDtoConverter;
+import com.msr.cg.afrimeta.produit.dto.dto.ProduitResponse;
 import com.msr.cg.afrimeta.system.Result;
-import com.msr.cg.afrimeta.system.ResultPagination;
-import com.msr.cg.afrimeta.typeproduit.TypeProduit;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
 
 @RestController
 @Controller
@@ -55,13 +50,44 @@ public class ProduitController{
     }
 
 
-    @GetMapping("bataclan")
-    public ResultPagination findAllPageable(Pageable pageable) {
+   /* @GetMapping("bataclan")
+    public Result findAllPageable(Pageable pageable) {
+//        List<Produit>  produits =  this.produitService.findAllPageable(pageable).getContent();
+//        List<ProduitDto> produitDtos =this.produitToProduitDtoConverter.convert(produits);
+//        List<Object> data = new ArrayList<>();
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("produits",produitDtos);
+//        map.put("pageable",pageable);
+//        map.put("sort",pageable.getSort());
+//        map.put("numberOfElements",pageable.toLimit());
 
-//        Pageable pageables =  this.produitService.findAllPageable(pageable).getPageable();
+
+        return new Result(
+                true,
+                200,
+                "tous les produits de website",
+              this.produitService.findAllPageable(pageable)
+
+        );
+    }*/
+
+     @GetMapping("bataclan")
+    public Result findAllPageable(Pageable pageable) {
+         Page<ProduitResponse> produitDtos = this.produitService.findAllPageable(pageable).map(this.produitToProduitDtoConverter::convert);
+
+        return new Result(
+                true,
+                200,
+                "tous les produits de website",
+                produitDtos
+        );
+    }
+
+/*
+ @GetMapping("bataclan")
+    public ResultPagination findAllPageable(Pageable pageable) {
         List<Produit>  produits =  this.produitService.findAllPageable(pageable).getContent();
         List<ProduitDto> produitDtos =this.produitToProduitDtoConverter.convert(produits);
-        List<Object> data = new ArrayList<>();
         Map<String,Object> map = new HashMap<>();
         map.put("produits",produitDtos);
         map.put("pageable",pageable);
@@ -76,6 +102,7 @@ public class ProduitController{
         );
     }
 
+*/
 
 
    /*@GetMapping("/{produitId}")

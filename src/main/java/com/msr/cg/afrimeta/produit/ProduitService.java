@@ -4,12 +4,12 @@ import com.msr.cg.afrimeta.categorie.Categorie;
 import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
+import com.msr.cg.afrimeta.taille.Taille;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -47,6 +47,8 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
 
         Categorie defaultCategorie = new Categorie("default categorie");
         TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
+        Taille defaultTaille = new Taille("default taille");
+        defaultTypeProduit.addTaille(defaultTaille);
         Couleur defaultCouleur = new Couleur("default couleur");
         Image defaultImage = new Image("image/png","/Users/esprit/www_java/projet_personnel_b3/afrimeta/afrimeta_server/src/main/resources/uploads/defaultImage.png","defaultImage.png",produit);
 
@@ -86,13 +88,8 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
         this.repository.delete(produit);
     }
 
-    @Transactional(readOnly = true)
     public Page<Produit> findAllPageable(Pageable pageable) {
-
-//       return this.repository.findAll(pageable);
        return this.repository.findAllProduitWithPagination(pageable);
     }
-
-
 
 }

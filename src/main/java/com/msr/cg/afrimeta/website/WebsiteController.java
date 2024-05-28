@@ -1,7 +1,5 @@
 package com.msr.cg.afrimeta.website;
 
-import com.msr.cg.afrimeta.magasin.MagasinResponse;
-import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
 import com.msr.cg.afrimeta.website.converter.WebsiteDtoToWebsiteConverter;
