@@ -1,16 +1,18 @@
 package com.msr.cg.afrimeta.magasin;
 
+import com.msr.cg.afrimeta.clientUser.ClientUserService;
 import com.msr.cg.afrimeta.magasin.converter.MagasinDtoToMagasinConverter;
 import com.msr.cg.afrimeta.magasin.converter.MagasinToMagasinDtoConverter;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
 import com.msr.cg.afrimeta.magasin.dto.MagasinRequest;
 import com.msr.cg.afrimeta.magasin.dto.MagasinResponse;
+import com.msr.cg.afrimeta.storage.StorageService;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 @Controller
 @RestController
 @RequestMapping("${api.endpoint.base-url}/magasins")
@@ -18,14 +20,16 @@ public class MagasinController {
     private final MagasinService magasinService;
     private final MagasinDtoToMagasinConverter dtoToMagasin;
     private final MagasinToMagasinDtoConverter magasinToDto;
+    private final StorageService storageService;
 
     public MagasinController(MagasinService magasinService,
                              MagasinDtoToMagasinConverter dtoToMagasin,
-                             MagasinToMagasinDtoConverter magasinToDto
+                             MagasinToMagasinDtoConverter magasinToDto, StorageService storageService
     ) {
         this.magasinService = magasinService;
         this.dtoToMagasin = dtoToMagasin;
         this.magasinToDto = magasinToDto;
+        this.storageService = storageService;
     }
 
 
@@ -80,28 +84,13 @@ public class MagasinController {
         return new Result(true,StatusCode.SUCCESS,"magasin supprimé");
     }
 
-    @PostMapping("/{clientId}")
-    public Result saveMagasin(@RequestBody MagasinRequest magasinRequest, @PathVariable("clientId") String clientId){
-
-
-        System.out.printf("%s%n".repeat(2),
-                "clientId = "+clientId,
-                "magasin = "+magasinRequest);
-
-
+    @PostMapping(value = "/{clientId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result saveMagasin(MagasinRequest magasinRequest) {
+        this.storageService.storeMagasinAndLogoImage(magasinRequest);
         return new Result(
                 true,
                 StatusCode.SUCCESS,
                 "magasin cré"
         );
-//        return new Result(
-//                true,
-//                StatusCode.SUCCESS,
-//                "magasin cré",
-//                this.magasinToDto
-//                        .convertToResponse(this.magasinService
-//                                .save(this.dtoToMagasin
-//                                        .convert(magasinDto)))
-//        );
     }
 }

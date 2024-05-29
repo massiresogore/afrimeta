@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @Controller
@@ -160,4 +163,9 @@ public class ProduitController{
         return new Result(true,200,"toutes les images de ce produit",this.imageService.downloadImageFromFileSystem(imageName));
     }
 */
+
+  /*  @PostMapping("/images/{produitId}")
+    public Result addImage(@PathVariable("produitId") String produitId, @RequestParam("image") MultipartFile image) throws IOException {
+        return new Result(true,200,this.produitService.uploadImageToFileSystem(image,produitId));
+    }*/
 }

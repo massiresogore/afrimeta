@@ -1,6 +1,9 @@
 package com.msr.cg.afrimeta.storage;
 
 
+import com.msr.cg.afrimeta.magasin.dto.MagasinRequest;
+import com.msr.cg.afrimeta.system.Result;
+import com.msr.cg.afrimeta.system.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -13,9 +16,12 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RestController
+@RequestMapping("${api.endpoint.base-url}/bataclan/images")
 public class FileUploadController {
 
     private final StorageService storageService;
@@ -25,22 +31,17 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException {
-
-        model.addAttribute("files", storageService.loadAll().map(
+    @GetMapping
+    public Result listUploadedFiles() throws IOException {
+        return new Result(true, StatusCode.SUCCESS, "toutes les images", storageService.loadAll().map(
                         path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                                 "serveFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
-
-        return "uploadForm";
     }
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
-
 
         Resource file = storageService.loadAsResource(filename);
 
@@ -53,7 +54,8 @@ public class FileUploadController {
 
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+                                   RedirectAttributes redirectAttributes
+    ) {
 
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",

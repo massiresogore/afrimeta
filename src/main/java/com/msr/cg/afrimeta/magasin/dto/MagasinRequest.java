@@ -1,12 +1,12 @@
 package com.msr.cg.afrimeta.magasin.dto;
 
-import com.msr.cg.afrimeta.clientUser.ClientUser;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
-
 public record MagasinRequest(
-        String libele,
-        String description,
-        MultipartFile logoFile
+        @RequestParam("libele") String libele,
+        @RequestParam("libele") String description,
+        @RequestParam("logoFile")  MultipartFile logoFile,
+        @PathVariable("clientId") String clientId
 ) {}

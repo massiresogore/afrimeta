@@ -130,7 +130,6 @@ public class ImageService implements AfrimetaCrudInterface<Image> {
         return images;
     }
 */
-
     //image par produit id
     public List<byte[]> downloadImagesFromFileSystem(Long produitId) throws IOException {
         List<Image> fileDatas = this.selectAllImageByProduitId(produitId);
