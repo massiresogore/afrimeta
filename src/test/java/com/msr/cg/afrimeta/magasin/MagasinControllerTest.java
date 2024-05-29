@@ -20,9 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -49,6 +47,8 @@ class MagasinControllerTest {
     String url;
 
     List<Magasin> magasins = new ArrayList<>();
+    Map<String,String> logoMap = new HashMap<>();
+
 
     @BeforeEach
     void setUp() {
@@ -70,11 +70,16 @@ class MagasinControllerTest {
         clientUser2.setRole("ADMIN USER");
         clientUser2.setEnable(true);
 
-        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, "lolooo");
-        Magasin magasin2 = new Magasin(2L, "Boulangerie Delice", "Une boulangerie artisanale proposant des pains, pâtisseries et viennoiseries faits maison.",clientUser1, "logo_delice.png");
-        Magasin magasin3 = new Magasin(3L, "Librairie PageTurner", "Une librairie indépendante avec une grande sélection de livres, magazines et fournitures de bureau.",clientUser2, "logo_pageturner.png");
-        Magasin magasin4 = new Magasin(4L, "Boutique ModeTrend", "Une boutique de mode tendance offrant les dernières collections de vêtements et accessoires.", clientUser1,"logo_modetrend.png");
-        Magasin magasin5 = new Magasin(5L, "Pharmacie SantéPlus", "Une pharmacie offrant une large gamme de médicaments, produits de santé et conseils personnalisés.",clientUser2, "logo_santeplus.png");
+        //Craete logo
+
+        logoMap.put("src/test/resources/magasin.json", "logo.png");
+
+
+        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, this.logoMap);
+        Magasin magasin2 = new Magasin(2L, "Boulangerie Delice", "Une boulangerie artisanale proposant des pains, pâtisseries et viennoiseries faits maison.",clientUser1, this.logoMap);
+        Magasin magasin3 = new Magasin(3L, "Librairie PageTurner", "Une librairie indépendante avec une grande sélection de livres, magazines et fournitures de bureau.",clientUser2, this.logoMap);
+        Magasin magasin4 = new Magasin(4L, "Boutique ModeTrend", "Une boutique de mode tendance offrant les dernières collections de vêtements et accessoires.", clientUser1,this.logoMap);
+        Magasin magasin5 = new Magasin(5L, "Pharmacie SantéPlus", "Une pharmacie offrant une large gamme de médicaments, produits de santé et conseils personnalisés.",clientUser2, this.logoMap);
 
         this.magasins.add(magasin1);
         this.magasins.add(magasin2);
@@ -110,7 +115,7 @@ class MagasinControllerTest {
         magasin.setDescription("description");
         magasin.setMagasinId(1L);
         magasin.setLibele("libekz");
-        magasin.setLogo("logo_delice.png");
+        magasin.setLogo(this.logoMap);
 
         //Given
         given(this.service.findById(1L)).willReturn(magasin);
@@ -157,7 +162,7 @@ class MagasinControllerTest {
                 null,
                 "libekz",
                 "description",
-                "logo",
+                this.logoMap,
                 clientUser
         );
 
@@ -199,7 +204,7 @@ class MagasinControllerTest {
                 null,
                 "libekz",
                 "description",
-                "logo",
+                this.logoMap,
                 clientUser
         );
 
@@ -259,7 +264,7 @@ class MagasinControllerTest {
                 null,
                 "libekz",
                 "description",
-                "logo",
+                this.logoMap,
                 clientUser
         );
 

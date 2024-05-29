@@ -2,7 +2,6 @@ package com.msr.cg.afrimeta.image.old;
 
 import com.msr.cg.afrimeta.image.Image;
 import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

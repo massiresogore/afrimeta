@@ -38,6 +38,8 @@ public class ProduitController{
         );
     }*/
 
+    //On ajoute un produit appatenant a un website
+    // a faire , ajout image avvec id de website
     @PostMapping
     public Result store(@RequestBody ProduitDto produitDto) {
         return new Result(

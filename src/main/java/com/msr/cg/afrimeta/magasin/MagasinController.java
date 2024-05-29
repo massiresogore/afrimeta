@@ -3,6 +3,7 @@ package com.msr.cg.afrimeta.magasin;
 import com.msr.cg.afrimeta.magasin.converter.MagasinDtoToMagasinConverter;
 import com.msr.cg.afrimeta.magasin.converter.MagasinToMagasinDtoConverter;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
+import com.msr.cg.afrimeta.magasin.dto.MagasinRequest;
 import com.msr.cg.afrimeta.magasin.dto.MagasinResponse;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
@@ -79,17 +80,28 @@ public class MagasinController {
         return new Result(true,StatusCode.SUCCESS,"magasin supprimé");
     }
 
-    @PostMapping
-    public Result saveMagasin(@RequestBody MagasinDto magasinDto){
+    @PostMapping("/{clientId}")
+    public Result saveMagasin(@RequestBody MagasinRequest magasinRequest, @PathVariable("clientId") String clientId){
+
+
+        System.out.printf("%s%n".repeat(2),
+                "clientId = "+clientId,
+                "magasin = "+magasinRequest);
+
 
         return new Result(
                 true,
                 StatusCode.SUCCESS,
-                "magasin cré",
-                this.magasinToDto
-                        .convertToResponse(this.magasinService
-                                .save(this.dtoToMagasin
-                                        .convert(magasinDto)))
+                "magasin cré"
         );
+//        return new Result(
+//                true,
+//                StatusCode.SUCCESS,
+//                "magasin cré",
+//                this.magasinToDto
+//                        .convertToResponse(this.magasinService
+//                                .save(this.dtoToMagasin
+//                                        .convert(magasinDto)))
+//        );
     }
 }

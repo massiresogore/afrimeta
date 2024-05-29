@@ -1,6 +1,5 @@
 package com.msr.cg.afrimeta.produit;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.msr.cg.afrimeta.categorie.Categorie;
 import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.image.Image;
@@ -13,13 +12,10 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.Reference;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "produit")
@@ -201,10 +197,10 @@ public class Produit {
     }
 
     public void addImage(Image image) {
-        if (images == null) {
-            images =new  ArrayList<>();
+        if (this.images == null) {
+            this.images =new  ArrayList<>();
         }
-        images.add(image);
+        this.images.add(image);
         image.setProduct(this);
     }
 

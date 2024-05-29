@@ -51,10 +51,10 @@ create table if not exists taille(
 create table if not exists magasin(
                                       magasin_id int primary key auto_increment,
                                       libele varchar(50) not null,
-                                      logo_url varchar(200),
                                       description TEXT not null ,
                                       user_id int  not null,
                                       key `Fk_user_id` (`user_id`),
+                                      create_at datetime default current_timestamp,
                                       constraint `Fk_user_id` foreign key (`user_id`) references `client_user`(`user_id`)
                                           on delete no action on update no action
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -233,5 +233,11 @@ create table if not exists paiment(
                                       constraint `FKp_commande_id` foreign key (`commande_id`) references `commande` (`commande_id`)
                                           on delete no action on update no action
 )ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+create table  if not exists logo(
+                                    file_path varchar(200) not null,
+                                    logo_name varchar(200) unique not null,
+                                    magasin_id int not null
+)ENGINE=InnoDB default CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

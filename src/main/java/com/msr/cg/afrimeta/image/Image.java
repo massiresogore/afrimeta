@@ -1,7 +1,6 @@
 package com.msr.cg.afrimeta.image;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.msr.cg.afrimeta.produit.Produit;
 import jakarta.persistence.*;
 
@@ -24,6 +23,8 @@ public class Image {
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "produit_id", nullable = false)
     private Produit produit;
+
+
 
     public Image() {
     }
@@ -83,6 +84,7 @@ public class Image {
     public void setProduct(Produit produit) {
         this.produit = produit;
     }
+
 
     @Override
     public String toString() {

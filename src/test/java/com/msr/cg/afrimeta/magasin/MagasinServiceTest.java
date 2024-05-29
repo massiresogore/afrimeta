@@ -13,9 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,8 +31,11 @@ class MagasinServiceTest {
 
     List<Magasin> magasins = new ArrayList<>();
 
+    Map<String, String> logoMap = new HashMap<>();
+
     @BeforeEach
     void setUp() {
+        logoMap.put("src/test/resources/logo.png", "logo.png");
         ClientUser clientUser = new ClientUser();
         clientUser.setEmail("m@gmail.com");
         clientUser.setPassword("MZMZMZMZMZMZZM");
@@ -53,11 +54,11 @@ class MagasinServiceTest {
         clientUser2.setRole("ADMIN USER");
         clientUser2.setEnable(true);
 
-        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, "lolooo");
-        Magasin magasin2 = new Magasin(2L, "Boulangerie Delice", "Une boulangerie artisanale proposant des pains, pâtisseries et viennoiseries faits maison.",clientUser1, "logo_delice.png");
-        Magasin magasin3 = new Magasin(3L, "Librairie PageTurner", "Une librairie indépendante avec une grande sélection de livres, magazines et fournitures de bureau.",clientUser2, "logo_pageturner.png");
-        Magasin magasin4 = new Magasin(4L, "Boutique ModeTrend", "Une boutique de mode tendance offrant les dernières collections de vêtements et accessoires.", clientUser1,"logo_modetrend.png");
-        Magasin magasin5 = new Magasin(5L, "Pharmacie SantéPlus", "Une pharmacie offrant une large gamme de médicaments, produits de santé et conseils personnalisés.",clientUser2, "logo_santeplus.png");
+        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, this.logoMap);
+        Magasin magasin2 = new Magasin(2L, "Boulangerie Delice", "Une boulangerie artisanale proposant des pains, pâtisseries et viennoiseries faits maison.",clientUser1,  this.logoMap);
+        Magasin magasin3 = new Magasin(3L, "Librairie PageTurner", "Une librairie indépendante avec une grande sélection de livres, magazines et fournitures de bureau.",clientUser2,  this.logoMap);
+        Magasin magasin4 = new Magasin(4L, "Boutique ModeTrend", "Une boutique de mode tendance offrant les dernières collections de vêtements et accessoires.", clientUser1, this.logoMap);
+        Magasin magasin5 = new Magasin(5L, "Pharmacie SantéPlus", "Une pharmacie offrant une large gamme de médicaments, produits de santé et conseils personnalisés.",clientUser2,  this.logoMap);
 
         this.magasins.add(magasin1);
         this.magasins.add(magasin2);
@@ -118,7 +119,7 @@ class MagasinServiceTest {
                 null,
                 "Amazon",
                "Amazon description",
-                "Amazo Logo",
+                this.logoMap,
                 clientUser
         );
 
@@ -157,7 +158,7 @@ class MagasinServiceTest {
                 1L,
                 "Amazon update",
                 "Amazon description update",
-                "Amazo Logo",
+                this.logoMap,
                 clientUser
         );
 
@@ -199,7 +200,7 @@ class MagasinServiceTest {
                 1L,
                 "Amazon update",
                 "Amazon description update",
-                "Amazo Logo",
+                this.logoMap,
                 clientUser
         );
 

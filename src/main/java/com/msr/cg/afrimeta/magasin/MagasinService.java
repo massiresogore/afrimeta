@@ -44,7 +44,8 @@ public class MagasinService implements AfrimetaCrudInterface<Magasin> {
                 .map(oldWebsite ->{
                     oldWebsite.setLibele(magasin.getLibele());
                     oldWebsite.setDescription(magasin.getDescription());
-                    oldWebsite.setLogo(magasin.getLogo());
+                    //ne doit pas etre mis à jour pour linstant
+//                    oldWebsite.setLogo(magasin.getLogo());
                    // oldWebsite.setClientUser(magasin.getClientUser());
                     return this.magasinRepository.save(oldWebsite);
                 })

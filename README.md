@@ -544,10 +544,10 @@ veut dire de ne pas insérer une valeur 0 dans les collonne auto incrémentée
 # test
       Throwable throwable = assertThrows(ObjectNotFoundException.class, () -> service.findById(1L));
 
-# GESTION D'IMAGE avec insertion de plusieur images pour un produit
+# GESTION D'IMAGE avec insertion de plusieur image pour un produit
 -  créé lentité image avec ces attibuts et l'anotation @Embeddable , 
    sur la class Image ainsi que ces constructeurs et getters, setters
-- dans la class produit, on cree une liste set de images avec ces anotations 
+- dans la class produit, on cree une liste set de image avec ces anotations 
   - @ElementCollection : Indique que la collection d'éléments doit être gérée comme une entité intégrée.
   - @CollectionTable : Spécifie le nom de la table qui contiendra les éléments intégrés. joinColumns définit la clé étrangère qui lie cette table à l'entité principale.
   - @AttributeOverrides : Utilisé pour redéfinir les noms des colonnes pour les champs de la classe embeddable.
@@ -579,3 +579,10 @@ pagination
 
 # documentation spring
         https://docs.spring.io/spring-boot/docs/3.2.5/reference/htmlsingle/index.html#web
+
+# Erreur 
+    si on ne precise pas,la collonne de relation dans la base de donné, c-a-d, ajou column...
+expl:     @CollectionTable(name = "logo", joinColumns = @JoinColumn(name = "magasin_id"))
+
+on aura cette erreur
+unkow column

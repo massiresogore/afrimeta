@@ -2,6 +2,10 @@ package com.msr.cg.afrimeta.magasin;
 
 import com.msr.cg.afrimeta.clientUser.ClientUser;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.Reference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "magasin")
@@ -11,8 +15,6 @@ public class Magasin {
     private Long magasinId;
     private String libele;
     private String description;
-    @Column(name = "logo_url")
-   private String logo;
 
     @ManyToOne(
             fetch = FetchType.LAZY,
@@ -26,18 +28,24 @@ public class Magasin {
     @JoinColumn(name = "user_id")
     private ClientUser clientUser;
 
+    @ElementCollection()
+    @CollectionTable(name = "logo", joinColumns = @JoinColumn(name = "magasin_id"))
+    @MapKeyColumn(name = "file_path")
+    @Column(name = "logo_name", unique = true, nullable = false)
+    private Map<String,String> logo = new HashMap<>();
+
     public Magasin() {
     }
 
-    public Magasin(String libele, String description, ClientUser clientUser, String logo) {
+    public Magasin(String libele, String description, ClientUser clientUser, Map<String, String> logo) {
         this.libele = libele;
         this.description = description;
         this.clientUser = clientUser;
         this.logo = logo;
     }
 
-    public Magasin(Long magasinId, String libele, String description, ClientUser clientUser, String logo) {
-        this(libele, description, clientUser,logo);
+    public Magasin(Long magasinId, String libele, String description, ClientUser clientUser, Map<String, String> logo) {
+       this(libele, description, clientUser, logo);
         this.magasinId = magasinId;
     }
 
@@ -73,11 +81,11 @@ public class Magasin {
         this.clientUser = clientUser;
     }
 
-    public String getLogo() {
+    public Map<String, String> getLogo() {
         return logo;
     }
 
-    public void setLogo(String logo) {
+    public void setLogo(Map<String, String> logo) {
         this.logo = logo;
     }
 

@@ -14,7 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -32,8 +34,11 @@ class WebsiteServiceTest {
 
     List<Website> websites;
 
+    Map<String,String> logoMap = new HashMap<>();
+
     @BeforeEach
     void setUp() {
+        logoMap.put("src/test/resources/logo.png","logo.png");
         ClientUser clientUser = new ClientUser();
         clientUser.setEmail("m@gmail.com");
         clientUser.setPassword("MZMZMZMZMZMZZM");
@@ -52,11 +57,12 @@ class WebsiteServiceTest {
         clientUser2.setRole("ADMIN USER");
         clientUser2.setEnable(true);
 
-        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, "lolooo");
-        Magasin magasin2 = new Magasin(2L, "Boulangerie Delice", "Une boulangerie artisanale proposant des pains, pâtisseries et viennoiseries faits maison.",clientUser1, "logo_delice.png");
-        Magasin magasin3 = new Magasin(3L, "Librairie PageTurner", "Une librairie indépendante avec une grande sélection de livres, magazines et fournitures de bureau.",clientUser2, "logo_pageturner.png");
-        Magasin magasin4 = new Magasin(4L, "Boutique ModeTrend", "Une boutique de mode tendance offrant les dernières collections de vêtements et accessoires.", clientUser1,"logo_modetrend.png");
-        Magasin magasin5 = new Magasin(5L, "Pharmacie SantéPlus", "Une pharmacie offrant une large gamme de médicaments, produits de santé et conseils personnalisés.",clientUser2, "logo_santeplus.png");
+        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, this.logoMap);
+        Magasin magasin2 = new Magasin(2L, "Boulangerie Delice", "Une boulangerie artisanale proposant des pains, pâtisseries et viennoiseries faits maison.",clientUser1,  this.logoMap);
+        Magasin magasin3 = new Magasin(3L, "Librairie PageTurner", "Une librairie indépendante avec une grande sélection de livres, magazines et fournitures de bureau.",clientUser2,  this.logoMap);
+        Magasin magasin4 = new Magasin(4L, "Boutique ModeTrend", "Une boutique de mode tendance offrant les dernières collections de vêtements et accessoires.", clientUser1, this.logoMap);
+        Magasin magasin5 = new Magasin(5L, "Pharmacie SantéPlus", "Une pharmacie offrant une large gamme de médicaments, produits de santé et conseils personnalisés.",clientUser2,  this.logoMap);
+
 
         Website website1 = new Website(1L,"http://google.com",magasin1);
         Website website2 = new Website(2L,"http://google.com",magasin2);
@@ -111,7 +117,7 @@ class WebsiteServiceTest {
         clientUser.setPassword("MZMZMZMZMZMZZM");
         clientUser.setRole("ADMIN USER");
         clientUser.setEnable(true);
-        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, "lolooo");
+        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, this.logoMap);
 
         //Dto
         WebsiteDto websiteDto = new WebsiteDto(
@@ -143,7 +149,7 @@ class WebsiteServiceTest {
         clientUser.setPassword("MZMZMZMZMZMZZM");
         clientUser.setRole("ADMIN USER");
         clientUser.setEnable(true);
-        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, "lolooo");
+        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, this.logoMap);
 
         //Dto
         WebsiteDto websiteDto = new WebsiteDto(
@@ -176,7 +182,7 @@ class WebsiteServiceTest {
         clientUser.setPassword("MZMZMZMZMZMZZM");
         clientUser.setRole("ADMIN USER");
         clientUser.setEnable(true);
-        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, "lolooo");
+        Magasin magasin1 = new Magasin(1L, "Supermarché BonPrix", "Un supermarché offrant une large gamme de produits alimentaires et ménagers à des prix compétitifs.", clientUser, this.logoMap);
 
         //Dto
         WebsiteDto websiteDto = new WebsiteDto(

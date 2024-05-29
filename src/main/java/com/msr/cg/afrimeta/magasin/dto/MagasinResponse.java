@@ -1,10 +1,12 @@
 package com.msr.cg.afrimeta.magasin.dto;
 
+import java.util.Map;
+
 public record MagasinResponse(
         Long magasinId,
         String libele,
         String description,
-        String logo,
+        Map<String,String> logo,
         Long clientUser
 ) {
 }
