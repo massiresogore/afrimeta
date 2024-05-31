@@ -1,10 +1,11 @@
 package com.msr.cg.afrimeta.produit;
 
-import com.msr.cg.afrimeta.image.ImageService;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitDto;
 import com.msr.cg.afrimeta.produit.dto.converter.ProduitDtoToProduitConverter;
 import com.msr.cg.afrimeta.produit.dto.converter.ProduitToProduitDtoConverter;
+import com.msr.cg.afrimeta.produit.dto.dto.ProduitRequest;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitResponse;
+import com.msr.cg.afrimeta.storage.StorageService;
 import com.msr.cg.afrimeta.system.Result;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,15 +20,15 @@ import java.io.IOException;
 @RequestMapping("${api.endpoint.base-url}/produits")
 public class ProduitController{
     private final ProduitService produitService;
-    private final ImageService imageService;
     private final ProduitDtoToProduitConverter produitDtoToProduitConverter;
     private final ProduitToProduitDtoConverter produitToProduitDtoConverter;
+    private final StorageService storageService;
 
-    public ProduitController(ProduitService produitService, ImageService imageService, ProduitDtoToProduitConverter produitDtoToProduitConverter, ProduitToProduitDtoConverter produitToProduitDtoConverter) {
+    public ProduitController(ProduitService produitService, ProduitDtoToProduitConverter produitDtoToProduitConverter, ProduitToProduitDtoConverter produitToProduitDtoConverter, StorageService storageService) {
         this.produitService = produitService;
-        this.imageService = imageService;
         this.produitDtoToProduitConverter = produitDtoToProduitConverter;
         this.produitToProduitDtoConverter = produitToProduitDtoConverter;
+        this.storageService = storageService;
     }
 
 
@@ -43,13 +44,20 @@ public class ProduitController{
 
     //On ajoute un produit appatenant a un website
     // a faire , ajout image avvec id de website
-    @PostMapping
-    public Result store(@RequestBody ProduitDto produitDto) {
+    @PostMapping("/{websiteId}")
+    public Result store(ProduitRequest produitRequest) {
+
+        if(produitRequest.image().getSize()>0){
+           this.storageService.storeProduitAndImage(produitRequest);
+        }else {
+            this.produitService.save(produitRequest);
+        }
         return new Result(
                 true,
                 200,
-                "produit crée",
-               this.produitToProduitDtoConverter.convert( this.produitService.save(this.produitDtoToProduitConverter.convert(produitDto)))
+                "produit crée"
+                //,
+//               this.produitToProduitDtoConverter.convert( this.produitService.save(this.produitDtoToProduitConverter.convert(produitDto)))
 //                this.produitToProduitDtoConverter.converterToProduitDto(this.produitService.save(this.produitDtoToProduitConverter.convert(produitDto),produitDto.couleur()))
         );
     }
@@ -79,12 +87,28 @@ public class ProduitController{
      @GetMapping("bataclan")
     public Result findAllPageable(Pageable pageable) {
          Page<ProduitResponse> produitDtos = this.produitService.findAllPageable(pageable).map(this.produitToProduitDtoConverter::convert);
-
         return new Result(
                 true,
                 200,
-                "tous les produits de website",
+                "tous les produits de website avec leur catégorie et type",
                 produitDtos
+        );
+    }
+    @DeleteMapping("/{produitId}")
+    public Result delete(@PathVariable("produitId") String produitId) {
+        this.produitService.deleteById(Long.valueOf(produitId));
+        return new Result(true, 200, "produit supprimé");
+    }
+
+    @GetMapping("/{produitId}")
+    public Result show(@PathVariable("produitId") String produitId) {
+       // System.out.println(this.produitService.singleProduitByProduitId(produitId));
+        return new Result(
+                true,
+                200,
+                "produit retrouvé",
+                this.produitService.singleProduitByProduitId(produitId)
+                //this.produitService.(this.produitService.findById(Long.valueOf(produitId)))
         );
     }
 

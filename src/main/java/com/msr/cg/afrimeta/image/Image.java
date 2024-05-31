@@ -41,6 +41,12 @@ public class Image {
         this.imageId = imageId;
     }
 
+    public Image(String type, String path, String image) {
+        this.type = type;
+        this.filePath = path;
+        this.name = image;
+    }
+
     public void addProduct(Produit produit) {
         produit.addImage(this);
     }

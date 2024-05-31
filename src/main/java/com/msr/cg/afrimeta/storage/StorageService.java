@@ -2,6 +2,7 @@ package com.msr.cg.afrimeta.storage;
 
 
 import com.msr.cg.afrimeta.magasin.dto.MagasinRequest;
+import com.msr.cg.afrimeta.produit.dto.dto.ProduitRequest;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,4 +26,5 @@ public interface StorageService {
 
     void deleteOne(String filename);
 
+    void storeProduitAndImage(ProduitRequest produitRequest);
 }

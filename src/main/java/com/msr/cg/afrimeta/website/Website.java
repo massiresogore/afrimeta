@@ -1,7 +1,6 @@
 package com.msr.cg.afrimeta.website;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.msr.cg.afrimeta.magasin.Magasin;
 import com.msr.cg.afrimeta.produit.Produit;
 import jakarta.persistence.*;

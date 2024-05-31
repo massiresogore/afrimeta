@@ -5,6 +5,7 @@
     <h2 th:text="${message}"/>
 </div>
 
+<!--
 <div>
     <form method="POST" enctype="multipart/form-data" action="/">
             <tr><td>File to upload:</td><td><input type="file" name="logoFile" /></td></tr>
@@ -12,7 +13,31 @@
             <input type="text" name="description">
             <tr><td></td><td><input type="submit" value="valider" /></td></tr>
     </form>
-</div>
+
+            titre
+            description
+            quantiteStock
+            prix
+</div>-->
+
+<form method="POST" enctype="multipart/form-data" action="/api/v1/produits/1">
+    <label>titre
+        <input type="text" name="titre">
+    </label>
+    <label>description
+        <input type="text" name="description">
+    </label>
+    <label for="quantiteStock">quantité
+    <input type="text" name="quantiteStock" id="quantiteStock">
+    </label>
+
+    <label for="prix">Prix
+    <input type="number" name="prix" id="prix">
+    </label>
+    <input type="file" name="image" />
+
+    <input type="submit" value="enregistrer" />
+</form>
 
 </body>
 </html>

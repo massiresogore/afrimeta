@@ -15,11 +15,12 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
 @Table(name = "produit")
-@NamedEntityGraph(name = "Produit.categorie", attributeNodes = {@NamedAttributeNode("categorie"),@NamedAttributeNode("typeProduit"),@NamedAttributeNode("website"),@NamedAttributeNode("images")})
+//@NamedEntityGraph(name = "Produit.categorie", attributeNodes = {@NamedAttributeNode("categorie"),@NamedAttributeNode("typeProduit"),@NamedAttributeNode("website"),@NamedAttributeNode("images")})
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,21 +34,18 @@ public class Produit {
     @Length(max = 500, min = 5)
     String description;
 
-    @Column(name = "quantite_stock", nullable = false)
-    @Min(1)
-    @Max(100000)
+    @Column(name = "quantite_stock")
+//    @Min(1)
+//    @Max(100000)
     int quantiteStock;
 
-    @DecimalMin("0.5")
-    @DecimalMax("1000000")
+  /*  @DecimalMin("0.5")
+    @DecimalMax("1000000")*/
     double prix;
 
     @Column(name = "date_ajout", nullable = false)
     @CreationTimestamp
     LocalDate dateAjout;
-
-    @Column(name = "image_url")
-    String image_url;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "categorie_id")
@@ -61,15 +59,15 @@ public class Produit {
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "website_id", nullable = false)
-           // @JsonIgnore
+    // @JsonIgnore
     Website website;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-            @JoinTable(
-                    name = "couleur_produit",
-                    joinColumns = @JoinColumn(name = "produit_id"),
-                    inverseJoinColumns = @JoinColumn(name = "couleur_id")
-            )
+    @JoinTable(
+            name = "couleur_produit",
+            joinColumns = @JoinColumn(name = "produit_id"),
+            inverseJoinColumns = @JoinColumn(name = "couleur_id")
+    )
 //            @JsonIgnore
     List<Couleur> couleurs;
 
@@ -77,21 +75,9 @@ public class Produit {
 //    @JsonIgnore
     private List<Image> images;
 
-  /*  @ElementCollection
-    @CollectionTable(name = "image", joinColumns = @JoinColumn(name = "produit_id"))
-    @AttributeOverrides({
-            @AttributeOverride(name = "type", column = @Column(name = "type")),
-            @AttributeOverride(name = "filePath", column = @Column(name = "file_path")),
-            @AttributeOverride(name = "name", column = @Column(name = "name"))
-    })
-
-    private List<Image> images = new HashSet<>();*/
-
-
     public Produit() {}
 
-    public Produit(Long produitId, String titre, String description, int quantite_stock, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit, Website website) {
-        this.produitId = produitId;
+    public Produit(String titre, String description, int quantite_stock, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit, Website website) {
         this.titre = titre;
         this.description = description;
         this.quantiteStock = quantite_stock;
@@ -102,7 +88,17 @@ public class Produit {
         this.website = website;
     }
 
-
+    public Produit(Long produitId, String titre, String description, int quantiteStock, double prix, LocalDate dateAjout, Categorie categorie, TypeProduit typeProduit, Website website) {
+        this.produitId = produitId;
+        this.titre = titre;
+        this.description = description;
+        this.quantiteStock = quantiteStock;
+        this.prix = prix;
+        this.dateAjout = dateAjout;
+        this.categorie = categorie;
+        this.typeProduit = typeProduit;
+        this.website = website;
+    }
 
     public Long getProduitId() {
         return produitId;
@@ -194,6 +190,7 @@ public class Produit {
             couleurs = new ArrayList<>();
         }
         couleurs.add(couleur);
+
     }
 
     public void addImage(Image image) {
@@ -211,23 +208,6 @@ public class Produit {
     public void setImages(List<Image> images) {
         this.images = images;
     }
-
-    public String getImage_url() {
-        return image_url;
-    }
-
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
-    }
-
-    //    public List<Image> getImages() {
-//        return images;
-//    }
-//
-//    public void setImages(List<Image> images) {
-//        this.images = images;
-//    }
-
 
 
 

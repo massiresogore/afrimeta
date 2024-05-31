@@ -1,8 +1,13 @@
 package com.msr.cg.afrimeta.produit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.msr.cg.afrimeta.categorie.Categorie;
+import com.msr.cg.afrimeta.couleur.Couleur;
+import com.msr.cg.afrimeta.image.Image;
+import com.msr.cg.afrimeta.produit.dto.converter.ProduitToProduitDtoConverter;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitDto;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
+import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +18,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +58,9 @@ class ProduitControllerTest {
 
     List<Produit> produits = new ArrayList<>();
 
+    @Autowired
+    ProduitToProduitDtoConverter produitToProduitDtoConverter;
+
     @BeforeEach
     void setUp() {
 
@@ -63,6 +76,45 @@ class ProduitControllerTest {
         Produit produit4 = new Produit(null, "Dell XPS 13", "Compact and powerful laptop", 20,  1299.99, null, null, null, website3);
         Produit produit5 = new Produit(null, "Nintendo Switch", "Versatile gaming console", 70, 299.99, null, null, null, website5);
 
+        //Image
+        Image image1 = new Image("image/jpg","/User/usr/msr","massire1.jpg");
+        Image image2 =  new Image("image/jpg","/User/usr/msr","massire1.jpg");
+        produit1.addImage(image1);
+        produit2.addImage(image2);
+        produit3.addImage(image2);
+        produit4.addImage(image2);
+        produit5.addImage(image2);
+
+        //Categorie
+        Categorie defaultCategorie = new Categorie("default categorie");
+        produit1.setCategorie(defaultCategorie);
+        produit2.setCategorie(defaultCategorie);
+        produit3.setCategorie(defaultCategorie);
+        produit4.setCategorie(defaultCategorie);
+        produit5.setCategorie(defaultCategorie);
+
+        //Type produit
+        TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
+        produit1.setTypeProduit(defaultTypeProduit);
+        produit2.setTypeProduit(defaultTypeProduit);
+        produit3.setTypeProduit(defaultTypeProduit);
+        produit4.setTypeProduit(defaultTypeProduit);
+        produit5.setTypeProduit(defaultTypeProduit);
+
+        //Couleur
+        Couleur defaultCouleur = new Couleur("default couleur");
+        //a faire
+        List<Couleur> couleurs = new ArrayList<>();
+        couleurs.add(defaultCouleur);
+
+        produit1.setCouleurs(couleurs);
+        produit2.setCouleurs(couleurs);
+        produit3.setCouleurs(couleurs);
+        produit4.setCouleurs(couleurs);
+        produit5.setCouleurs(couleurs);
+
+
+
         produits.add(produit1);
         produits.add(produit2);
         produits.add(produit3);
@@ -70,18 +122,50 @@ class ProduitControllerTest {
         produits.add(produit5);
     }
 
-   /* @Test
+    @Test
     void getAll() throws Exception {
         //given
-        given(this.produitService.selectProduitByWebsiteId("3")).willReturn(produits);
+        Pageable pageable = PageRequest.of(0,20);
+        PageImpl<Produit> produitPage = new PageImpl<>(produits, pageable,this.produits.size());
+
+        given(this.produitService.findAllPageable(Mockito.any(Pageable.class))).willReturn(produitPage);
+
+        MultiValueMap<String,String> requestParams = new LinkedMultiValueMap<>();
+        requestParams.add("page","0");
+        requestParams.add("size","20");
         //when and Then
-        mockMvc.perform(MockMvcRequestBuilders.get(url+"/produits/website/{websiteId}",3)
-                .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.get(url+"/produits/bataclan")
+                        .accept(MediaType.APPLICATION_JSON).params(requestParams))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.message").value("tous les produits de website avec leur catégorie et type"))
-                .andExpect(jsonPath("$.data", Matchers.hasSize(5)));
-    }*/
+                .andExpect(jsonPath("$.data.content", Matchers.hasSize(5)));
+    }
+    /*
+    *
+    *    @Test
+    void testFindAllMagasinsSuccess() throws Exception {
+        // Given
+        Pageable pageable = PageRequest.of(0, 20);
+        PageImpl<Magasin> magasinPage = new PageImpl<>(this.magasins, pageable, this.magasins.size());
+        given(this.service.findAll(Mockito.any(Pageable.class))).willReturn(magasinPage);
+
+        MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
+        requestParams.add("page", "0");
+        requestParams.add("size", "20");
+
+        // When and then
+        this.mockMvc.perform(get(this.url + "/magasins").accept(MediaType.APPLICATION_JSON).params(requestParams))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("tous les magasins"))
+                .andExpect(jsonPath("$.data.content", Matchers.hasSize(this.magasins.size())))
+                .andExpect(jsonPath("$.data.content[0].magasinId").value(1L))
+                .andExpect(jsonPath("$.data.content[0].libele").value("Supermarché BonPrix"))
+                .andExpect(jsonPath("$.data.content[1].magasinId").value(2L))
+                .andExpect(jsonPath("$.data.content[1].libele").value("Boulangerie Delice"));
+    }
+    * */
 
     @Test
     void showSuccess() throws Exception {
@@ -103,28 +187,43 @@ class ProduitControllerTest {
     }
 
 
-    /*@Test
+  /* @Test
     void store() throws Exception {
+        //Categorie
+        Categorie defaultCategorie = new Categorie("default categorie");
+
+        //Type produit et taille
+        TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
+        Taille defaultTaille = new Taille("default taille");
+        defaultTypeProduit.addTaille(defaultTaille);
+
+        //Couelur
+        Couleur defaultCouleur = new Couleur("default couleur");
+
+        //Image
+       //Imaage
+       List<Image> images = new ArrayList<>();
+       Image defaultImage = new Image("image/png","/Users/esprit/www_java/projet_personnel_b3/afrimeta/afrimeta_server/src/main/resources/uploads/defaultImage.png","defaultImage.png");
+       images.add(defaultImage);
+
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(null, "Apple iPhone 14", "Latest model with advanced features", 50, "http://example.com/image1.jpg", 999.99, null, null, null, website1,null);
+//        ProduitDto produitDto = new ProduitDto(null, "Apple iPhone 14", "Latest model with advanced features", 50, 22, LocalDate.now(), defaultCategorie, defaultTypeProduit, website1, null,images,null,null);
 
         String jsonDto = objectMapper.writeValueAsString(produitDto);
         //object
-        Produit produitToSave = new Produit(
-                produitDto.produitId(),
-                produitDto.titre(),
-                produitDto.description(),
-                produitDto.quantiteStock(),
-                produitDto.imageUrl(),
-                produitDto.prix(),
-                produitDto.dateAjout(),
-                produitDto.categorie(),
-                produitDto.typeProduit(),
-                produitDto.website()
-        );
+        Produit produitToSave = new Produit(null,produitDto.titre(),produitDto.description(),produitDto.quantiteStock(),produitDto.prix(), LocalDate.now(),defaultCategorie,defaultTypeProduit,website1);
+
+
+
+        //Save all into produit
+        produitToSave.setCategorie(defaultCategorie);
+        produitToSave.setTypeProduit(defaultTypeProduit);
+        produitToSave.setImages(images);
+        produitToSave.addCouleur(defaultCouleur);
+
         //given
-        given(this.produitService.save(produitToSave,null)).willReturn(produitToSave);
+        given(this.produitService.save(produitToSave)).willReturn(produitToSave);
         //when and then
         mockMvc.perform(MockMvcRequestBuilders.post(url+"/produits")
                         .contentType(MediaType.APPLICATION_JSON)

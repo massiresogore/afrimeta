@@ -3,7 +3,6 @@ package com.msr.cg.afrimeta.produit.dto.converter;
 import com.msr.cg.afrimeta.categorie.converter.CategorieToCategorieDtoConverter;
 import com.msr.cg.afrimeta.categorie.dto.CategorieResponse;
 import com.msr.cg.afrimeta.couleur.dto.CouleurResponse;
-import com.msr.cg.afrimeta.image.ImageService;
 import com.msr.cg.afrimeta.produit.Produit;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitResponse;
 import com.msr.cg.afrimeta.typeproduit.converter.TypeProduitToTypeProduitDtoConverter;
@@ -20,47 +19,16 @@ public class ProduitToProduitDtoConverter implements Converter<Produit, ProduitR
     private final WebsiteToWebsiteDtoConverter websiteToWebsiteDtoConverter;
     private final CategorieToCategorieDtoConverter categorieToCategorieDtoConverter;
     private final TypeProduitToTypeProduitDtoConverter typeProduitToTypeProduitDtoConverter;
-    private final ImageService imageService;
 
-    public ProduitToProduitDtoConverter(WebsiteToWebsiteDtoConverter websiteToWebsiteDtoConverter, CategorieToCategorieDtoConverter categorieToCategorieDtoConverter, TypeProduitToTypeProduitDtoConverter typeProduitToTypeProduitDtoConverter, ImageService imageService) {
+    public ProduitToProduitDtoConverter(WebsiteToWebsiteDtoConverter websiteToWebsiteDtoConverter, CategorieToCategorieDtoConverter categorieToCategorieDtoConverter, TypeProduitToTypeProduitDtoConverter typeProduitToTypeProduitDtoConverter) {
         this.websiteToWebsiteDtoConverter = websiteToWebsiteDtoConverter;
         this.categorieToCategorieDtoConverter = categorieToCategorieDtoConverter;
         this.typeProduitToTypeProduitDtoConverter = typeProduitToTypeProduitDtoConverter;
-        this.imageService = imageService;
     }
 
     @Override
     public ProduitResponse convert(Produit source) {
        List<String> imageNames = source.getImages().stream().map(image -> image.getFilePath()).toList();
-//       List<String> imageNames = source.getImages().stream().map(image -> image.getName()).toList();
-
-     /*  List<List<byte[]>> images = new  ArrayList<>();
-
-        //pour plusieur images
-       for(String name : imageNames ){
-           try {
-                images.add(this.imageService.downloadImageFromFileSystem(name));
-           } catch (IOException e) {
-               throw new RuntimeException(e);
-           }
-       }*/
-
-        //pour une image
-      /* List<byte[]> imageByte =
-
-
-               imageName.stream().map(name -> {
-            try {
-                return this.imageService.downloadImageFromFileSystem(name);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-*/
-//        return null;
-
-        //Website
-
         return new ProduitResponse(
                 source.getProduitId(),
                 source.getTitre(),

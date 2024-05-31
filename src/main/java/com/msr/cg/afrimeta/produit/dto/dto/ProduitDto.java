@@ -26,10 +26,10 @@ public record ProduitDto(
     @Length(max = 500, min = 5)
     String description,
 
-    @Max(100000)
+//    @Max(100000)
     int quantiteStock,
 
-    @DecimalMax("1000000")
+//    @DecimalMax("1000000")
     double prix,
 
     LocalDate dateAjout,

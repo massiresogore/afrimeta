@@ -1,12 +1,8 @@
 package com.msr.cg.afrimeta.website;
 
-import com.msr.cg.afrimeta.produit.Produit;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

@@ -1,3 +1,4 @@
+/*
 package com.msr.cg.afrimeta.image;
 
 import com.msr.cg.afrimeta.produit.Produit;
@@ -58,7 +59,8 @@ public class ImageService implements AfrimetaCrudInterface<Image> {
         return this.imageRepository.selectAllImageByProduitId(produitId);
     }
 
-   /* public String uploadImageToFileSystem(MultipartFile file, String produitId) throws IOException {
+   */
+/* public String uploadImageToFileSystem(MultipartFile file, String produitId) throws IOException {
 
         Produit produit = this.produitService.findById(Long.parseLong(produitId));
         String filePath=this.folderPath+file.getOriginalFilename();
@@ -79,7 +81,8 @@ public class ImageService implements AfrimetaCrudInterface<Image> {
 //            return "Image sauvegarder avec succes : " + filePath;
         }
         return null;
-    } */
+    } *//*
+
     public boolean uploadImageToFileSystem(MultipartFile file, String produitId) throws IOException {
 
         Produit produit = this.produitService.findById(Long.parseLong(produitId));
@@ -119,7 +122,8 @@ public class ImageService implements AfrimetaCrudInterface<Image> {
 
         return imagesListByte;
     }
-   /* //recupère une image par nom
+   */
+/* //recupère une image par nom
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
 //        Optional<FileData> fileData = fileDataRepository.findByName(fileName);
         Image image = this.imageRepository.findByName(fileName);
@@ -129,7 +133,8 @@ public class ImageService implements AfrimetaCrudInterface<Image> {
         byte[] images = Files.readAllBytes(new File(filePath).toPath());
         return images;
     }
-*/
+*//*
+
     //image par produit id
     public List<byte[]> downloadImagesFromFileSystem(Long produitId) throws IOException {
         List<Image> fileDatas = this.selectAllImageByProduitId(produitId);
@@ -146,3 +151,4 @@ public class ImageService implements AfrimetaCrudInterface<Image> {
     }
 
 }
+*/

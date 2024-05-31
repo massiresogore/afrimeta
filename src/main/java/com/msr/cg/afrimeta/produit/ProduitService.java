@@ -1,12 +1,16 @@
 package com.msr.cg.afrimeta.produit;
 
+//import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.categorie.Categorie;
 import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.image.Image;
+import com.msr.cg.afrimeta.produit.dto.dto.ProduitRequest;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.taille.Taille;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
+import com.msr.cg.afrimeta.website.Website;
+import com.msr.cg.afrimeta.website.WebsiteService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,10 +19,12 @@ import java.util.List;
 
 @Service
 public class ProduitService implements AfrimetaCrudInterface<Produit> {
+    private final WebsiteService websiteService;
 
     private final ProduitRepository repository;
 
-    public ProduitService( ProduitRepository repository) {
+    public ProduitService(WebsiteService websiteService, ProduitRepository repository) {
+        this.websiteService = websiteService;
         this.repository = repository;
     }
 
@@ -44,20 +50,43 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
 
     @Override
     public Produit save(Produit produit) {
+        return null;
+    }
 
+    public Produit save(ProduitRequest produitRequest) {
+        Produit produit = new Produit();
+        produit.setTitre(produitRequest.titre());
+        produit.setDescription(produitRequest.description());
+        produit.setQuantiteStock(produitRequest.quantiteStock());
+        produit.setPrix(produitRequest.prix());
+
+        //Catégorie
         Categorie defaultCategorie = new Categorie("default categorie");
+
+        //Type produit and taille
         TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
         Taille defaultTaille = new Taille("default taille");
         defaultTypeProduit.addTaille(defaultTaille);
+
+        //Couleur
         Couleur defaultCouleur = new Couleur("default couleur");
-        Image defaultImage = new Image("image/png","/Users/esprit/www_java/projet_personnel_b3/afrimeta/afrimeta_server/src/main/resources/uploads/defaultImage.png","defaultImage.png",produit);
+
 
         produit.setCategorie(defaultCategorie);
         produit.setTypeProduit(defaultTypeProduit);
-        produit.addImage(defaultImage);
         produit.addCouleur(defaultCouleur);
 
-        return this.repository.save(produit);
+        //Find Website
+        Website website = this.websiteService.findById(Long.valueOf(produitRequest.websiteId()));
+
+        //Image
+        produit.addImage(new Image());
+        Produit savedProduit = null;
+        if (website != null) {
+            produit.setWebsite(website);
+          savedProduit =  this.repository.save(produit);
+        }
+        return savedProduit;
     }
 
     @Override

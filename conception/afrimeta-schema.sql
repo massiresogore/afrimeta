@@ -83,7 +83,6 @@ create table if not exists produit(
                                       titre varchar(50) not null ,
                                       description TEXT,
                                       quantite_stock int(11),
-                                      image_url varchar (200),
                                       prix numeric(10,2) not null,
                                       date_ajout datetime DEFAULT current_timestamp not null ,
                                       categorie_id int default null,
@@ -117,9 +116,9 @@ create table if not exists couleur(
 
 create table if not exists image(
                                     image_id int primary key auto_increment,
-                                    name varchar(100) not null,
-                                    type varchar(100) not null,
-                                    file_path varchar(150) not null,
+                                    name varchar(100) default null,
+                                    type varchar(100) default null,
+                                    file_path varchar(150) default null,
                                     produit_id int,
                                     key `FK_produit_id`(`produit_id`),
                                     constraint `FK_produit_id` foreign key (`produit_id`) references `produit`(`produit_id`)
@@ -239,5 +238,6 @@ create table  if not exists logo(
                                     logo_name varchar(200) unique not null,
                                     magasin_id int not null
 )ENGINE=InnoDB default CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 SET FOREIGN_KEY_CHECKS = 1;
