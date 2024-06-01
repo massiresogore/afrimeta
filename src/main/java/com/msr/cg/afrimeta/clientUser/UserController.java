@@ -1,8 +1,10 @@
 package com.msr.cg.afrimeta.clientUser;
 
 import com.msr.cg.afrimeta.clientUser.converter.ClientUserDtoToClientUserConverter;
+import com.msr.cg.afrimeta.clientUser.converter.ClientUserRequestToClientUserConverter;
 import com.msr.cg.afrimeta.clientUser.converter.ClientUserToClientUserDtoConverter;
 import com.msr.cg.afrimeta.clientUser.dto.ClientUserDto;
+import com.msr.cg.afrimeta.clientUser.dto.ClientUserRequest;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
 import org.springframework.stereotype.Controller;
@@ -16,13 +18,16 @@ public class UserController {
     private final ClientUserService clientUserService;
     private final ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter;
     private final ClientUserToClientUserDtoConverter clientUserToClientUserDtoConverter;
+    private final ClientUserRequestToClientUserConverter clientUserRequestToClientUserConverter;
+
 
     public UserController(ClientUserService clientUserService,
                           ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter,
-                          ClientUserToClientUserDtoConverter clientUserToClientUserDtoConverter) {
+                          ClientUserToClientUserDtoConverter clientUserToClientUserDtoConverter, ClientUserRequestToClientUserConverter clientUserRequestToClientUserConverter ) {
         this.clientUserService = clientUserService;
         this.clientUserDtoToClientUserConverter = clientUserDtoToClientUserConverter;
         this.clientUserToClientUserDtoConverter = clientUserToClientUserDtoConverter;
+        this.clientUserRequestToClientUserConverter = clientUserRequestToClientUserConverter;
     }
 
     @GetMapping
@@ -79,16 +84,18 @@ public class UserController {
     }
 
     @PostMapping
-    public Result saveUser(@RequestBody ClientUserDto clientUserDto){
-
+    public Result saveUser(ClientUserRequest clientUserRequest){
         return new Result(
                 true,
                 StatusCode.SUCCESS,
                 "user créé",
                 this.clientUserToClientUserDtoConverter
                         .convert(this.clientUserService
-                                .save(this.clientUserDtoToClientUserConverter
-                                        .convert(clientUserDto)))
+                                .save(this.clientUserRequestToClientUserConverter
+                                        .convert(clientUserRequest)
+                                )
+                        )
         );
+
     }
 }

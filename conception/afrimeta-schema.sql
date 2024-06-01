@@ -32,10 +32,10 @@ create table if not exists profile (
 CREATE TABLE if not exists `client_user`(
                                             user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                                             username varchar(30) unique not null ,
-                                            role varchar(50) not null,
+                                            role varchar(50) default "USER" not null ,
                                             email varchar(100) not null unique,
                                             password varchar(100) not null ,
-                                            enable bit(1) default 1,
+                                            enable bit(1) default 1 not null ,
                                             profile_id int default null,
                                             key `FK_profile_id`(`profile_id`),
                                             constraint `FK_profile_id` foreign key (`profile_id`) references `profile`(`profile_id`)
@@ -61,7 +61,7 @@ create table if not exists magasin(
 
 create table if not exists website(
                                       website_id int primary key auto_increment,
-                                      website_url varchar(100) not null,
+                                      website_url varchar(100) default null,
                                       magasin_id int default null,
                                       key `FK_magasin_id` (`magasin_id`),
                                       constraint `FK_magasin_id` foreign key (`magasin_id`) references magasin(`magasin_id`)

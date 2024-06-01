@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>un produit</h1>
+
+<p th:text="${produit.imagePath[0]}" ></p>
+
+<img th:src="${produit.imagePath[0]}" alt="">
+
+
+
+<form method="POST" enctype="multipart/form-data" action="/api/v1/produits/2">
+    <label>titre
+        <input type="text" name="titre">
+    </label>
+    <label>description
+        <input type="text" name="description">
+    </label>
+    <label for="quantiteStock">quantité
+        <input type="text" name="quantiteStock" id="quantiteStock">
+    </label>
+
+    <label for="prix">Prix
+        <input type="number" name="prix" id="prix">
+    </label>
+    <input type="file" name="image" />
+
+    <input type="submit" value="enregistrer" />
+</form>
+
+
+</body>
+</html>

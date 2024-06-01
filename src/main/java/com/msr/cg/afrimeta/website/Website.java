@@ -33,6 +33,7 @@ public class Website {
             fetch = FetchType.LAZY
             ,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.MERGE})
     List<Produit> produits;
+
     public List<Produit> getProduits() {
         return produits;
     }

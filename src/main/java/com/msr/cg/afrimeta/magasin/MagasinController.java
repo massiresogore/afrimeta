@@ -86,7 +86,7 @@ public class MagasinController {
 
     @PostMapping(value = "/{clientId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Result saveMagasin(MagasinRequest magasinRequest) {
-        this.storageService.storeMagasinAndLogoImage(magasinRequest);
+            this.storageService.storeMagasinAndLogoImage(magasinRequest);
         return new Result(
                 true,
                 StatusCode.SUCCESS,

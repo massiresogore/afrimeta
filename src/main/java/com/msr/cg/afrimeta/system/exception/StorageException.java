@@ -1,4 +1,4 @@
-package com.msr.cg.afrimeta.storage;
+package com.msr.cg.afrimeta.system.exception;
 
 public class StorageException extends RuntimeException {
 

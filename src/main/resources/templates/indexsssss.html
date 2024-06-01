@@ -13,14 +13,19 @@
         </table>
     </form>
 </div>
- olololo
-<div>
-    <ul>
-        <li th:each="file : ${files}">
-            <a th:href="${file}" th:text="${file}" />
-        </li>
-    </ul>
-</div>
 
+//All images
+<!--<div>-->
+<!--    <ul>-->
+<!--        <li th:each="file : ${files}">-->
+<!--            <a th:href="${file}" th:text="${file}" />-->
+<!--            <img th:src="${file}" alt="">-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</div>-->
+
+<!--Une Image-->
+<p th:text="${file}"></p>
+<img th:src="${file}" alt="image">
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.msr.cg.afrimeta.produit.dto.dto;
 import com.msr.cg.afrimeta.categorie.dto.CategorieResponse;
 import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.couleur.dto.CouleurResponse;
+import com.msr.cg.afrimeta.image.ImageDto;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.typeproduit.dto.TypeProduitResponse;
 import com.msr.cg.afrimeta.website.Website;
@@ -46,6 +47,6 @@ public record ProduitResponse(
 
     List<List<byte[]>> images,
 
-    List<String> imagePath
+    List<ImageDto> imagePath
 ) {
 }

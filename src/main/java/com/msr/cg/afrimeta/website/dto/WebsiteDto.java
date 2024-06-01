@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record WebsiteDto(
          Long websiteId,
-         @NotNull
          String websiteUrl,
          Magasin magasin
 ) {

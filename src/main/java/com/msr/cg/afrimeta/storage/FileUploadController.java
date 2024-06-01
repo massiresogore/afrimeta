@@ -1,9 +1,7 @@
 package com.msr.cg.afrimeta.storage;
 
 
-import com.msr.cg.afrimeta.magasin.dto.MagasinRequest;
-import com.msr.cg.afrimeta.system.Result;
-import com.msr.cg.afrimeta.system.StatusCode;
+import com.msr.cg.afrimeta.system.exception.StorageFileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -15,29 +13,58 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
-@RestController
+//@RestController
 @RequestMapping("${api.endpoint.base-url}/bataclan/images")
 public class FileUploadController {
 
     private final StorageService storageService;
+    private final Path rootLocation;
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(StorageService storageService, StorageProperties properties) {
         this.storageService = storageService;
+        this.rootLocation =  Paths.get(properties.getLocation());
     }
 
     @GetMapping
+    public String listUploadedFiles(Model model) throws IOException {
+        //+All Image
+       /* model.addAttribute("files",storageService.loadAll().map(
+                        path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                                "serveFile", path.getFileName().toString()).build().toUri().toString())
+                .collect(Collectors.toList()));*/
+
+        //Une Image
+        Path path =  storageService.load("WhatsAppImage2024-04-20at13.04.57(4).jpeg");
+
+       // System.out.println(path);
+
+   String p =   MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+           "serveFile",path.getFileName().toString()).build().toUri().toString();
+        System.out.println(p);
+
+   model.addAttribute("file",p);
+        return "indexsssss";
+    }
+
+  /*   @GetMapping
     public Result listUploadedFiles() throws IOException {
+
         return new Result(true, StatusCode.SUCCESS, "toutes les images", storageService.loadAll().map(
                         path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                                 "serveFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
-    }
+    }*/
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody

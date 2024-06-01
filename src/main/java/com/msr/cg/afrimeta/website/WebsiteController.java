@@ -1,10 +1,12 @@
 package com.msr.cg.afrimeta.website;
 
+import com.msr.cg.afrimeta.magasin.Magasin;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
 import com.msr.cg.afrimeta.website.converter.WebsiteDtoToWebsiteConverter;
 import com.msr.cg.afrimeta.website.converter.WebsiteToWebsiteDtoConverter;
 import com.msr.cg.afrimeta.website.dto.WebsiteDto;
+import com.msr.cg.afrimeta.website.dto.WebsiteRequest;
 import com.msr.cg.afrimeta.website.dto.WebsiteResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -76,7 +78,18 @@ public class WebsiteController {
         return new Result(true,StatusCode.SUCCESS,"website supprimé");
     }
 
-    @PostMapping
+    @PostMapping("/{magasinId}")
+    public Result saveWebsite(WebsiteRequest websiteRequest){
+        return new Result(
+                true,
+                StatusCode.SUCCESS,
+                "website cré",
+                this.websiteToWebsiteDto
+                        .websiteResponse(this.websiteService
+                                .save(this.websiteDtoToWebsite
+                                        .convert(websiteRequest)))
+        );
+    }/* @PostMapping
     public Result saveWebsite(@RequestBody WebsiteDto websiteDto){
 
         return new Result(
@@ -88,7 +101,7 @@ public class WebsiteController {
                                 .save(this.websiteDtoToWebsite
                                         .convert(websiteDto)))
         );
-    }
+    }*/
 
 
 }

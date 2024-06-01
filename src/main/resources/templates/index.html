@@ -5,22 +5,28 @@
     <h2 th:text="${message}"/>
 </div>
 
-<!--
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/">
-            <tr><td>File to upload:</td><td><input type="file" name="logoFile" /></td></tr>
-            <input type="text" name="libele">
-            <input type="text" name="description">
-            <tr><td></td><td><input type="submit" value="valider" /></td></tr>
-    </form>
+<h1>Welcome Massire 😜</h1>
+<!--Magasin-->
+<!--<div>
+    <form method="POST" enctype="multipart/form-data" action="/api/v1/magasins/1">
+        <label for="logoFile">Logo
+            <input type="file" name="logoFile" id="logoFile"/>
+        </label>
 
-            titre
-            description
-            quantiteStock
-            prix
+        <label>Libélé
+            <input type="text" name="libele">
+        </label>
+
+        <label>Description
+            <input type="text" name="description">
+        </label>
+
+        <input type="submit" value="valider" />
+    </form>
 </div>-->
 
-<form method="POST" enctype="multipart/form-data" action="/api/v1/produits/1">
+<!--Produit-->
+<!--<form method="POST" enctype="multipart/form-data" action="/api/v1/produits/2">
     <label>titre
         <input type="text" name="titre">
     </label>
@@ -37,7 +43,30 @@
     <input type="file" name="image" />
 
     <input type="submit" value="enregistrer" />
-</form>
+</form>-->
 
+<!--Website-->
+<!--<form method="POST" action="/api/v1/website/2">-->
+<!--    <label>Websiye url-->
+<!--        <input type="text" name="websiteUrl">-->
+<!--    </label>-->
+<!--    <input type="submit" value="enregistrer" />-->
+<!--</form>-->
+
+
+
+<!--User-->
+<!--<form method="POST" action="/api/v1/users">
+    <label>username
+        <input type="text" value="msi" name="username">
+    </label>
+    <label>email
+        <input type="email" value="msi@gmail.com" name="email">
+    </label>
+    <label>password
+        <input type="password" value="123456" name="password">
+    </label>
+    <input type="submit" value="enregistrer" />
+</form>-->
 </body>
 </html>

@@ -7,14 +7,16 @@ import com.msr.cg.afrimeta.produit.dto.dto.ProduitRequest;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitResponse;
 import com.msr.cg.afrimeta.storage.StorageService;
 import com.msr.cg.afrimeta.system.Result;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-
+@CrossOrigin
 @RestController
 @Controller
 @RequestMapping("${api.endpoint.base-url}/produits")
@@ -32,15 +34,15 @@ public class ProduitController{
     }
 
 
-   /* @GetMapping("website/{websiteId}")
+    @GetMapping("website/{websiteId}")
     public Result getAllProduitByWebsiteId(@PathVariable String websiteId) {
         return new Result(
                 true,
                 200,
-                "tous les produits de website",
+                "tous les produits de website N°"+websiteId+"!",
                 this.produitToProduitDtoConverter.convert(this.produitService.selectProduitWithCategorieAndTypeProduitAndImagesByWebsiteId(websiteId))
         );
-    }*/
+    }
 
     //On ajoute un produit appatenant a un website
     // a faire , ajout image avvec id de website
@@ -56,33 +58,9 @@ public class ProduitController{
                 true,
                 200,
                 "produit crée"
-                //,
-//               this.produitToProduitDtoConverter.convert( this.produitService.save(this.produitDtoToProduitConverter.convert(produitDto)))
-//                this.produitToProduitDtoConverter.converterToProduitDto(this.produitService.save(this.produitDtoToProduitConverter.convert(produitDto),produitDto.couleur()))
         );
     }
 
-
-   /* @GetMapping("bataclan")
-    public Result findAllPageable(Pageable pageable) {
-//        List<Produit>  produits =  this.produitService.findAllPageable(pageable).getContent();
-//        List<ProduitDto> produitDtos =this.produitToProduitDtoConverter.convert(produits);
-//        List<Object> data = new ArrayList<>();
-//        Map<String,Object> map = new HashMap<>();
-//        map.put("produits",produitDtos);
-//        map.put("pageable",pageable);
-//        map.put("sort",pageable.getSort());
-//        map.put("numberOfElements",pageable.toLimit());
-
-
-        return new Result(
-                true,
-                200,
-                "tous les produits de website",
-              this.produitService.findAllPageable(pageable)
-
-        );
-    }*/
 
      @GetMapping("bataclan")
     public Result findAllPageable(Pageable pageable) {
@@ -100,38 +78,37 @@ public class ProduitController{
         return new Result(true, 200, "produit supprimé");
     }
 
-    @GetMapping("/{produitId}")
+//    @GetMapping("/{produitId}")
+//    public String show(@PathVariable("produitId") String produitId, Model model) {
+//        model.addAttribute("produit",this.produitToProduitDtoConverter.convert(this.produitService.singleProduitByProduitId(produitId)));
+//
+//        return "produits";
+//
+//
+//    }
+//
+   @GetMapping("/{produitId}")
     public Result show(@PathVariable("produitId") String produitId) {
-       // System.out.println(this.produitService.singleProduitByProduitId(produitId));
         return new Result(
                 true,
                 200,
                 "produit retrouvé",
-                this.produitService.singleProduitByProduitId(produitId)
-                //this.produitService.(this.produitService.findById(Long.valueOf(produitId)))
+                this.produitToProduitDtoConverter.convert(this.produitService.singleProduitByProduitId(produitId))
         );
     }
 
-/*
- @GetMapping("bataclan")
-    public ResultPagination findAllPageable(Pageable pageable) {
-        List<Produit>  produits =  this.produitService.findAllPageable(pageable).getContent();
-        List<ProduitDto> produitDtos =this.produitToProduitDtoConverter.convert(produits);
-        Map<String,Object> map = new HashMap<>();
-        map.put("produits",produitDtos);
-        map.put("pageable",pageable);
-        map.put("sort",pageable.getSort());
-        map.put("numberOfElements",pageable.toLimit());
-
-        return new ResultPagination(
+  /*  @PatchMapping("/{produitId}")
+    public Result update(@PathVariable("produitId") String produitId,@Valid @RequestBody ProduitDto produitDto) {
+      Produit produitUpdated =  this.produitService.update(this.produitDtoToProduitConverter.convert(produitDto), Long.valueOf(produitId));
+        System.out.println(produitUpdated);
+        return new Result(
                 true,
                 200,
-                "tous les produits de website",
-                    map
+                "produit mis a jour"//,
+                //this.produitDtoSercice.converterToProduitDto(this.produitService.update(this.produitDtoToProduitConverter.convert(produitDto), Long.valueOf(produitId)))
         );
-    }
+    }*/
 
-*/
 
 
    /*@GetMapping("/{produitId}")
@@ -144,15 +121,7 @@ public class ProduitController{
                 this.produitDtoSercice.converterToProduitDtoList(this.produitService.findById(Long.valueOf(produitId)))
         );
     }*/
-    /* @PostMapping
-    public Result store(@RequestBody ProduitDto produitDto) {
-        return new Result(
-                true,
-                200,
-                "produit crée",
-                this.produitDtoSercice.converterToProduitDto(this.produitService.save(this.produitDtoToProduitConverter.convert(produitDto),produitDto.couleur()))
-        );
-    }
+    /*
 
     @PatchMapping("/{produitId}")
     public Result update(@PathVariable("produitId") String produitId,@Valid @RequestBody ProduitDto produitDto) {
@@ -163,6 +132,7 @@ public class ProduitController{
                 this.produitDtoSercice.converterToProduitDto(this.produitService.update(this.produitDtoToProduitConverter.convert(produitDto), Long.valueOf(produitId)))
         );
     }
+
     @DeleteMapping("/{produitId}")
     public Result delete(@PathVariable("produitId") String produitId) {
         this.produitService.deleteById(Long.valueOf(produitId));

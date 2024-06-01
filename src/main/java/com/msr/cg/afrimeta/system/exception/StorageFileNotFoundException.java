@@ -1,7 +1,4 @@
-package com.msr.cg.afrimeta.storage;
-
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+package com.msr.cg.afrimeta.system.exception;
 
 public class StorageFileNotFoundException extends StorageException {
 

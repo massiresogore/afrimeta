@@ -38,7 +38,6 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
     }
 
     public Produit singleProduitByProduitId (String produitId) throws ObjectNotFoundException {
-                Produit p = this.repository.singleProduitWithCategorieAndTypeProduitByProduitId(Integer.parseInt(produitId));
         return this.repository.singleProduitWithCategorieAndTypeProduitByProduitId(Integer.parseInt(produitId));
     }
 

@@ -11,8 +11,9 @@ import com.msr.cg.afrimeta.magasin.MagasinService;
 import com.msr.cg.afrimeta.magasin.dto.MagasinRequest;
 import com.msr.cg.afrimeta.produit.Produit;
 import com.msr.cg.afrimeta.produit.ProduitRepository;
-import com.msr.cg.afrimeta.produit.ProduitService;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitRequest;
+import com.msr.cg.afrimeta.system.exception.StorageException;
+import com.msr.cg.afrimeta.system.exception.StorageFileNotFoundException;
 import com.msr.cg.afrimeta.taille.Taille;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
@@ -111,7 +112,7 @@ public class FileSystemStorageService implements StorageService {
                 String fileName = file.getOriginalFilename().replace(" ","");
 
                 //Image
-                Image image = new Image(file.getContentType(),filePath,fileName);
+                Image image = new Image(file.getContentType(),String.valueOf(destinationFile),file.getOriginalFilename());
                 produit.addImage(image);
 
                 Files.copy(inputStream, destinationFile,
@@ -131,7 +132,7 @@ public class FileSystemStorageService implements StorageService {
         MultipartFile file = magasinRequest.logoFile();
         try {
             if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file.");
+                throw new StorageException("le logo est obligatoire.");
             }
             Path destinationFile = this.rootLocation.resolve(
                             Paths.get(file.getOriginalFilename()))
@@ -158,7 +159,7 @@ public class FileSystemStorageService implements StorageService {
                 String filePath = String.valueOf(destinationFile).replace(" ","");
                 String fileName = file.getOriginalFilename().replace(" ","");
 
-                logoMapvalue.put(filePath, fileName);
+                logoMapvalue.put(filePath, file.getOriginalFilename());
                 magasin.setLogo(logoMapvalue);
 
                 Files.copy(inputStream, destinationFile,
@@ -208,24 +209,30 @@ public class FileSystemStorageService implements StorageService {
     //exp: [fernando-alvarez-rodriguez-M7GddPqJowg-unsplash.jpg, manuel-moreno-DGa0LQ0yDPc-unsplash.jpg]
     @Override
     public Stream<Path> loadAll() {
-
         try {
             return Files.walk(this.rootLocation, 1)
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(this.rootLocation::relativize);
         }
-
         catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
     }
 
-
-
     @Override
     public Path load(String filename) {
         return rootLocation.resolve(filename);
     }
+
+  /*  public void loadOneFile(String filename) {
+        Path  startPath =  rootLocation.resolve(filename);
+        try (Stream<Path> paths = Files.walk(startPath)) {
+            paths.filter(Files::isRegularFile)
+                    .forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
 
     @Override
     public Resource loadAsResource(String filename) {

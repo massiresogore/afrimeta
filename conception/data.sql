@@ -12,3 +12,13 @@ VALUES
     (null, 'Roux', 'Thomas', '0690123456', '1995-06-18', 'male', '67 Allée des Roses', 'Nantes', '44000', 'France', 'http://example.com/pictures/thomas.jpg', 'Développeur web et amateur de jeux vidéo.'),
     (null, 'Petit', 'Claire', '0601234567', '1982-10-11', 'female', '89 Quai des Chartrons', 'Brest', '29200', 'France', 'http://example.com/pictures/claire.jpg', 'Auteure de romans et de nouvelles, passionnée par lécriture.');
 -- end insert profile
+
+-- insert client
+insert into afrimeta.client_user(user_id, username, role, email, password, enable, profile_id)
+values (null,"hariel","ADMIN","hariel@gmail.com","12345678",1,null);
+-- end insert client
+
+-- insert magasin
+insert into afrimeta.magasin(libele, description, user_id)
+VALUES("Hariel shop","un magasin de luxe",3);
+-- end insert magasin

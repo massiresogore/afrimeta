@@ -586,3 +586,20 @@ expl:     @CollectionTable(name = "logo", joinColumns = @JoinColumn(name = "maga
 
 on aura cette erreur
 unkow column
+
+# FONCTIONNEMENT GLOBALE DU SYSTEM
+- pour inserer un produit on a besoin de website
+- pour inserer un website  on a besoin de magasin
+- pour inserer un magasin on a besoin du client
+
+1. l'étape d'insertion
+* on commence par inserer un client
+* on insert un magasin par la suite
+
+# NOTE BIEN
+        Content-Type 'application/x-www-form-urlencoded;charset=UTF-8' is not supported]
+-   lorsqu'il s'agit du formulaire, il n'est pas necessaire de mettre @requestbody,
+si non on se trouverait avec une erreur du type Content-Type.......
+
+# si on utilise thymeleaf, on doit utiliser l'anotation @Controller
+# si on utilise rest api, on doit utiliser l'anotation @RestController
