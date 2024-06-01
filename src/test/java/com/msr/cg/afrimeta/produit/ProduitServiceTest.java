@@ -93,7 +93,7 @@ class ProduitServiceTest {
     void save() {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(null, "Apple iPhone 14", "Latest model with advanced features", 50,  999.99, null, null, null, website1,null,null,null,null);
+        ProduitDto produitDto = new ProduitDto(null, "Apple iPhone 14", "Latest model with advanced features", 50,  999.99, null, null, null, website1,null,null,null);
 
         //object
         Produit produitToSave = new Produit(
@@ -124,7 +124,7 @@ class ProduitServiceTest {
     void updateById() {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 updated", "Latest model with advanced features", 50,  999.99, null, null, null, website1,null,null,null,null);
+        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 updated", "Latest model with advanced features", 50,  999.99, null, null, null, website1,null,null,null);
 
         //object
         Produit produitToSave = new Produit(
@@ -158,7 +158,7 @@ class ProduitServiceTest {
     void updateByIdNotFound() {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 updated", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null,null,null);
+        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 updated", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null,null);
 
         //object
         Produit produitToSave = new Produit(

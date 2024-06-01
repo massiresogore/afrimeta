@@ -5,16 +5,11 @@ import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
 import com.msr.cg.afrimeta.website.dto.SingleWebsiteResponse;
-import com.msr.cg.afrimeta.website.dto.WebsiteDto;
-import com.msr.cg.afrimeta.website.dto.WebsiteResponse;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 public record ProduitDto(
     Long produitId,
@@ -45,10 +40,8 @@ public record ProduitDto(
 
     List<Couleur> couleurs,
 
-//    Set<Image> images
-//    String[] image
-    List<List<byte[]>> images,
-    List<String> imagePath,
+    List<String> images,
+
     SingleWebsiteResponse websiteUrl
 ) {
 }

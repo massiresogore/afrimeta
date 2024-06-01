@@ -1,7 +1,5 @@
 package com.msr.cg.afrimeta.magasin.converter;
 
-import com.msr.cg.afrimeta.image.ImageDto;
-import com.msr.cg.afrimeta.image.old.ImageServicesre;
 import com.msr.cg.afrimeta.magasin.Magasin;
 import com.msr.cg.afrimeta.magasin.dto.LogoDto;
 import com.msr.cg.afrimeta.magasin.dto.MagasinResponse;
@@ -14,8 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -74,13 +70,11 @@ public class MagasinToMagasinDtoConverter implements Converter<Magasin, MagasinD
 
         //Récupère la value
         for (Map.Entry<String, String> entry : logoMap.entrySet()) {
-            System.out.println("la clé est :"+entry.getKey() + ", et la valeur est " + entry.getValue());
-
+//            System.out.println("la clé est :"+entry.getKey() + ", et la valeur est " + entry.getValue());
             Path path = this.storageService.load(entry.getValue());
             logoDto = new LogoDto(
                     entry.getValue(), MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                     "serveFile",path.getFileName().toString()).build().toUri().toString()
-
             );
         }
         return logoDto;

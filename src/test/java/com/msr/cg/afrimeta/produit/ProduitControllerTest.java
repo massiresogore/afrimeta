@@ -243,7 +243,7 @@ class ProduitControllerTest {
     void updateSuccess() throws Exception {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 update", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null,null,null);
+        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 update", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null,null);
 
         String jsonDto = objectMapper.writeValueAsString(produitDto);
         //object
@@ -279,7 +279,7 @@ class ProduitControllerTest {
     void updateNotSuccess() throws Exception {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
-        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 update", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null,null,null);
+        ProduitDto produitDto = new ProduitDto(1L, "Apple iPhone 14 update", "Latest model with advanced features", 50, 999.99, null, null, null, website1,null,null,null);
 
         String jsonDto = objectMapper.writeValueAsString(produitDto);
         //object

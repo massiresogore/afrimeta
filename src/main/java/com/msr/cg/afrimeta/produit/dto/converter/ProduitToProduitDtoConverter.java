@@ -59,7 +59,6 @@ public class ProduitToProduitDtoConverter implements Converter<Produit, ProduitR
                 new TypeProduitResponse(source.getTypeProduit().getTypeProduitId(),source.getTypeProduit().getNom()),
                 new SingleWebsiteResponse(source.getWebsite().getWebsiteId(),source.getWebsite().getWebsiteUrl()),
                 source.getCouleurs().stream().map(couleur-> new CouleurResponse(couleur.getCouleurId(), couleur.getNom())).toList(),
-                null,
                 images
         );
 

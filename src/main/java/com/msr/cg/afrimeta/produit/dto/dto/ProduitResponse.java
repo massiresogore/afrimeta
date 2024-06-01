@@ -1,12 +1,9 @@
 package com.msr.cg.afrimeta.produit.dto.dto;
 
 import com.msr.cg.afrimeta.categorie.dto.CategorieResponse;
-import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.couleur.dto.CouleurResponse;
 import com.msr.cg.afrimeta.image.ImageDto;
-import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.typeproduit.dto.TypeProduitResponse;
-import com.msr.cg.afrimeta.website.Website;
 import com.msr.cg.afrimeta.website.dto.SingleWebsiteResponse;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Max;
@@ -45,8 +42,6 @@ public record ProduitResponse(
 
     List<CouleurResponse> couleurs,
 
-    List<List<byte[]>> images,
-
-    List<ImageDto> imagePath
+    List<ImageDto> images
 ) {
 }
