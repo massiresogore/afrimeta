@@ -40,14 +40,7 @@ public class MagasinController {
                 true,
                 StatusCode.SUCCESS,
                 "tous les magasins",
-                this.magasinService
-                        .findAll(pageable).map(magasin -> new MagasinResponse(
-                            magasin.getMagasinId(),
-                            magasin.getLibele(),
-                            magasin.getDescription(),
-                            magasin.getLogo(),
-                            magasin.getClientUser().getUser_id()
-                        ))
+                this.magasinToDto.convert(this.magasinService.findAll(pageable))
         );
     }
 

@@ -6,7 +6,7 @@ public record MagasinResponse(
         Long magasinId,
         String libele,
         String description,
-        Map<String,String> logo,
+        LogoDto logo,
         Long clientUser
 ) {
 }

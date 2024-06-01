@@ -42,7 +42,7 @@ public class ProduitToProduitDtoConverter implements Converter<Produit, ProduitR
                         return null;
                     }
                     Path retrievedPath = this.fileSystemStorageService.load(image.getName());
-                    return    new ImageDto(image.getImageId(),MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                    return    new ImageDto(image.getName(),MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                                "serveFile",retrievedPath.getFileName().toString()).build().toUri().toString());
                 }
 
