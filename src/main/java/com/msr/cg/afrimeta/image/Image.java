@@ -41,10 +41,10 @@ public class Image {
         this.imageId = imageId;
     }
 
-    public Image(String type, String path, String image) {
+    public Image(String type, String path, String name) {
         this.type = type;
         this.filePath = path;
-        this.name = image;
+        this.name = name;
     }
 
     public void addProduct(Produit produit) {

@@ -35,18 +35,23 @@ public class ProduitToProduitDtoConverter implements Converter<Produit, ProduitR
 
     @Override
     public ProduitResponse convert(Produit source) {
+        List<ImageDto> images = null;
 
-        List<ImageDto> images = source.getImages().stream().map(
-                image -> {
-                    if(image.getName()==null){
-                        return null;
+        if (source.getImages() != null) {
+            images = source.getImages().stream().map(
+                    image -> {
+                        if(image.getName()==null){
+                            return null;
+                        }
+                        Path retrievedPath = this.fileSystemStorageService.load(image.getName());
+                        return    new ImageDto(image.getName(),MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                                "serveFile",retrievedPath.getFileName().toString()).build().toUri().toString());
                     }
-                    Path retrievedPath = this.fileSystemStorageService.load(image.getName());
-                    return    new ImageDto(image.getName(),MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-                               "serveFile",retrievedPath.getFileName().toString()).build().toUri().toString());
-                }
 
-        ).toList();
+            ).toList();
+        }
+
+
 
         return new ProduitResponse(
                 source.getProduitId(),

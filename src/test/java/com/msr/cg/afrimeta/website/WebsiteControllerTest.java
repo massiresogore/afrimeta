@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msr.cg.afrimeta.clientUser.ClientUser;
 import com.msr.cg.afrimeta.magasin.Magasin;
+import com.msr.cg.afrimeta.magasin.MagasinService;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.website.dto.WebsiteDto;
 import org.hamcrest.Matchers;
@@ -39,6 +40,9 @@ class WebsiteControllerTest {
 
     @MockBean
     private WebsiteService websiteService;
+
+    @MockBean
+    MagasinService magasinService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -208,9 +212,11 @@ class WebsiteControllerTest {
                 websiteDto.magasin()
         );
 
+        given(this.magasinService.findById(1L)).willReturn(magasin1);
+
         given(this.websiteService.save(Mockito.any(Website.class))).willReturn(website);
         //When and Then
-        mockMvc.perform(MockMvcRequestBuilders.post(url+"/website")
+        mockMvc.perform(MockMvcRequestBuilders.post(url+"/website/{magasinId}",1)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonWebsite)
                         .contentType(MediaType.APPLICATION_JSON)

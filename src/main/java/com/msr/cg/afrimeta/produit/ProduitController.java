@@ -49,10 +49,11 @@ public class ProduitController{
     @PostMapping("/{websiteId}")
     public Result store(ProduitRequest produitRequest) {
 
+        Produit produit = produitDtoToProduitConverter.convert(produitRequest);
         if(produitRequest.image().getSize()>0){
            this.storageService.storeProduitAndImage(produitRequest);
         }else {
-            this.produitService.save(produitRequest);
+            this.produitService.save(produit);
         }
         return new Result(
                 true,
