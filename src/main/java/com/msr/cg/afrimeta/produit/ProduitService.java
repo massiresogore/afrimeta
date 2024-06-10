@@ -20,7 +20,6 @@ import java.util.List;
 @Service
 public class ProduitService implements AfrimetaCrudInterface<Produit> {
     private final WebsiteService websiteService;
-
     private final ProduitRepository repository;
 
     public ProduitService(WebsiteService websiteService, ProduitRepository repository) {
@@ -49,43 +48,7 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
 
     @Override
     public Produit save(Produit produit) {
-        return null;
-    }
-
-    public Produit save(ProduitRequest produitRequest) {
-        Produit produit = new Produit();
-        produit.setTitre(produitRequest.titre());
-        produit.setDescription(produitRequest.description());
-        produit.setQuantiteStock(produitRequest.quantiteStock());
-        produit.setPrix(produitRequest.prix());
-
-        //Catégorie
-        Categorie defaultCategorie = new Categorie("default categorie");
-
-        //Type produit and taille
-        TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
-        Taille defaultTaille = new Taille("default taille");
-        defaultTypeProduit.addTaille(defaultTaille);
-
-        //Couleur
-        Couleur defaultCouleur = new Couleur("default couleur");
-
-
-        produit.setCategorie(defaultCategorie);
-        produit.setTypeProduit(defaultTypeProduit);
-        produit.addCouleur(defaultCouleur);
-
-        //Find Website
-        Website website = this.websiteService.findById(Long.valueOf(produitRequest.websiteId()));
-
-        //Image
-        produit.addImage(new Image());
-        Produit savedProduit = null;
-        if (website != null) {
-            produit.setWebsite(website);
-          savedProduit =  this.repository.save(produit);
-        }
-        return savedProduit;
+        return this.repository.save(produit);
     }
 
     @Override

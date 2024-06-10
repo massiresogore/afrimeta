@@ -1,12 +1,28 @@
 package com.msr.cg.afrimeta.produit.dto.converter;
 
+import com.msr.cg.afrimeta.categorie.Categorie;
+import com.msr.cg.afrimeta.couleur.Couleur;
+import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.produit.Produit;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitDto;
+import com.msr.cg.afrimeta.produit.dto.dto.ProduitRequest;
+import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
+import com.msr.cg.afrimeta.system.exception.WebsiteNotFoundException;
+import com.msr.cg.afrimeta.taille.Taille;
+import com.msr.cg.afrimeta.typeproduit.TypeProduit;
+import com.msr.cg.afrimeta.website.Website;
+import com.msr.cg.afrimeta.website.WebsiteService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProduitDtoToProduitConverter implements Converter<ProduitDto, Produit> {
+    private final WebsiteService websiteService;
+
+    public ProduitDtoToProduitConverter(WebsiteService websiteService) {
+        this.websiteService = websiteService;
+    }
+
     /**
      * Convert the source object of type {@code S} to target type {@code T}.
      *
@@ -27,5 +43,41 @@ public class ProduitDtoToProduitConverter implements Converter<ProduitDto, Produ
                 source.typeProduit(),
                 source.website()
         );
+    }
+
+    public Produit convert(ProduitRequest produitRequest) {
+        Produit produit = new Produit();
+        produit.setTitre(produitRequest.titre());
+        produit.setDescription(produitRequest.description());
+        produit.setQuantiteStock(produitRequest.quantiteStock());
+        produit.setPrix(produitRequest.prix());
+
+        //Catégorie
+        Categorie defaultCategorie = new Categorie("default categorie");
+
+        //Type produit and taille
+        TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
+        Taille defaultTaille = new Taille("default taille");
+        defaultTypeProduit.addTaille(defaultTaille);
+
+        //Couleur
+        Couleur defaultCouleur = new Couleur("default couleur");
+        produit.setCategorie(defaultCategorie);
+        produit.setTypeProduit(defaultTypeProduit);
+        produit.addCouleur(defaultCouleur);
+
+        //Find Website
+        Website website = this.websiteService.findById(Long.valueOf(produitRequest.websiteId()));
+
+        if (website == null) {
+            throw new WebsiteNotFoundException("Nous ne pouvons pas enregistrer un produit n'appartenant a aucun besite");
+        }
+        produit.setWebsite(website);
+
+        //Image
+        produit.addImage(new Image());
+
+        return produit;
+
     }
 }

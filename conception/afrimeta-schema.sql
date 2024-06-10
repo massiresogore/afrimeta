@@ -240,4 +240,14 @@ create table  if not exists logo(
 )ENGINE=InnoDB default CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+create table if not exists facture(
+    facture_id int primary key auto_increment,
+    facture_date datetime default current_timestamp not null,
+    total_hors_taxe int,
+    total_tout_taxe_comprise int,
+    total_tva int
+)ENGINE=InnoDB default CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
 SET FOREIGN_KEY_CHECKS = 1;

@@ -600,6 +600,8 @@ unkow column
         Content-Type 'application/x-www-form-urlencoded;charset=UTF-8' is not supported]
 -   lorsqu'il s'agit du formulaire, il n'est pas necessaire de mettre @requestbody,
 si non on se trouverait avec une erreur du type Content-Type.......
+- si on utilise postman, les données avec json, il faut impérativent précéder le model qui contient 
+les données avec l'annotation @RequestBody
 
 # si on utilise thymeleaf, on doit utiliser l'anotation @Controller
 # si on utilise rest api, on doit utiliser l'anotation @RestController

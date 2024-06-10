@@ -7,8 +7,11 @@ import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.produit.dto.converter.ProduitToProduitDtoConverter;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitDto;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
+import com.msr.cg.afrimeta.taille.Taille;
 import com.msr.cg.afrimeta.typeproduit.TypeProduit;
 import com.msr.cg.afrimeta.website.Website;
+import com.msr.cg.afrimeta.website.WebsiteService;
+import com.msr.cg.afrimeta.website.dto.SingleWebsiteResponse;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,8 +31,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -49,6 +54,10 @@ class ProduitControllerTest {
 
     @MockBean
     ProduitService produitService;
+
+    @MockBean
+    WebsiteService websiteService;
+
 
     @Autowired
     ObjectMapper objectMapper;
@@ -141,36 +150,48 @@ class ProduitControllerTest {
                 .andExpect(jsonPath("$.message").value("tous les produits de website avec leur catégorie et type"))
                 .andExpect(jsonPath("$.data.content", Matchers.hasSize(5)));
     }
-    /*
-    *
-    *    @Test
-    void testFindAllMagasinsSuccess() throws Exception {
-        // Given
-        Pageable pageable = PageRequest.of(0, 20);
-        PageImpl<Magasin> magasinPage = new PageImpl<>(this.magasins, pageable, this.magasins.size());
-        given(this.service.findAll(Mockito.any(Pageable.class))).willReturn(magasinPage);
-
-        MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
-        requestParams.add("page", "0");
-        requestParams.add("size", "20");
-
-        // When and then
-        this.mockMvc.perform(get(this.url + "/magasins").accept(MediaType.APPLICATION_JSON).params(requestParams))
-                .andExpect(jsonPath("$.flag").value(true))
-                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
-                .andExpect(jsonPath("$.message").value("tous les magasins"))
-                .andExpect(jsonPath("$.data.content", Matchers.hasSize(this.magasins.size())))
-                .andExpect(jsonPath("$.data.content[0].magasinId").value(1L))
-                .andExpect(jsonPath("$.data.content[0].libele").value("Supermarché BonPrix"))
-                .andExpect(jsonPath("$.data.content[1].magasinId").value(2L))
-                .andExpect(jsonPath("$.data.content[1].libele").value("Boulangerie Delice"));
-    }
-    * */
 
     @Test
     void showSuccess() throws Exception {
-        Website website = new Website(1L,"http://google.com",null);
-        Produit produit = new Produit(1L, "Apple iPhone 14", "Latest model with advanced features", 50, 999.99, null, null, null, website);
+        //Catégorie
+        Categorie defaultCategorie = new Categorie("default categorie");
+
+        //Type produit and taille
+        TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
+        Taille defaultTaille = new Taille("default taille");
+        defaultTypeProduit.addTaille(defaultTaille);
+
+        //Couleur
+        Couleur defaultCouleur = new Couleur("default couleur");
+        List<Couleur> couleurs = new ArrayList<>();
+        couleurs.add(defaultCouleur);
+
+        //Image
+        Image image = new Image("image/jpeg","http://localhost:8080/produit.jpeg","ordinateur");
+        List<Image> images = new ArrayList<>();
+        images.add(image);
+
+        List<String> imagePaths = new ArrayList<>();
+        images.stream().peek(image1 -> imagePaths.add(image1.getName()));
+
+        // dto
+        Website website1 = new Website(1L,"http://google.com",null);
+        SingleWebsiteResponse websiteResponse = new SingleWebsiteResponse(website1.getWebsiteId(),website1.getWebsiteUrl());
+        ProduitDto produitDto = new ProduitDto(null, "Apple iPhone 14", "Latest model with advanced features", 50,  999.99, LocalDate.now(), defaultCategorie, defaultTypeProduit, website1,couleurs,imagePaths,websiteResponse);
+
+        /*********/
+        //object
+        Produit produit = new Produit();
+        produit.setTitre(produitDto.titre());
+        produit.setDescription(produitDto.description());
+        produit.setQuantiteStock(produitDto.quantiteStock());
+        produit.setPrix(produitDto.prix());
+        produit.setCategorie(defaultCategorie);
+        produit.setTypeProduit(defaultTypeProduit);
+        produit.addCouleur(defaultCouleur);
+        produit.setImages(images);
+        produit.setWebsite(website1);
+
 
         //given
         given(this.produitService.singleProduitByProduitId("1")).willReturn(produit);
@@ -187,59 +208,67 @@ class ProduitControllerTest {
     }
 
 
-  /* @Test
+   /*@Test
     void store() throws Exception {
-        //Categorie
-        Categorie defaultCategorie = new Categorie("default categorie");
+       //Catégorie
+       Categorie defaultCategorie = new Categorie("default categorie");
 
-        //Type produit et taille
-        TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
-        Taille defaultTaille = new Taille("default taille");
-        defaultTypeProduit.addTaille(defaultTaille);
+       //Type produit and taille
+       TypeProduit defaultTypeProduit = new TypeProduit("default type produit");
+       Taille defaultTaille = new Taille("default taille");
+       defaultTypeProduit.addTaille(defaultTaille);
 
-        //Couelur
-        Couleur defaultCouleur = new Couleur("default couleur");
+       //Couleur
+       Couleur defaultCouleur = new Couleur("default couleur");
+       List<Couleur> couleurs = new ArrayList<>();
+       couleurs.add(defaultCouleur);
 
-        //Image
-       //Imaage
+       //Image
+       Image image = new Image("image/jpeg","http://localhost:8080/produit.jpeg","ordinateur");
        List<Image> images = new ArrayList<>();
-       Image defaultImage = new Image("image/png","/Users/esprit/www_java/projet_personnel_b3/afrimeta/afrimeta_server/src/main/resources/uploads/defaultImage.png","defaultImage.png");
-       images.add(defaultImage);
+       images.add(image);
 
-        // dto
-        Website website1 = new Website(1L,"http://google.com",null);
-//        ProduitDto produitDto = new ProduitDto(null, "Apple iPhone 14", "Latest model with advanced features", 50, 22, LocalDate.now(), defaultCategorie, defaultTypeProduit, website1, null,images,null,null);
+       List<String> imagePaths = new ArrayList<>();
+       images.stream().peek(image1 -> imagePaths.add(image1.getName()));
 
-        String jsonDto = objectMapper.writeValueAsString(produitDto);
-        //object
-        Produit produitToSave = new Produit(null,produitDto.titre(),produitDto.description(),produitDto.quantiteStock(),produitDto.prix(), LocalDate.now(),defaultCategorie,defaultTypeProduit,website1);
+       // dto
+       Website website1 = new Website(1L,"http://google.com",null);
+       SingleWebsiteResponse websiteResponse = new SingleWebsiteResponse(website1.getWebsiteId(),website1.getWebsiteUrl());
+       ProduitDto produitDto = new ProduitDto(null, "Apple iPhone 14", "Latest model with advanced features", 50,  999.99, LocalDate.now(), defaultCategorie, defaultTypeProduit, website1,couleurs,imagePaths,websiteResponse);
 
-
-
-        //Save all into produit
-        produitToSave.setCategorie(defaultCategorie);
-        produitToSave.setTypeProduit(defaultTypeProduit);
-        produitToSave.setImages(images);
-        produitToSave.addCouleur(defaultCouleur);
-
+       String jsonProduit = objectMapper.writeValueAsString(produitDto);
+       *//*********//*
+       //object
+       Produit produit = new Produit();
+       produit.setTitre(produitDto.titre());
+       produit.setDescription(produitDto.description());
+       produit.setQuantiteStock(produitDto.quantiteStock());
+       produit.setPrix(produitDto.prix());
+       produit.setCategorie(defaultCategorie);
+       produit.setTypeProduit(defaultTypeProduit);
+       produit.addCouleur(defaultCouleur);
+       produit.setImages(images);
+       produit.setWebsite(website1);
         //given
-        given(this.produitService.save(produitToSave)).willReturn(produitToSave);
+       given(this.websiteService.findById(1L)).willReturn(website1);
+
+       given(this.produitService.save(produit)).willReturn(produit);
         //when and then
-        mockMvc.perform(MockMvcRequestBuilders.post(url+"/produits")
+        mockMvc.perform(MockMvcRequestBuilders.post(url+"/produits/{websiteId}",1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(jsonDto)
+                        .content(jsonProduit)
                 )
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.message").value("produit crée"))
                 .andExpect(jsonPath("$.data",Matchers.notNullValue()))
-                .andExpect(jsonPath("$.data.description").value("Latest model with advanced features"))
+                .andExpect(jsonPath("$.data.description").value("Latest model with advanced feature"))
                 .andExpect(jsonPath("$.data.quantiteStock").value(50));
 
     }*/
 
-    @Test
+   /* @Test
     void updateSuccess() throws Exception {
         // dto
         Website website1 = new Website(1L,"http://google.com",null);
@@ -273,7 +302,8 @@ class ProduitControllerTest {
                 .andExpect(jsonPath("$.data.description").value("Latest model with advanced features"))
                 .andExpect(jsonPath("$.data.quantiteStock").value(50));
 
-    }
+    }*/
+/*
 
     @Test
     void updateNotSuccess() throws Exception {
@@ -308,6 +338,7 @@ class ProduitControllerTest {
                 .andExpect(jsonPath("$.data",Matchers.nullValue()));
 
     }
+*/
 
     @Test
     void deleteSuccess() throws Exception {

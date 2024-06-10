@@ -45,4 +45,5 @@ public class WebsiteDtoToWebsiteConverter implements Converter<WebsiteDto, Websi
     public Website convert(WebsiteRequest websiteRequest) {
         return new Website(websiteRequest.websiteUrl(), this.magasinService.findById(Long.parseLong(websiteRequest.magasinId())));
     }
+
 }
