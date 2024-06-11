@@ -605,3 +605,5 @@ les données avec l'annotation @RequestBody
 
 # si on utilise thymeleaf, on doit utiliser l'anotation @Controller
 # si on utilise rest api, on doit utiliser l'anotation @RestController
+
+# doThrow est utiliser dans le controller

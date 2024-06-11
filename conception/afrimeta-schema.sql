@@ -32,7 +32,7 @@ create table if not exists profile (
 CREATE TABLE if not exists `client_user`(
                                             user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                                             username varchar(30) unique not null ,
-                                            role varchar(50) default "USER" not null ,
+                                            role varchar(50) default 'USER' not null ,
                                             email varchar(100) not null unique,
                                             password varchar(100) not null ,
                                             enable bit(1) default 1 not null ,
@@ -247,6 +247,25 @@ create table if not exists facture(
     total_tout_taxe_comprise int,
     total_tva int
 )ENGINE=InnoDB default CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+create table if not exists commande(
+    commande_id int primary key auto_increment,
+    commande_date datetime default current_timestamp not null ,
+    commande_total numeric not null ,
+    adresse varchar(200) not null ,
+    prix_total numeric(10,2) not null ,
+    nombre_produit int not null ,
+    user_id int not null ,
+    facture_id int not null ,
+    key `FK_user_idc`(`user_id`),
+    key `FK_facture_idc`(`facture_id`),
+    constraint `FK_facture_id` foreign key (`facture_id`) references afrimeta.facture(`facture_id`)
+    on delete no action on update no action ,
+    constraint `FK_user_idc` foreign key (`user_id`) references afrimeta.client_user(`user_id`)
+    on delete no action  on update no action
+
+)ENGINE=InnoDB default CHARSET=utf8mb4 collate=utf8mb4_general_ci;
 
 
 

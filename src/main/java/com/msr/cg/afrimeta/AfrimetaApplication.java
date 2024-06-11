@@ -1,4 +1,7 @@
 package com.msr.cg.afrimeta;
+import com.msr.cg.afrimeta.clientUser.ClientUser;
+import com.msr.cg.afrimeta.commande.Commande;
+import com.msr.cg.afrimeta.commande.CommandeService;
 import com.msr.cg.afrimeta.facture.Facture;
 import com.msr.cg.afrimeta.facture.FactureService;
 import com.msr.cg.afrimeta.facture.dto.FactureDto;
@@ -26,7 +29,12 @@ public class AfrimetaApplication {
 	}
 
     @Bean
-    public CommandLineRunner commandLineRunner(FileSystemStorageService fileSystemStorageService, ProduitService produitService, FactureService factureService) {
+    public CommandLineRunner commandLineRunner(
+            FileSystemStorageService fileSystemStorageService,
+            ProduitService produitService, FactureService factureService,
+            CommandeService commandeService
+
+    ) {
       /*  Website website1 = new Website(null,"http://google.com",null);
         Website website2 = new Website(null,"http://google.com",null);
         Website website3 = new Website(null,"http://google.com",null);
@@ -61,6 +69,18 @@ public class AfrimetaApplication {
         facture.setTotalTva(factureDto2.totalTva());
 
         Facture savedFacture = factureService.save(facture);*/
+
+        /*Test Commande*/
+        //ClientUser
+//        ClientUser clientUser = new ClientUser("emmano","m@gmail.com","MZMZMZMZMZMZZM",true,"ADMIN USER",null);
+//
+//        //Facture
+//        Facture facture = new Facture( LocalDate.now(),22,22,2);
+//
+//        Commande commande1 = new Commande(null,LocalDate.now(),22,"33 rue bandas",22,7,clientUser,facture);
+//
+//        Commande newCommande = commandeService.save(commande1);
+
         return args -> {
             System.out.println("done");
 
