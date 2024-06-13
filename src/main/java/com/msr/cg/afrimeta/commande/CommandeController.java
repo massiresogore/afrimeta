@@ -53,7 +53,6 @@ public class CommandeController {
         //Convert to dto
         CommandeDto commandeDto = this.commandeToCommandeDtoConverter.convert(updateCommande);
 
-//        return new Result(true,StatusCode.SUCCESS,"Commande mis à jour !");
         return new Result(true,StatusCode.SUCCESS,"Commande mis à jour !",commandeDto);
     }
 

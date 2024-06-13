@@ -27,7 +27,7 @@ public class CommndeDtoToCommandeConverter implements Converter<CommandeDto, Com
     @Override
     public Commande convert(CommandeDto source) {
         return new Commande(
-                source.createdAt(),
+                LocalDateTime.parse(source.createdAt()),
                 LocalDateTime.parse(source.updatedAt()),
                 source.commandeTotal(),
                 source.adresse(),

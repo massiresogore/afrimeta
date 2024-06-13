@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +40,9 @@ class CommandeServiceTest {
         //Facture
         Facture facture = new Facture(1L, LocalDate.now(),22,22,2);
 
-        Commande commande1 = new Commande(1L,LocalDate.now(),22,"33 rue bandas",22,7,clientUser);
-        Commande commande2 = new Commande(2L,LocalDate.now(),55,"98 rue dohomet",12,9,clientUser);
-        Commande commande3 = new Commande(3L,LocalDate.now(),7,"8 rue loango",33,4,clientUser);
+        Commande commande1 = new Commande(1L, LocalDateTime.now(),22,"33 rue bandas",22,7,clientUser);
+        Commande commande2 = new Commande(2L,LocalDateTime.now(),55,"98 rue dohomet",12,9,clientUser);
+        Commande commande3 = new Commande(3L,LocalDateTime.now(),7,"8 rue loango",33,4,clientUser);
         commandes.add(commande1);
         commandes.add(commande2);
         commandes.add(commande3);
@@ -92,7 +93,7 @@ class CommandeServiceTest {
         //Facture
         Facture facture = new Facture(1L, LocalDate.now(),22,22,2);
 
-        Commande commande1 = new Commande(1L,LocalDate.now(),22,"33 rue bandas",22,7,clientUser);
+        Commande commande1 = new Commande(1L,LocalDateTime.now(),22,"33 rue bandas",22,7,clientUser);
 
         //given
         given(this.repository.save(Mockito.any(Commande.class))).willReturn(commande1);
@@ -115,7 +116,7 @@ class CommandeServiceTest {
         //Facture
         Facture facture = new Facture(1L, LocalDate.now(),22,22,2);
 
-        Commande commande1 = new Commande(1L,LocalDate.now(),22,"33 rue bandas",22,7,clientUser);
+        Commande commande1 = new Commande(1L,LocalDateTime.now(),22,"33 rue bandas",22,7,clientUser);
 
         //given
         given(this.repository.findById(1L)).willReturn(Optional.of(commande1));
@@ -139,7 +140,7 @@ class CommandeServiceTest {
         //Facture
         Facture facture = new Facture(1L, LocalDate.now(),22,22,2);
 
-        Commande commande1 = new Commande(12L,LocalDate.now(),22,"33 rue bandas",22,7,clientUser);
+        Commande commande1 = new Commande(12L,LocalDateTime.now(),22,"33 rue bandas",22,7,clientUser);
 
         //given
         given(this.repository.findById(12L)).willReturn(Optional.empty());

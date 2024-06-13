@@ -12,7 +12,7 @@ public record CommandeDto(
         Long commandeId,
 
         @CreationTimestamp
-    LocalDate createdAt,
+        String createdAt,
 
         String updatedAt,
 

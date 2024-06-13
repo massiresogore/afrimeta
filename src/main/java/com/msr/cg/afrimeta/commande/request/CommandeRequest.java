@@ -6,13 +6,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record CommandeRequest(
 
     Long commandeId,
 
     @CreationTimestamp
-    LocalDate commandeDate,
+    LocalDateTime commandeDate,
 
     @NotNull
     @Column(name = "commande_total")

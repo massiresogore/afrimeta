@@ -17,7 +17,7 @@ public class Commande {
 
     @CreationTimestamp
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @CreationTimestamp
     @Column(name = "updated_at")
@@ -61,11 +61,8 @@ public class Commande {
     @JoinColumn(name = "facture_id")
     private Facture facture;*/
 
-    public Commande(){
 
-    }
-
-    public Commande(LocalDate createdAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+    public Commande(LocalDateTime createdAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
         this.createdAt = createdAt;
         this.commandeTotal = commandeTotal;
         this.adresse = adresse;
@@ -74,14 +71,18 @@ public class Commande {
         this.clientUser = clientUser;
     }
 
-    public Commande(Long commandeId, LocalDate createdAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+    public Commande(Long commandeId, LocalDateTime createdAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
         this(createdAt,commandeTotal,adresse,prixTotal,nombreProduit,clientUser);
         this.commandeId = commandeId;
     }
 
-    public Commande( LocalDate createdAt, LocalDateTime updatedAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+    public Commande( LocalDateTime createdAt, LocalDateTime updatedAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
         this(createdAt,commandeTotal,adresse,prixTotal,nombreProduit,clientUser);
         this.updatedAt = updatedAt;
+    }
+
+    public Commande() {
+
     }
 
     public Long getCommandeId() {
@@ -92,11 +93,11 @@ public class Commande {
         this.commandeId = commandeId;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate commandeDate) {
+    public void setCreatedAt(LocalDateTime commandeDate) {
         this.createdAt = commandeDate;
     }
 

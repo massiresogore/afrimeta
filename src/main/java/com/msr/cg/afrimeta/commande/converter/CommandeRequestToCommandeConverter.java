@@ -11,11 +11,9 @@ import org.springframework.stereotype.Component;
 public class CommandeRequestToCommandeConverter implements Converter<CommandeRequest, Commande> {
 
     private final ClientUserService userService;
-    private final FactureService factureService;
 
-    public CommandeRequestToCommandeConverter(ClientUserService userService, FactureService factureService) {
+    public CommandeRequestToCommandeConverter(ClientUserService userService ) {
         this.userService = userService;
-        this.factureService = factureService;
     }
 
     /**
