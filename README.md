@@ -607,3 +607,10 @@ les données avec l'annotation @RequestBody
 # si on utilise rest api, on doit utiliser l'anotation @RestController
 
 # doThrow est utiliser dans le controller
+
+# note d'information pour le fonctionnement des méhode de controlleur
+- les données reçues, Request
+- les données renvoyées, Dto
+- le Dto de Commande est à prendre pour exemple
+- mes réponse des Dtos qui contiennet d'autre entité, doivent etre rendu en Dto aussi, voir
+  CommandeToCommandeDtoConverter LIGNE 37

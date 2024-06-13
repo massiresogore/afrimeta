@@ -1,12 +1,22 @@
 package com.msr.cg.afrimeta.commande.converter;
 
+import com.msr.cg.afrimeta.clientUser.converter.ClientUserDtoToClientUserConverter;
 import com.msr.cg.afrimeta.commande.Commande;
 import com.msr.cg.afrimeta.commande.dto.CommandeDto;
+import com.msr.cg.afrimeta.facture.converter.FactureDtoToFactureConverter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class CommndeDtoToCommandeConverter implements Converter<CommandeDto, Commande> {
+    private final ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter;
+
+    public CommndeDtoToCommandeConverter(ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter ) {
+        this.clientUserDtoToClientUserConverter = clientUserDtoToClientUserConverter;
+    }
+
     /**
      * Convert the source object of type {@code S} to target type {@code T}.
      *
@@ -17,13 +27,12 @@ public class CommndeDtoToCommandeConverter implements Converter<CommandeDto, Com
     @Override
     public Commande convert(CommandeDto source) {
         return new Commande(
-                source.commandeDate(),
+                source.createdAt(),
+                LocalDateTime.parse(source.updatedAt()),
                 source.commandeTotal(),
                 source.adresse(),
                 source.prixTotal(),
                 source.nombreProduit(),
-                source.clientUser(),
-                source.facture()
-        );
+                this.clientUserDtoToClientUserConverter.convert(source.clientUser()));
     }
 }

@@ -1,6 +1,8 @@
 package com.msr.cg.afrimeta.facture;
 
+import com.msr.cg.afrimeta.commande.Commande;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -25,6 +27,13 @@ public class Facture {
     @Column(name = "total_tva")
     double totalTva;
 
+    @NotNull
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    private Commande commande;
+
     public Facture() {
     }
 
@@ -38,6 +47,14 @@ public class Facture {
     public Facture(Long factureId, LocalDate factureDate, double totalHorsTaxe, double totalToutTaxeComprise, double totalTva) {
         this(factureDate, totalHorsTaxe, totalToutTaxeComprise, totalTva);
         this.factureId = factureId;
+    }
+
+    public Facture(LocalDate factureDate, double totalHorsTaxe, double totalToutTaxeComprise, double totalTva, Commande commande) {
+        this.factureDate = factureDate;
+        this.totalHorsTaxe = totalHorsTaxe;
+        this.totalToutTaxeComprise = totalToutTaxeComprise;
+        this.totalTva = totalTva;
+        this.commande = commande;
     }
 
     public Long getFactureId() {
@@ -79,6 +96,15 @@ public class Facture {
     public void setTotalTva(double totalTva) {
         this.totalTva = totalTva;
     }
+
+    public @NotNull Commande getCommande() {
+        return commande;
+    }
+
+    public void setCommande(@NotNull Commande commande) {
+        this.commande = commande;
+    }
+
 
     @Override
     public String toString() {

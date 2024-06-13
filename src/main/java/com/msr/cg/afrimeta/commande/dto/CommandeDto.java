@@ -1,36 +1,34 @@
 package com.msr.cg.afrimeta.commande.dto;
 
-import com.msr.cg.afrimeta.clientUser.ClientUser;
-import com.msr.cg.afrimeta.facture.Facture;
-import jakarta.persistence.*;
+import com.msr.cg.afrimeta.clientUser.dto.ClientUserDto;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
-public record CommandeDto (
+public record CommandeDto(
 
-    Long commandeId,
+        Long commandeId,
 
-    @CreationTimestamp
-    LocalDate commandeDate,
+        @CreationTimestamp
+    LocalDate createdAt,
 
-    @NotNull
+        String updatedAt,
+
+        @NotNull
     @Column(name = "commande_total")
     int commandeTotal,
 
-    @NotNull
+        @NotNull
     String adresse,
 
-    @NotNull
+        @NotNull
     double prixTotal,
 
-    @NotNull
+        @NotNull
     int nombreProduit,
 
-    @NotNull
-    ClientUser clientUser,
-
-    @NotNull
-    Facture facture
+        @NotNull
+    ClientUserDto clientUser
 ){}

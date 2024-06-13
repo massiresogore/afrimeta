@@ -1,12 +1,12 @@
 package com.msr.cg.afrimeta.commande;
 
 import com.msr.cg.afrimeta.clientUser.ClientUser;
-import com.msr.cg.afrimeta.facture.Facture;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "commande")
@@ -16,8 +16,12 @@ public class Commande {
     private Long commandeId;
 
     @CreationTimestamp
-    @Column(name = "commande_date")
-    private LocalDate commandeDate;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+
+    @CreationTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @NotNull
     @Column(name = "commande_total")
@@ -48,36 +52,36 @@ public class Commande {
     @JoinColumn(name = "user_id")
     private ClientUser clientUser;
 
-    @NotNull
-    @ManyToOne(
+    /*@NotNull
+    @OneToOne(
+            mappedBy = "commande",
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.DETACH,
-                    CascadeType.MERGE,
-                    CascadeType.REFRESH,
-                    CascadeType.PERSIST
-            }
+            cascade = CascadeType.ALL
     )
     @JoinColumn(name = "facture_id")
-    private Facture facture;
+    private Facture facture;*/
 
     public Commande(){
 
     }
 
-    public Commande(LocalDate commandeDate, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser, Facture facture) {
-        this.commandeDate = commandeDate;
+    public Commande(LocalDate createdAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+        this.createdAt = createdAt;
         this.commandeTotal = commandeTotal;
         this.adresse = adresse;
         this.prixTotal = prixTotal;
         this.nombreProduit = nombreProduit;
         this.clientUser = clientUser;
-        this.facture = facture;
     }
 
-    public Commande(Long commandeId, LocalDate commandeDate, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser, Facture facture) {
-        this(commandeDate,commandeTotal,adresse,prixTotal,nombreProduit,clientUser,facture);
+    public Commande(Long commandeId, LocalDate createdAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+        this(createdAt,commandeTotal,adresse,prixTotal,nombreProduit,clientUser);
         this.commandeId = commandeId;
+    }
+
+    public Commande( LocalDate createdAt, LocalDateTime updatedAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+        this(createdAt,commandeTotal,adresse,prixTotal,nombreProduit,clientUser);
+        this.updatedAt = updatedAt;
     }
 
     public Long getCommandeId() {
@@ -88,12 +92,12 @@ public class Commande {
         this.commandeId = commandeId;
     }
 
-    public LocalDate getCommandeDate() {
-        return commandeDate;
+    public LocalDate getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCommandeDate(LocalDate commandeDate) {
-        this.commandeDate = commandeDate;
+    public void setCreatedAt(LocalDate commandeDate) {
+        this.createdAt = commandeDate;
     }
 
     @NotNull
@@ -139,19 +143,28 @@ public class Commande {
         this.clientUser = clientUser;
     }
 
-    public @NotNull Facture getFacture() {
+   /* public  Facture getFacture() {
         return facture;
     }
 
-    public void setFacture(@NotNull Facture facture) {
+    public void setFacture( Facture facture) {
         this.facture = facture;
+    }*/
+
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
     public String toString() {
         return "Commande{" +
                 "commandeId=" + commandeId +
-                ", commandeDate=" + commandeDate +
+                ", commandeDate=" + createdAt +
                 ", commandeTotal=" + commandeTotal +
                 ", adresse='" + adresse + '\'' +
                 ", prixTotal=" + prixTotal +

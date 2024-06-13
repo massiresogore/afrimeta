@@ -28,8 +28,5 @@ public record CommandeRequest(
     int nombreProduit,
 
     @NotNull
-    @PathVariable("clientUser") String clientUser,
-
-    @NotNull
-    @PathVariable("facture_id") String facture
+    @PathVariable("clientUserId") String clientUserId
 ){}

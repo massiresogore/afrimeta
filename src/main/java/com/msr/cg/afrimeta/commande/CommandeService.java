@@ -4,6 +4,9 @@ import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,12 +35,14 @@ public class CommandeService implements AfrimetaCrudInterface<Commande> {
 
     @Override
     public Commande update(Commande commande, Long id) {
+
         return this.repository.findById(id)
                 .map(oldCommande->{
-                    oldCommande.setCommandeDate(commande.getCommandeDate());
+//                    oldCommande.setCreatedAt(commande.getCreatedAt()!=null ?commande.getCreatedAt(): oldCommande.getCreatedAt());
+                    oldCommande.setUpdatedAt(LocalDateTime.now());
                     oldCommande.setCommandeTotal(commande.getCommandeTotal());
                     oldCommande.setAdresse(commande.getAdresse());
-                    oldCommande.setFacture(commande.getFacture());
+//                    oldCommande.setFacture(commande.getFacture());
                     oldCommande.setClientUser(commande.getClientUser());
                     oldCommande.setPrixTotal(commande.getPrixTotal());
                     oldCommande.setNombreProduit(commande.getNombreProduit());
@@ -48,8 +53,9 @@ public class CommandeService implements AfrimetaCrudInterface<Commande> {
 
     @Override
     public void deleteById(Long id) {
-        this.findById(id);
-        this.repository.deleteById(id);
+       Commande commande = this.findById(id);
+        commande.setClientUser(null);
+        this.delete(commande);
     }
 
     @Override

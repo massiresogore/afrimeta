@@ -10,7 +10,7 @@ import com.msr.cg.afrimeta.system.StatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+//@Controller
 @RestController
 @RequestMapping("${api.endpoint.base-url}/users")
 public class UserController {
@@ -84,7 +84,8 @@ public class UserController {
     }
 
     @PostMapping
-    public Result saveUser(ClientUserRequest clientUserRequest){
+    public Result saveUser(@RequestBody ClientUserRequest clientUserRequest){
+        //System.out.print(clientUserRequest);
         return new Result(
                 true,
                 StatusCode.SUCCESS,
