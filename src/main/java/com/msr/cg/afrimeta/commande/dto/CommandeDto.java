@@ -18,7 +18,7 @@ public record CommandeDto(
 
         @NotNull
     @Column(name = "commande_total")
-    int commandeTotal,
+    double commandeTotal,
 
         @NotNull
     String adresse,

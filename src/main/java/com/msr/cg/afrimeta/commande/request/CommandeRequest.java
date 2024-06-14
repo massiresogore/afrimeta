@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record CommandeRequest(
 
@@ -28,6 +29,8 @@ public record CommandeRequest(
     @NotNull
     int nombreProduit,
 
-    @NotNull
-    @PathVariable("clientUserId") String clientUserId
+    List<String> produitIds
+        //,
+
+   // @PathVariable("clientUserId") String clientUserId
 ){}

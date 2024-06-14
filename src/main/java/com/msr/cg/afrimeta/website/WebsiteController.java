@@ -11,7 +11,7 @@ import com.msr.cg.afrimeta.website.dto.WebsiteResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+
 @RestController
 @RequestMapping("${api.endpoint.base-url}/website")
 public class WebsiteController {
@@ -79,7 +79,7 @@ public class WebsiteController {
     }
 
     @PostMapping("/{magasinId}")
-    public Result saveWebsite(WebsiteRequest websiteRequest){
+    public Result saveWebsite( WebsiteRequest websiteRequest){
         return new Result(
                 true,
                 StatusCode.SUCCESS,
@@ -89,19 +89,6 @@ public class WebsiteController {
                                 .save(this.websiteDtoToWebsite
                                         .convert(websiteRequest)))
         );
-    }/* @PostMapping
-    public Result saveWebsite(@RequestBody WebsiteDto websiteDto){
-
-        return new Result(
-                true,
-                StatusCode.SUCCESS,
-                "website cré",
-                this.websiteToWebsiteDto
-                        .websiteResponse(this.websiteService
-                                .save(this.websiteDtoToWebsite
-                                        .convert(websiteDto)))
-        );
-    }*/
-
+    }
 
 }

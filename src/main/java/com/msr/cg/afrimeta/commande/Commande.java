@@ -1,12 +1,16 @@
 package com.msr.cg.afrimeta.commande;
 
 import com.msr.cg.afrimeta.clientUser.ClientUser;
+import com.msr.cg.afrimeta.embaddable.Contenir;
+import com.msr.cg.afrimeta.embaddable.ProduitCommandeKey;
+import com.msr.cg.afrimeta.produit.Produit;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "commande")
@@ -25,7 +29,7 @@ public class Commande {
 
     @NotNull
     @Column(name = "commande_total")
-    private int commandeTotal;
+    private double commandeTotal;
 
     @NotNull
     @Column(name = "adresse")
@@ -39,18 +43,11 @@ public class Commande {
     @Column(name = "nombre_produit")
     private int nombreProduit;
 
-    @NotNull
-    @ManyToOne(
-            fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.DETACH,
-                    CascadeType.MERGE,
-                    CascadeType.REFRESH,
-                    CascadeType.PERSIST
-            }
-    )
+   @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private ClientUser clientUser;
+
 
     /*@NotNull
     @OneToOne(
@@ -62,7 +59,7 @@ public class Commande {
     private Facture facture;*/
 
 
-    public Commande(LocalDateTime createdAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+    public Commande(LocalDateTime createdAt, double commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
         this.createdAt = createdAt;
         this.commandeTotal = commandeTotal;
         this.adresse = adresse;
@@ -71,12 +68,12 @@ public class Commande {
         this.clientUser = clientUser;
     }
 
-    public Commande(Long commandeId, LocalDateTime createdAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+    public Commande(Long commandeId, LocalDateTime createdAt, double commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
         this(createdAt,commandeTotal,adresse,prixTotal,nombreProduit,clientUser);
         this.commandeId = commandeId;
     }
 
-    public Commande( LocalDateTime createdAt, LocalDateTime updatedAt, int commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+    public Commande( LocalDateTime createdAt, LocalDateTime updatedAt, double commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
         this(createdAt,commandeTotal,adresse,prixTotal,nombreProduit,clientUser);
         this.updatedAt = updatedAt;
     }
@@ -102,11 +99,11 @@ public class Commande {
     }
 
     @NotNull
-    public int getCommandeTotal() {
+    public double getCommandeTotal() {
         return commandeTotal;
     }
 
-    public void setCommandeTotal(@NotNull int commandeTotal) {
+    public void setCommandeTotal(double commandeTotal) {
         this.commandeTotal = commandeTotal;
     }
 
@@ -161,6 +158,8 @@ public class Commande {
         this.updatedAt = updatedAt;
     }
 
+
+
     @Override
     public String toString() {
         return "Commande{" +
@@ -172,4 +171,6 @@ public class Commande {
                 ", nombreProduit=" + nombreProduit +
                 '}';
     }
+
+
 }

@@ -31,7 +31,18 @@ public class CommandeRequestToCommandeConverter implements Converter<CommandeReq
                 source.adresse(),
                 source.prixTotal(),
                 source.nombreProduit(),
-                this.userService.findById(Long.parseLong(source.clientUserId()))
+                null
+        );
+    }
+
+    public Commande convert(CommandeRequest source,String clientUserId) {
+       return new Commande(
+                source.commandeDate(),
+                source.commandeTotal(),
+                source.adresse(),
+                source.prixTotal(),
+                source.nombreProduit(),
+                this.userService.findById(Long.parseLong(clientUserId))
         );
     }
 }

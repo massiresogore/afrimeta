@@ -6,6 +6,8 @@ import com.msr.cg.afrimeta.commande.dto.CommandeDto;
 import com.msr.cg.afrimeta.commande.request.CommandeRequest;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,7 +31,23 @@ public class CommandeController {
     }
 
     @PostMapping("/client/{clientUserId}")
+    public Result save(@Valid @RequestBody CommandeRequest commandeRequest, @NotNull @PathVariable("clientUserId") String clientUserId) {
+        //Convert to commande
+        Commande newComande = commandeRequestToCommandeConverter.convert(commandeRequest, clientUserId);
+
+        //Save Commande with produit
+        Commande savedCommande = this.commandeService.save(newComande,commandeRequest.produitIds());
+
+       // System.out.println(newComande);
+        /*for (String id: commandeRequest.produitIds()){
+            System.out.println(id);
+        }*/
+        return new Result(true,StatusCode.SUCCESS,"Commande enregistré avec success");
+    }
+
+    /*@PostMapping("/client/{clientUserId}")
     public Result save(CommandeRequest commandeRequest) {
+
         //Convert to commande
         Commande newComande = commandeRequestToCommandeConverter.convert(commandeRequest);
 
@@ -40,7 +58,7 @@ public class CommandeController {
         CommandeDto commandeDto = this.commandeToCommandeDtoConverter.convert(savedCommande);
 
         return new Result(true,StatusCode.SUCCESS,"Commande enregistré avec success",commandeDto);
-    }
+    }*/
 
     @PatchMapping("/{updateCommandeId}/client/{clientUserId}")
     public Result update(CommandeRequest commandeRequest, @PathVariable String updateCommandeId) {
@@ -60,6 +78,11 @@ public class CommandeController {
     public Result delete(@PathVariable("commandeId") String commandeId) {
         this.commandeService.deleteById(Long.valueOf(commandeId));
         return new Result(true,StatusCode.SUCCESS, "commande supprimer");
+    }
+
+    @GetMapping("/{commandeId}")
+    public Result show(@PathVariable("commandeId") String commandeId) {
+        return new Result(true,StatusCode.SUCCESS,"une commande", this.commandeToCommandeDtoConverter.convert(this.commandeService.findById(Long.valueOf(commandeId))));
     }
 
 }

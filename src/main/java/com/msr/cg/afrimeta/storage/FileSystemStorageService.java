@@ -157,7 +157,6 @@ public class FileSystemStorageService implements StorageService {
                 Map<String, String> logoMapvalue = new HashMap<>();
                 //Remove space in string
                 String filePath = String.valueOf(destinationFile).replace(" ","");
-                String fileName = file.getOriginalFilename().replace(" ","");
 
                 logoMapvalue.put(filePath, file.getOriginalFilename());
                 magasin.setLogo(logoMapvalue);

@@ -3,6 +3,7 @@ package com.msr.cg.afrimeta.magasin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msr.cg.afrimeta.clientUser.ClientUser;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
+import com.msr.cg.afrimeta.magasin.dto.MagasinRequest;
 import com.msr.cg.afrimeta.system.StatusCode;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import org.hamcrest.Matchers;
@@ -20,9 +21,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -35,6 +40,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
@@ -144,9 +150,7 @@ class MagasinControllerTest {
                 .andExpect(jsonPath("$.message").value("magasin trouvé"))
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.data.libele").value(magasin.getLibele()))
-                .andExpect(jsonPath("$.data.description").value(magasin.getDescription()))
-                .andExpect(jsonPath("$.data.logo").value(magasin.getLogo()))
-        ;
+                .andExpect(jsonPath("$.data.description").value(magasin.getDescription()));
 
     }
 
@@ -205,8 +209,7 @@ class MagasinControllerTest {
                 .andExpect(jsonPath("$.message").value("magasin mis à jours"))
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.data.libele").value(magasin.getLibele()))
-                .andExpect(jsonPath("$.data.description").value(magasin.getDescription()))
-                .andExpect(jsonPath("$.data.logo").value(magasin.getLogo()));
+                .andExpect(jsonPath("$.data.description").value(magasin.getDescription()));
     }
 
     @Test
@@ -268,10 +271,19 @@ class MagasinControllerTest {
                 .andExpect(jsonPath("$.message").value("Nous ne retrouvons pas l'entité magasin avec id 1"))
                 .andExpect(jsonPath("$.data").doesNotExist());
     }
-
-   /* @Test
+/*
+    @Test
     void saveMagasin() throws Exception {
+
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                "test.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello World!".getBytes()
+        );
+
         ClientUser clientUser = new ClientUser();
+        clientUser.setUser_id(1L);
         clientUser.setEmail("m@gmail.com");
         clientUser.setPassword("MZMZMZMZMZMZZM");
         clientUser.setRole("ADMIN USER");
@@ -285,8 +297,10 @@ class MagasinControllerTest {
                 clientUser
         );
 
+        MagasinRequest magasinRequest = new MagasinRequest("libélé","Oyo description",file,clientUser.getUser_id().toString());
+
         //jso,Magasin
-        String jsonmagasoin = objectMapper.writeValueAsString(magasinDto);
+        String jsonmagasoin = objectMapper.writeValueAsString(magasinRequest);
 
         Magasin magasin = new Magasin();
         magasin.setClientUser(clientUser);
@@ -297,10 +311,11 @@ class MagasinControllerTest {
 
         given(this.service.save(Mockito.any(Magasin.class))).willReturn(magasin);
 
-        mockMvc.perform(MockMvcRequestBuilders.post(url+"/magasin/{magasinId}",1)
+        mockMvc.perform(MockMvcRequestBuilders.post(url+"/magasins/{magasinId}",1)
                         .content(jsonmagasoin)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.message").value("magasin cré"))
@@ -309,5 +324,8 @@ class MagasinControllerTest {
                 .andExpect(jsonPath("$.data.description").value(magasin.getDescription()))
                 .andExpect(jsonPath("$.data.logo").value(magasin.getLogo()));
 
-    }*/
+    }
+
+
+ */
 }

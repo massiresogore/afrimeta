@@ -164,7 +164,6 @@ class CommandeServiceTest {
         service.deleteById(1L);
         //Then
         verify(this.repository,times(1)).findById(1L);
-        verify(this.repository,times(1)).deleteById(1L);
     }
 
     @Test

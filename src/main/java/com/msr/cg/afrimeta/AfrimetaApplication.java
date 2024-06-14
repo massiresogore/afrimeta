@@ -1,11 +1,16 @@
 package com.msr.cg.afrimeta;
 import com.msr.cg.afrimeta.clientUser.ClientUser;
+import com.msr.cg.afrimeta.clientUser.ClientUserService;
 import com.msr.cg.afrimeta.commande.Commande;
 import com.msr.cg.afrimeta.commande.CommandeService;
+import com.msr.cg.afrimeta.embaddable.Contenir;
+import com.msr.cg.afrimeta.embaddable.ContenirRepository;
+import com.msr.cg.afrimeta.embaddable.ProduitCommandeKey;
 import com.msr.cg.afrimeta.facture.Facture;
 import com.msr.cg.afrimeta.facture.FactureService;
 import com.msr.cg.afrimeta.facture.dto.FactureDto;
 import com.msr.cg.afrimeta.magasin.MagasinRepository;
+import com.msr.cg.afrimeta.produit.Produit;
 import com.msr.cg.afrimeta.produit.ProduitService;
 import com.msr.cg.afrimeta.storage.FileSystemStorageService;
 import com.msr.cg.afrimeta.website.Website;
@@ -15,13 +20,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class AfrimetaApplication {
 	final MagasinRepository magasinRepository;
+    final ContenirRepository contenirRepository;
 
-    public AfrimetaApplication(MagasinRepository magasinRepository) {
+    public AfrimetaApplication(MagasinRepository magasinRepository, ContenirRepository contenirRepository) {
         this.magasinRepository = magasinRepository;
+        this.contenirRepository = contenirRepository;
     }
 
     public static void main(String[] args) {
@@ -32,9 +42,8 @@ public class AfrimetaApplication {
     public CommandLineRunner commandLineRunner(
             FileSystemStorageService fileSystemStorageService,
             ProduitService produitService, FactureService factureService,
-            CommandeService commandeService
-
-    ) {
+            CommandeService commandeService,
+            ClientUserService clientUserService) {
       /*  Website website1 = new Website(null,"http://google.com",null);
         Website website2 = new Website(null,"http://google.com",null);
         Website website3 = new Website(null,"http://google.com",null);
@@ -81,7 +90,39 @@ public class AfrimetaApplication {
 //
 //        Commande newCommande = commandeService.save(commande1);
 
+        /*Produit avec Commande*/
+        ClientUser clientUser = clientUserService.findById(Long.parseLong("1"));
+
+        List<Produit> produits = new ArrayList<>();
+        Produit produit1 = produitService.findById(Long.parseLong("1"));
+        Produit produit2 = produitService.findById(Long.parseLong("2"));
+        Produit produit3 = produitService.findById(Long.parseLong("3"));
+
+        produits.add(produit1);
+        produits.add(produit2);
+        produits.add(produit3);
+
+        Commande commande1 = new Commande();
+        commande1.setClientUser(clientUser);
+        commande1.setCommandeTotal(produits.stream().map(produit -> produit.getPrix()).reduce((double) 0,(subtotal, element)-> subtotal+element));
+        commande1.setNombreProduit(produits.size());
+        commande1.setAdresse("40 rue jean jaurres");
+        commande1.setPrixTotal(produits.stream().map(produit -> produit.getPrix()).reduce((double) 0,(subtotal, element)-> subtotal+element));
+
+       //Commande newCommande = commandeService.save(commande1);
+
+//        for(Produit produit: produits) {
+//            Contenir contenir1 = new Contenir();
+//            contenir1.setCommande(newCommande);
+//            contenir1.setQuantite(produit.getQuantiteStock());
+//            contenir1.setProduit(produit);
+//            ProduitCommandeKey produitCommandeKey = new ProduitCommandeKey(produit.getProduitId(), newCommande.getCommandeId());
+//            contenir1.setId(produitCommandeKey);
+//            //contenirRepository.save(contenir1);
+//        }
+
         return args -> {
+            System.out.println(commande1.getCommandeTotal());
             System.out.println("done");
 
         };
