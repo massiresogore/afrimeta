@@ -1,6 +1,6 @@
 package com.msr.cg.afrimeta.produit.dto.dto;
 
-import com.msr.cg.afrimeta.categorie.dto.CategorieResponse;
+import com.msr.cg.afrimeta.categorie.dto.CategorieDto;
 import com.msr.cg.afrimeta.couleur.dto.CouleurResponse;
 import com.msr.cg.afrimeta.image.ImageDto;
 import com.msr.cg.afrimeta.typeproduit.dto.TypeProduitResponse;
@@ -32,7 +32,7 @@ public record ProduitResponse(
     LocalDate dateAjout,
 
     @NotNull
-    CategorieResponse categorie,
+    CategorieDto categorie,
 
     @NotNull
     TypeProduitResponse typeProduit,
