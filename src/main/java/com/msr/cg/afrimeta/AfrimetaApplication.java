@@ -91,23 +91,23 @@ public class AfrimetaApplication {
 //        Commande newCommande = commandeService.save(commande1);
 
         /*Produit avec Commande*/
-        ClientUser clientUser = clientUserService.findById(Long.parseLong("1"));
-
-        List<Produit> produits = new ArrayList<>();
-        Produit produit1 = produitService.findById(Long.parseLong("1"));
-        Produit produit2 = produitService.findById(Long.parseLong("2"));
-        Produit produit3 = produitService.findById(Long.parseLong("3"));
-
-        produits.add(produit1);
-        produits.add(produit2);
-        produits.add(produit3);
-
-        Commande commande1 = new Commande();
-        commande1.setClientUser(clientUser);
-        commande1.setCommandeTotal(produits.stream().map(produit -> produit.getPrix()).reduce((double) 0,(subtotal, element)-> subtotal+element));
-        commande1.setNombreProduit(produits.size());
-        commande1.setAdresse("40 rue jean jaurres");
-        commande1.setPrixTotal(produits.stream().map(produit -> produit.getPrix()).reduce((double) 0,(subtotal, element)-> subtotal+element));
+//        ClientUser clientUser = clientUserService.findById(Long.parseLong("1"));
+//
+//        List<Produit> produits = new ArrayList<>();
+//        Produit produit1 = produitService.findById(Long.parseLong("1"));
+//        Produit produit2 = produitService.findById(Long.parseLong("2"));
+//        Produit produit3 = produitService.findById(Long.parseLong("3"));
+//
+//        produits.add(produit1);
+//        produits.add(produit2);
+//        produits.add(produit3);
+//
+//        Commande commande1 = new Commande();
+//        commande1.setClientUser(clientUser);
+//        commande1.setCommandeTotal(produits.stream().map(produit -> produit.getPrix()).reduce((double) 0,(subtotal, element)-> subtotal+element));
+//        commande1.setNombreProduit(produits.size());
+//        commande1.setAdresse("40 rue jean jaurres");
+//        commande1.setPrixTotal(produits.stream().map(produit -> produit.getPrix()).reduce((double) 0,(subtotal, element)-> subtotal+element));
 
        //Commande newCommande = commandeService.save(commande1);
 
@@ -122,7 +122,7 @@ public class AfrimetaApplication {
 //        }
 
         return args -> {
-            System.out.println(commande1.getCommandeTotal());
+          //  System.out.println(commande1.getCommandeTotal());
             System.out.println("done");
 
         };

@@ -3,6 +3,7 @@ package com.msr.cg.afrimeta.commande;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msr.cg.afrimeta.clientUser.ClientUser;
 import com.msr.cg.afrimeta.facture.Facture;
+import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
@@ -101,6 +104,55 @@ class CommandeControllerTest {
     }*/
 
     @Test
-    void delete() {
+    void delete() throws Exception {
+        //HGiven
+        doNothing().when(this.commandeService).deleteById(1L);
+        //When and Then
+        mockMvc.perform(MockMvcRequestBuilders.delete(url+"/commandes/{commandeId}",1)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.message").value("commande supprimée"));
     }
+
+    @Test
+    void deleteByIdNotFound() throws Exception {
+        //Given
+        doThrow(new ObjectNotFoundException(Commande.class.getSimpleName(),22L)).when(this.commandeService).deleteById(1L);
+        //When and Then
+        mockMvc.perform(MockMvcRequestBuilders.delete(url+"/commandes/{commandeId}",1)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(false))
+                .andExpect(jsonPath("$.code").value(404))
+                .andExpect(jsonPath("$.message").value("Nous ne retrouvons pas l'entité Commande avec id 22"));
+    }
+
+    @Test
+    void findByIdNotFound() throws Exception {
+        //Given
+        doThrow(new ObjectNotFoundException(Commande.class.getSimpleName(),12L)).when(this.commandeService).findById(12L);
+        //When and Then
+        mockMvc.perform(MockMvcRequestBuilders.get(url+"/commandes/{commandeId}",12)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(false))
+                .andExpect(jsonPath("$.code").value(404))
+                .andExpect(jsonPath("$.message").value("Nous ne retrouvons pas l'entité Commande avec id 12"));
+    }
+
+    @Test
+    void findById() throws Exception {
+        ClientUser clientUser = new ClientUser("emmano","m@gmail.com","MZMZMZMZMZMZZM",true,"ADMIN USER",null);
+        Commande commande1 = new Commande( LocalDateTime.now(),LocalDateTime.now(),22,"22 rue eboué",22,3,clientUser);
+            commande1.setCommandeId(12L);
+        //Given
+        given(this.commandeService.findById(12L)).willReturn(commande1);
+        //When and Then
+        mockMvc.perform(MockMvcRequestBuilders.get(url+"/commandes/{commandeId}",12)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.message").value("commande trouvée"))
+                .andExpect(jsonPath("$.data.adresse").value("22 rue eboué"));
+    }
+
 }

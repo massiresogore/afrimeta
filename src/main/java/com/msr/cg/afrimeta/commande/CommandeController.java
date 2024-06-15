@@ -77,12 +77,12 @@ public class CommandeController {
     @DeleteMapping("/{commandeId}")
     public Result delete(@PathVariable("commandeId") String commandeId) {
         this.commandeService.deleteById(Long.valueOf(commandeId));
-        return new Result(true,StatusCode.SUCCESS, "commande supprimer");
+        return new Result(true,StatusCode.SUCCESS, "commande supprimée");
     }
 
     @GetMapping("/{commandeId}")
     public Result show(@PathVariable("commandeId") String commandeId) {
-        return new Result(true,StatusCode.SUCCESS,"une commande", this.commandeToCommandeDtoConverter.convert(this.commandeService.findById(Long.valueOf(commandeId))));
+        return new Result(true,StatusCode.SUCCESS,"commande trouvée", this.commandeToCommandeDtoConverter.convert(this.commandeService.findById(Long.valueOf(commandeId))));
     }
 
 }
