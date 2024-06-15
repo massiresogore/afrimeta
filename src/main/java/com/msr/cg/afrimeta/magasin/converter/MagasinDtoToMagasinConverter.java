@@ -2,8 +2,12 @@ package com.msr.cg.afrimeta.magasin.converter;
 
 import com.msr.cg.afrimeta.magasin.Magasin;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
+import com.msr.cg.afrimeta.magasin.dto.MagasinRequest;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class MagasinDtoToMagasinConverter implements Converter<MagasinDto, Magasin> {
@@ -24,6 +28,4 @@ public class MagasinDtoToMagasinConverter implements Converter<MagasinDto, Magas
                 source.logo()
         );
     }
-
-
 }

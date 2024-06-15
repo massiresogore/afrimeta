@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-@Controller
+//@Controller
 @RestController
 @RequestMapping("${api.endpoint.base-url}/magasins")
 public class MagasinController {
@@ -77,9 +77,10 @@ public class MagasinController {
         return new Result(true,StatusCode.SUCCESS,"magasin supprimé");
     }
 
-    @PostMapping(value = "/{clientId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{clientId}")
     public Result saveMagasin(MagasinRequest magasinRequest) {
-            this.storageService.storeMagasinAndLogoImage(magasinRequest);
+        //Le logo est obligatoire
+        this.storageService.storeMagasinAndLogoImage(magasinRequest);
         return new Result(
                 true,
                 StatusCode.SUCCESS,

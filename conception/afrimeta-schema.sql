@@ -32,7 +32,7 @@ create table if not exists profile (
 CREATE TABLE if not exists `client_user`(
                                             user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                                             username varchar(30) unique not null ,
-                                            role varchar(50) default "USER" not null ,
+                                            role varchar(50) default 'USER' not null ,
                                             email varchar(100) not null unique,
                                             password varchar(100) not null ,
                                             enable bit(1) default 1 not null ,
@@ -98,6 +98,29 @@ create table if not exists produit(
                                       constraint `FK_website_id` foreign key (`website_id`) references `website`(`website_id`)
                                           on delete no action on update no action
 )ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+create table if not exists facture(
+                                      facture_id int primary key auto_increment,
+                                      facture_date datetime not null,
+                                      total_hors_taxe numeric(10,2) not null,
+                                      total_tout_taxe_comprise numeric(10,2) not null,
+                                      total_tva numeric(10,2) not null
+)ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+create table if not exists commande(
+                                       commande_id int primary key auto_increment,
+                                       created_at datetime default current_timestamp not null ,
+                                       updated_at datetime default null ,
+                                       commande_total numeric not null ,
+                                       adresse varchar(200) not null ,
+                                       prix_total numeric(10,2) not null ,
+                                       nombre_produit int not null ,
+                                       user_id int not null ,
+                                       key `FK_user_idc`(`user_id`),
+                                       constraint `FK_user_idc` foreign key (`user_id`) references afrimeta.client_user(`user_id`)
+                                           on delete no action  on update no action
+
+)ENGINE=InnoDB default CHARSET=utf8mb4 collate=utf8mb4_general_ci;
+
 
 create table if not exists commentaire(
                                           commentaire_id int primary key auto_increment,
@@ -123,31 +146,6 @@ create table if not exists image(
                                     key `FK_produit_id`(`produit_id`),
                                     constraint `FK_produit_id` foreign key (`produit_id`) references `produit`(`produit_id`)
                                         on delete no action on update no action
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-create table if not exists facture(
-                                      facture_id int primary key auto_increment,
-                                      facture_date datetime not null,
-                                      total_hors_taxe numeric(10,2) not null,
-                                      total_tout_taxe_comprise numeric(10,2) not null,
-                                      total_tva numeric(10,2) not null
-)ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-create table if not exists commande(
-                                       commande_id int primary key auto_increment,
-                                       commande_date datetime default current_timestamp not null,
-                                       commande_total numeric(10,2) not null,
-                                       adresse varchar(200) not null,
-                                       prix_total numeric(10,2) not null,
-                                       nombre_produits int not null,
-                                       user_id int not null,
-                                       facture_id int not null,
-                                       key `FKcc_user_id`(`user_id`),
-                                       key `facture_id`(`facture_id`),
-                                       constraint `FKcc_facture_id` foreign key (`facture_id`) references `facture`(`facture_id`)
-                                           on delete no action on update no action,
-                                       constraint `FKcc_user_id` foreign key (`user_id`) references `client_user`(`user_id`)
-                                           on delete no action on update no action
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -178,6 +176,15 @@ create table if not exists couleur_produit(
                                               constraint `FK_couleur_id` foreign key (`couleur_id`) references `couleur`(`couleur_id`)
                                                   on update no action on delete no action
 )ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+create table if not exists facture(
+                                      facture_id int primary key auto_increment,
+                                      facture_date datetime default current_timestamp not null,
+                                      total_hors_taxe int,
+                                      total_tout_taxe_comprise int,
+                                      total_tva int
+)ENGINE=InnoDB default CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- produit_commade relation table
 create table if not exists contenir(
@@ -237,15 +244,6 @@ create table  if not exists logo(
                                     file_path varchar(200) not null,
                                     logo_name varchar(200) unique not null,
                                     magasin_id int not null
-)ENGINE=InnoDB default CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-create table if not exists facture(
-    facture_id int primary key auto_increment,
-    facture_date datetime default current_timestamp not null,
-    total_hors_taxe int,
-    total_tout_taxe_comprise int,
-    total_tva int
 )ENGINE=InnoDB default CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 

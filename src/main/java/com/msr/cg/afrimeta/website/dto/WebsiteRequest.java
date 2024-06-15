@@ -1,10 +1,10 @@
 package com.msr.cg.afrimeta.website.dto;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public record WebsiteRequest(
-         String websiteUrl,
+        @RequestParam("websiteUrl") String websiteUrl,
         @PathVariable String magasinId
         ) {
 }
