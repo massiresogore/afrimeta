@@ -1,7 +1,7 @@
 package com.msr.cg.afrimeta.produit.dto.converter;
 
 import com.msr.cg.afrimeta.categorie.converter.CategorieToCategorieDtoConverter;
-import com.msr.cg.afrimeta.categorie.dto.CategorieResponse;
+import com.msr.cg.afrimeta.categorie.dto.CategorieDto;
 import com.msr.cg.afrimeta.couleur.dto.CouleurResponse;
 import com.msr.cg.afrimeta.image.ImageDto;
 import com.msr.cg.afrimeta.produit.Produit;
@@ -60,7 +60,7 @@ public class ProduitToProduitDtoConverter implements Converter<Produit, ProduitR
                 source.getQuantiteStock(),
                 source.getPrix(),
                 source.getDateAjout(),
-                new CategorieResponse(source.getCategorie().getCategorieId(),source.getCategorie().getNom()),
+                new CategorieDto(source.getCategorie().getCategorieId(),source.getCategorie().getNom()),
                 new TypeProduitResponse(source.getTypeProduit().getTypeProduitId(),source.getTypeProduit().getNom()),
                 new SingleWebsiteResponse(source.getWebsite().getWebsiteId(),source.getWebsite().getWebsiteUrl()),
                 source.getCouleurs().stream().map(couleur-> new CouleurResponse(couleur.getCouleurId(), couleur.getNom())).toList(),
