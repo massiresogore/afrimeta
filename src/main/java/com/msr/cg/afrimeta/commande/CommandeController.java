@@ -38,27 +38,8 @@ public class CommandeController {
         //Save Commande with produit
         Commande savedCommande = this.commandeService.save(newComande,commandeRequest.produitIds());
 
-       // System.out.println(newComande);
-        /*for (String id: commandeRequest.produitIds()){
-            System.out.println(id);
-        }*/
         return new Result(true,StatusCode.SUCCESS,"Commande enregistré avec success");
     }
-
-    /*@PostMapping("/client/{clientUserId}")
-    public Result save(CommandeRequest commandeRequest) {
-
-        //Convert to commande
-        Commande newComande = commandeRequestToCommandeConverter.convert(commandeRequest);
-
-        //Save
-        Commande savedCommande = this.commandeService.save(newComande);
-
-        //Convert to dto
-        CommandeDto commandeDto = this.commandeToCommandeDtoConverter.convert(savedCommande);
-
-        return new Result(true,StatusCode.SUCCESS,"Commande enregistré avec success",commandeDto);
-    }*/
 
     @PatchMapping("/{updateCommandeId}/client/{clientUserId}")
     public Result update(CommandeRequest commandeRequest, @PathVariable String updateCommandeId) {
