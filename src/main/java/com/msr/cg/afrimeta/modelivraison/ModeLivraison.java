@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 public class ModeLivraison {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "modeLivraison_id")
+    @JoinColumn(name = "mode_livraison_id")
     private Long modeLivraisonId;
 
     @Length(min = 1, max = 50)
