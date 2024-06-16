@@ -123,12 +123,16 @@ create table if not exists commande(
 
 
 create table if not exists commentaire(
-                                          commentaire_id int primary key auto_increment,
+                                          commentaire_id   int primary key auto_increment,
                                           commentaire_date datetime default current_timestamp not null,
-                                          contenu TEXT not null,
-                                          user_id int not null,
-                                          key `FKc_user_id`(`user_id`),
-                                          constraint `Fkc_user_id` foreign key (`user_id`) references `client_user`(`user_id`)
+                                          contenu          TEXT                               not null,
+                                          user_id          int                                not null,
+                                          produit_id       int                                not null,
+                                          key `FKc_user_id` (`user_id`),
+                                          key `Fkp_produit_id` (`produit_id`),
+                                          constraint `Fkc_user_id` foreign key (`user_id`) references `client_user` (`user_id`)
+                                              on delete no action on update no action,
+                                              constraint `Fkp_produit_id` foreign key (`produit_id`) references `produit` (`produit_id`)
                                               on delete no action on update no action
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

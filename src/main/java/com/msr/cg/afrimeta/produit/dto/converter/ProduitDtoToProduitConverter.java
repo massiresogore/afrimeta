@@ -4,8 +4,10 @@ import com.msr.cg.afrimeta.categorie.Categorie;
 import com.msr.cg.afrimeta.couleur.Couleur;
 import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.produit.Produit;
+import com.msr.cg.afrimeta.produit.ProduitService;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitDto;
 import com.msr.cg.afrimeta.produit.dto.dto.ProduitRequest;
+import com.msr.cg.afrimeta.produit.dto.dto.ProduitResponse;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.system.exception.WebsiteNotFoundException;
 import com.msr.cg.afrimeta.taille.Taille;
@@ -18,9 +20,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProduitDtoToProduitConverter implements Converter<ProduitDto, Produit> {
     private final WebsiteService websiteService;
+    private final ProduitService produitService;
 
-    public ProduitDtoToProduitConverter(WebsiteService websiteService) {
+    public ProduitDtoToProduitConverter(WebsiteService websiteService, ProduitService produitService) {
         this.websiteService = websiteService;
+        this.produitService = produitService;
     }
 
     /**
@@ -79,5 +83,9 @@ public class ProduitDtoToProduitConverter implements Converter<ProduitDto, Produ
 
         return produit;
 
+    }
+
+    public Produit convert(ProduitResponse produitResponse) {
+        return this.produitService.findById(produitResponse.produitId());
     }
 }
