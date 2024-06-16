@@ -226,15 +226,15 @@ create table if not exists mode_paiement(
                                             nom varchar(100) not null
 )ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-create table if not exists paiment(
-                                      paiment_id int primary key auto_increment,
-                                      paiment_date datetime default current_timestamp not null,
+create table if not exists paiement(
+                                      paiement_id int primary key auto_increment,
+                                      paiement_date datetime default current_timestamp not null,
                                       description varchar(100) not null,
-                                      mode_paiment_id int not null,
+                                      mode_paiement_id int not null,
                                       commande_id int not null,
-                                      key `FK_mode_paiment_id`(`mode_paiment_id`),
+                                      key `FK_mode_paiment_id`(`mode_paiement_id`),
                                       key `FKp_commande_id`(`commande_id`),
-                                      constraint `FK_mode_paiment_id` foreign key (`mode_paiment_id`) references `mode_paiement` (`mode_paiement_id`)
+                                      constraint `FK_mode_paiment_id` foreign key (`mode_paiement_id`) references `mode_paiement` (`mode_paiement_id`)
                                           on delete no action on update no action,
                                       constraint `FKp_commande_id` foreign key (`commande_id`) references `commande` (`commande_id`)
                                           on delete no action on update no action
