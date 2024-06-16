@@ -37,10 +37,8 @@ class CommandeServiceTest {
         //ClientUser
         ClientUser clientUser = new ClientUser("emmano","m@gmail.com","MZMZMZMZMZMZZM",true,"ADMIN USER",null);
 
-        //Facture
-        Facture facture = new Facture(1L, LocalDate.now(),22,22,2);
-
         Commande commande1 = new Commande(1L, LocalDateTime.now(),22,"33 rue bandas",22,7,clientUser);
+
         Commande commande2 = new Commande(2L,LocalDateTime.now(),55,"98 rue dohomet",12,9,clientUser);
         Commande commande3 = new Commande(3L,LocalDateTime.now(),7,"8 rue loango",33,4,clientUser);
         commandes.add(commande1);

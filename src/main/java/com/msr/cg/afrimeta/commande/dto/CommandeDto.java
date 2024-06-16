@@ -17,18 +17,18 @@ public record CommandeDto(
         String updatedAt,
 
         @NotNull
-    @Column(name = "commande_total")
-    double commandeTotal,
+        @Column(name = "commande_total")
+        double commandeTotal,
 
         @NotNull
-    String adresse,
+        String adresse,
 
         @NotNull
-    double prixTotal,
+        double prixTotal,
 
         @NotNull
-    int nombreProduit,
+        int nombreProduit,
 
         @NotNull
-    ClientUserDto clientUser
+        ClientUserDto clientUser
 ){}

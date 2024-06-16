@@ -82,6 +82,17 @@ public class Commande {
 
     }
 
+    public Commande(Long commandeId, LocalDateTime createdAt, LocalDateTime updatedAt, double commandeTotal, String adresse, double prixTotal, int nombreProduit, ClientUser clientUser) {
+        this.commandeId = commandeId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.commandeTotal = commandeTotal;
+        this.adresse = adresse;
+        this.prixTotal = prixTotal;
+        this.nombreProduit = nombreProduit;
+        this.clientUser = clientUser;
+    }
+
     public Long getCommandeId() {
         return commandeId;
     }

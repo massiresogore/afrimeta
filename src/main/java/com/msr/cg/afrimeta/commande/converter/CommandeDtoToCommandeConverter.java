@@ -3,17 +3,16 @@ package com.msr.cg.afrimeta.commande.converter;
 import com.msr.cg.afrimeta.clientUser.converter.ClientUserDtoToClientUserConverter;
 import com.msr.cg.afrimeta.commande.Commande;
 import com.msr.cg.afrimeta.commande.dto.CommandeDto;
-import com.msr.cg.afrimeta.facture.converter.FactureDtoToFactureConverter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Component
-public class CommndeDtoToCommandeConverter implements Converter<CommandeDto, Commande> {
+public class CommandeDtoToCommandeConverter implements Converter<CommandeDto, Commande> {
     private final ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter;
 
-    public CommndeDtoToCommandeConverter(ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter ) {
+    public CommandeDtoToCommandeConverter(ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter ) {
         this.clientUserDtoToClientUserConverter = clientUserDtoToClientUserConverter;
     }
 

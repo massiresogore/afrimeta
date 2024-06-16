@@ -106,11 +106,11 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.INTERNAL_SERVER_ERROR, exception.getMessage());
     }
 
-    @ExceptionHandler({Exception.class})
+   /* @ExceptionHandler({Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result handleExceptionunkwown(Exception exception) {
         return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"une erreur server ",exception.getMessage());
-    }
+    }*/
 
 
 
