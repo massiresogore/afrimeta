@@ -7,15 +7,19 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -120,6 +124,41 @@ public class ExceptionHandlerAdvice {
     Result handleAuthenticationException (Exception exception){
         return new Result(false, StatusCode.UNAUTHORIZED,"usename or password not correct" + exception.getMessage());
     }
+
+
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    Result methodNotSupportedException (HttpRequestMethodNotSupportedException exception){
+        return new Result(false, StatusCode.FORBIDDEN,"La méthode et ce url  n'est pas géree par lapplication" + exception.getMessage());
+    }
+
+    /**
+     * ceci est pour les utilisateur qui sont désactivé (exp:enable=0)
+     *
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler(AccountStatusException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    Result handleAccountStatusException(AccountStatusException exception) {
+
+        return new Result(false, StatusCode.UNAUTHORIZED,"user account is abnormal", exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidBearerTokenException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    Result handleInvalidBearerTokenException(InvalidBearerTokenException exception) {
+        return new Result(false, StatusCode.UNAUTHORIZED,"The access token provided is expired revoked,malforme, or invalid for other reasons", exception.getMessage());
+    }
+
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    Result handleAccessDeniedException(AccessDeniedException exception) {
+        return new Result(false, StatusCode.FORBIDDEN,"No perission", exception.getMessage());
+    }
+
 
 
 
