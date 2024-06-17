@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("${api.endpoint.base-url}/users")
 public class UserController {
 
+
     private final ClientUserService clientUserService;
     private final ClientUserDtoToClientUserConverter clientUserDtoToClientUserConverter;
     private final ClientUserToClientUserDtoConverter clientUserToClientUserDtoConverter;

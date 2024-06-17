@@ -1,16 +1,24 @@
 package com.msr.cg.afrimeta.clientUser;
 
+import com.msr.cg.afrimeta.security.MyUserPrincipal;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ClientUserService implements AfrimetaCrudInterface<ClientUser> {
+public class ClientUserService implements AfrimetaCrudInterface<ClientUser> , UserDetailsService {
+
+    private final PasswordEncoder passwordEncoder;
     private final ClientUserRepository clientUserRepository;
 
-    public ClientUserService(ClientUserRepository clientUserRepository) {
+    public ClientUserService(PasswordEncoder passwordEncoder, ClientUserRepository clientUserRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.clientUserRepository = clientUserRepository;
     }
 
@@ -28,6 +36,7 @@ public class ClientUserService implements AfrimetaCrudInterface<ClientUser> {
 
     @Override
     public ClientUser save(ClientUser clientUser) {
+        clientUser.setPassword(passwordEncoder.encode(clientUser.getPassword()));
         return this.clientUserRepository.save(clientUser);
     }
 
@@ -53,5 +62,13 @@ public class ClientUserService implements AfrimetaCrudInterface<ClientUser> {
     @Override
     public void delete(ClientUser clientUser) {
         this.clientUserRepository.delete(clientUser);
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return   this.clientUserRepository.findByUsername(username)
+                .map(clientUser -> new MyUserPrincipal(clientUser))
+                .orElseThrow(()-> new UsernameNotFoundException("username "+username+" is not found"));
     }
 }
