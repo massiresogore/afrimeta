@@ -614,3 +614,39 @@ les données avec l'annotation @RequestBody
 - le Dto de Commande est à prendre pour exemple
 - mes réponse des Dtos qui contiennet d'autre entité, doivent etre rendu en Dto aussi, voir
   CommandeToCommandeDtoConverter LIGNE 37
+
+
+
+# AUTHENTICATION ET AUTHORIZATION
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+        <version>3.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        <version>3.3.0</version>
+    </dependency>
+    override security in memory
+    # simple security
+    spring.security.user.name=massire
+    spring.security.user.password=test123
+
+- git branch -M authentication-authorization , les dépendances, 
+ la dépendance oauth coté numbus, encode et décode jwr.
+Lorsqu'on installe les deux dépendance, le générateur de clé ne sactive pas authomatiquement.
+## fonctionnement 
+    il enregistre dans le header un cookie jsessionid =........, ce qui permet de sauthentifier,
+
+- on crée @Configuration
+      public class SecurityConfiguration {
+      @Value("${api.endpoint.base-url}")
+      private String baseUrl;
+      }
+
+- En résumé, csrf(AbstractHttpConfigurer::disable) est une configuration pour désactiver 
+la protection contre les attaques CSRF dans une application Spring Security, et doit être utilisée avec précaution
+
+- leROLE DOIT ETRE EN MINUSCULE

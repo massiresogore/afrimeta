@@ -24,6 +24,7 @@ public class ClientUser {
 
     @Column(nullable = false)
     private boolean enable;
+
     @Column(nullable = false)
     private String role;
 
