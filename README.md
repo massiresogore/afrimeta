@@ -650,3 +650,11 @@ Lorsqu'on installe les deux dépendance, le générateur de clé ne sactive pas 
 la protection contre les attaques CSRF dans une application Spring Security, et doit être utilisée avec précaution
 
 - leROLE DOIT ETRE EN MINUSCULE
+
+# Test d'intégration im faut cette dépendance
+    <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-test</artifactId>
+    <version>${spring-security.version}</version>
+    <scope>test</scope>
+    </dependency>

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+//@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("dev")
 class UserControllerTest {
     @Autowired

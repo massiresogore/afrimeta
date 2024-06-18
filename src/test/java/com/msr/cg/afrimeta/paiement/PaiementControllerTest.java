@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -29,7 +30,7 @@ import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+//@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("dev")
 class PaiementControllerTest {
 
@@ -38,6 +39,9 @@ class PaiementControllerTest {
 
     @MockBean
     PaiementService paiementService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -56,7 +60,9 @@ class PaiementControllerTest {
         ModePaiement modePaiement1 = new ModePaiement();
         modePaiement1.setNom("Aitel Money");
         //ClientUser
-        ClientUser clientUser = new ClientUser("emmano","m@gmail.com","MZMZMZMZMZMZZM",true,"ADMIN USER",null);
+        ClientUser clientUser = new ClientUser("emmano","m@gmail.com",null,true,"ADMIN USER",null);
+
+        clientUser.setPassword(passwordEncoder.encode("password"));
         Commande commande1 = new Commande(1L, LocalDateTime.now(),LocalDateTime.now(),22,"33 rue bandas",22,7,clientUser);
         //Maiement
         Paiement paiement1 = new Paiement(1L, LocalDateTime.now(),"description1",modePaiement1,commande1);

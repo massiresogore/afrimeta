@@ -32,7 +32,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false) //désactive la sécurité spring
+//@AutoConfigureMockMvc(addFilters = false) //désactive la sécurité spring
 @ActiveProfiles("dev")
 class WebsiteControllerTest {
     @Autowired

@@ -28,7 +28,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)//Désactive la sécurité spring boot
+//@AutoConfigureMockMvc(addFilters = false)//Désactive la sécurité spring boot
 @ActiveProfiles("dev")
 class CategorieControllerTest {
 

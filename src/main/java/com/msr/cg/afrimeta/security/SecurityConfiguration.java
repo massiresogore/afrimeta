@@ -63,6 +63,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.authorizeHttpRequests(
                 authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
+                        .requestMatchers(HttpMethod.GET,this.baseUrl+"/categories").permitAll()
+                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/categories").hasAnyAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.PATCH,this.baseUrl+"/categories/**").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        .requestMatchers(HttpMethod.DELETE,this.baseUrl+"/categories/**").hasAnyAuthority("ROLE_admin","ROLE_super")
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/users").hasAnyAuthority("ROLE_admin","ROLE_user")
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/users").permitAll()
                         .requestMatchers(HttpMethod.PATCH,this.baseUrl+"/users/**").hasAuthority("ROLE_admin")
