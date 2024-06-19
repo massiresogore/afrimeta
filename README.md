@@ -659,3 +659,5 @@ la protection contre les attaques CSRF dans une application Spring Security, et 
     <scope>test</scope>
     </dependency>
 
+## le test d'integration mlodifie la base de donnée.
+## le mock est une simullation

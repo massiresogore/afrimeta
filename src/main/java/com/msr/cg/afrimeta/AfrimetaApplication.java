@@ -1,4 +1,6 @@
 package com.msr.cg.afrimeta;
+import com.msr.cg.afrimeta.categorie.Categorie;
+import com.msr.cg.afrimeta.categorie.CategorieService;
 import com.msr.cg.afrimeta.clientUser.ClientUser;
 import com.msr.cg.afrimeta.clientUser.ClientUserService;
 import com.msr.cg.afrimeta.commande.Commande;
@@ -43,6 +45,7 @@ public class AfrimetaApplication {
             FileSystemStorageService fileSystemStorageService,
             ProduitService produitService, FactureService factureService,
             CommandeService commandeService,
+            CategorieService categorieService,
             ClientUserService clientUserService) {
       /*  Website website1 = new Website(null,"http://google.com",null);
         Website website2 = new Website(null,"http://google.com",null);
@@ -120,6 +123,8 @@ public class AfrimetaApplication {
 //            contenir1.setId(produitCommandeKey);
 //            //contenirRepository.save(contenir1);
 //        }
+
+
 
         return args -> {
           //  System.out.println(commande1.getCommandeTotal());

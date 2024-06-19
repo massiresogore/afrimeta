@@ -30,7 +30,7 @@ import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
-//@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("dev")
 class PaiementControllerTest {
 
