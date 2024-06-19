@@ -32,7 +32,7 @@ create table if not exists profile (
 CREATE TABLE if not exists `client_user`(
                                             user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                                             username varchar(30) unique not null ,
-                                            role varchar(50) default 'USER' not null ,
+                                            role varchar(50) default 'user' not null ,
                                             email varchar(100) not null unique,
                                             password varchar(100) not null ,
                                             enable bit(1) default 1 not null ,

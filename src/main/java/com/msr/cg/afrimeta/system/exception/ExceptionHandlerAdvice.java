@@ -112,11 +112,7 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.INTERNAL_SERVER_ERROR, exception.getMessage());
     }
 
-   /* @ExceptionHandler({Exception.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result handleExceptionunkwown(Exception exception) {
-        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"une erreur server ",exception.getMessage());
-    }*/
+
 
     // leve une exception si le password est faux
     @ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})
@@ -160,6 +156,11 @@ public class ExceptionHandlerAdvice {
     }
 
 
+    @ExceptionHandler({Exception.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result handleExceptionunkwown(Exception exception) {
+        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"une erreur server ",exception.getMessage());
+    }
 
 
 

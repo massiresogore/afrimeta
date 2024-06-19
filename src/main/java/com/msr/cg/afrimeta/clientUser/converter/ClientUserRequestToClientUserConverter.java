@@ -23,7 +23,7 @@ public class ClientUserRequestToClientUserConverter implements Converter<ClientU
             source.email(),
             source.password(),
             true,
-            "USER",
+            "user",
             source.profile()
        );
     }
