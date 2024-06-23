@@ -13,17 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-@Controller
-//@RestController
+//@Controller
+@RestController
 @RequestMapping("${api.endpoint.base-url}/bataclan/images")
 public class FileUploadController {
 
@@ -39,22 +35,22 @@ public class FileUploadController {
     @GetMapping
     public String listUploadedFiles(Model model) throws IOException {
         //+All Image
-       /* model.addAttribute("files",storageService.loadAll().map(
+        model.addAttribute("files",storageService.loadAll().map(
                         path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                                 "serveFile", path.getFileName().toString()).build().toUri().toString())
-                .collect(Collectors.toList()));*/
+                .collect(Collectors.toList()));
 
         //Une Image
-        Path path =  storageService.load("WhatsAppImage2024-04-20at13.04.57(4).jpeg");
+       // Path path =  storageService.load("ciudad-maderas-MXbM1NrRqtI-unsplash.jpg");
 
        // System.out.println(path);
 
-   String p =   MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+  /* String p =   MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
            "serveFile",path.getFileName().toString()).build().toUri().toString();
-        System.out.println(p);
+        System.out.println(p);*/
 
-   model.addAttribute("file",p);
-        return "indexsssss";
+  // model.addAttribute("file",p);
+        return "index";
     }
 
   /*   @GetMapping

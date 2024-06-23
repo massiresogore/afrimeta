@@ -1,0 +1,104 @@
+
+[
+
+  {
+    "magasinId": 1,
+    "libele": "Librairie du Centre",
+    "description": "Une librairie bien fournie avec des livres pour tous les âges."
+  },
+  {
+    "magasinId": 2,
+    "libele": "Boutique de Mode",
+    "description": "Vêtements et accessoires de mode pour hommes et femmes."
+  },
+  {
+    "magasinId": 3,
+    "libele": "TechnoHub",
+    "description": "Derniers gadgets et appareils électroniques."
+  },
+  {
+    "magasinId": 4,
+    "libele": "Supermarché Central",
+    "description": "Produits alimentaires et articles ménagers à prix compétitifs."
+  },
+  {
+    "magasinId": 5,
+    "libele": "Bijouterie Elégance",
+    "description": "Bijoux élégants et raffinés pour toutes les occasions."
+  },
+  {
+    "magasinId": 6,
+    "libele": "Magasin Bio",
+    "description": "Produits alimentaires biologiques et naturels."
+  },
+  {
+    "magasinId": 7,
+    "libele": "SportLand",
+    "description": "Équipements et vêtements de sport pour toutes les disciplines."
+  },
+  {
+    "magasinId": 8,
+    "libele": "Jardin des Délices",
+    "description": "Produits frais et locaux, directement du producteur au consommateur."
+  },
+  {
+    "magasinId": 9,
+    "libele": "Optique Vision",
+    "description": "Lunettes et lentilles de contact pour toutes les corrections visuelles."
+  },
+  {
+    "magasinId": 10,
+    "libele": "Chaussures Confort",
+    "description": "Chaussures confortables et stylées pour toutes les occasions."
+  },
+  {
+    "magasinId": 11,
+    "libele": "Maison du Jouet",
+    "description": "Jouets pour enfants de tous âges, éducatifs et ludiques."
+  },
+  {
+    "magasinId": 12,
+    "libele": "Pharmacie Santé",
+    "description": "Médicaments et produits de santé pour toute la famille."
+  },
+  {
+    "magasinId": 13,
+    "libele": "Décorations Intérieures",
+    "description": "Articles de décoration pour embellir votre maison."
+  },
+  {
+    "magasinId": 14,
+    "libele": "BricoDépot",
+    "description": "Matériaux de construction et outils pour le bricolage."
+  },
+  {
+    "magasinId": 15,
+    "libele": "Papeterie Plus",
+    "description": "Fournitures de bureau et articles de papeterie."
+  },
+  {
+    "magasinId": 16,
+    "libele": "Boutique Animalière",
+    "description": "Produits pour animaux de compagnie et services vétérinaires."
+  },
+  {
+    "magasinId": 17,
+    "libele": "Vins & Spiritueux",
+    "description": "Sélection de vins fins et spiritueux du monde entier."
+  },
+  {
+    "magasinId": 18,
+    "libele": "Magasin de Musique",
+    "description": "Instruments de musique et accessoires pour musiciens."
+  },
+  {
+    "magasinId": 19,
+    "libele": "Épicerie Fine",
+    "description": "Produits alimentaires de haute qualité et spécialités culinaires."
+  },
+  {
+    "magasinId": 20,
+    "libele": "Librairie Antique",
+    "description": "Livres anciens et rares pour les collectionneurs."
+  }
+]

@@ -62,6 +62,9 @@ public class Produit {
     // @JsonIgnore
     Website website;
 
+    @Column(name = "quantite_commande",columnDefinition = "int default 0")
+    int quantiteCommande;
+
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
             name = "couleur_produit",
@@ -209,9 +212,13 @@ public class Produit {
         this.images = images;
     }
 
+    public int getQuantiteCommande() {
+        return quantiteCommande;
+    }
 
-
-
+    public void setQuantiteCommande(int quantiteCommande) {
+        this.quantiteCommande = quantiteCommande;
+    }
 
     @Override
     public String toString() {
@@ -222,6 +229,7 @@ public class Produit {
                 ", quantiteStock=" + quantiteStock +
                 ", prix=" + prix +
                 ", dateAjout=" + dateAjout +
+                ", quantiteCommande=" + quantiteCommande +
                 '}';
     }
 }

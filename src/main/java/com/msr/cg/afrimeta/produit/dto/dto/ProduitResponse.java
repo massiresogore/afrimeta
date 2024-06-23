@@ -42,6 +42,7 @@ public record ProduitResponse(
 
     List<CouleurResponse> couleurs,
 
-    List<ImageDto> images
+    List<ImageDto> images,
+    int quantiteCommande
 ) {
 }

@@ -63,6 +63,20 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.authorizeHttpRequests(
                 authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
+                        .requestMatchers(HttpMethod.GET,this.baseUrl+"/bataclan/images").permitAll()
+                        /***********Produits**********/
+                        .requestMatchers(HttpMethod.GET,this.baseUrl+"produits/bataclan").permitAll()
+                        .requestMatchers(HttpMethod.GET,this.baseUrl+"/produits/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,this.baseUrl+"/bataclan/images/files/**").permitAll()
+                        /***********Produits**********/
+
+                        /***********Commandes**********/
+//                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/commandes/client/**").hasAnyAuthority("ROLE_user","ROLE_admin")//désactive pour le test
+                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/commandes/client/**").permitAll()//active pou le test
+//                        .requestMatchers(HttpMethod.GET,this.baseUrl+"/commandes/**").hasAnyAuthority("ROLE_user","ROLE_admin")//désactive pour le test
+                        .requestMatchers(HttpMethod.GET,this.baseUrl+"/commandes/**").permitAll()//active pou le test
+                        .requestMatchers(HttpMethod.GET,this.baseUrl+"/commandes").hasAnyAuthority("ROLE_user","ROLE_admin")
+                        /***********Commandes**********/
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/categories").permitAll()
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/categories").hasAuthority("ROLE_user") // etape 1
                         .requestMatchers(HttpMethod.PATCH,this.baseUrl+"/categories/**").hasAuthority("ROLE_user")

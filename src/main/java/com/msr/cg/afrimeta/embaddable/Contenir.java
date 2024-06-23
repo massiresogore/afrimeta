@@ -71,4 +71,14 @@ public class Contenir {
     public void setQuantite(int quantite) {
         this.quantite = quantite;
     }
+
+    @Override
+    public String toString() {
+        return "Contenir{" +
+                "id=" + id +
+                ", produit=" + produit.getProduitId() +
+                ", commande=" + commande.getCommandeId() +
+                ", quantite=" + quantite +
+                '}';
+    }
 }

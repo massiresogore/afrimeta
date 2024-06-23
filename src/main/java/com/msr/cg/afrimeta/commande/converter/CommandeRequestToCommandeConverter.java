@@ -25,23 +25,24 @@ public class CommandeRequestToCommandeConverter implements Converter<CommandeReq
      */
     @Override
     public Commande convert(CommandeRequest source) {
-       return new Commande(
+      /* return new Commande(
                 source.commandeDate(),
                 source.commandeTotal(),
                 source.adresse(),
                 source.prixTotal(),
                 source.nombreProduit(),
                 null
-        );
+        );*/
+        return null;
     }
 
     public Commande convert(CommandeRequest source,String clientUserId) {
        return new Commande(
                 source.commandeDate(),
-                source.commandeTotal(),
+                Double.parseDouble( source.commandeTotal()),
                 source.adresse(),
-                source.prixTotal(),
-                source.nombreProduit(),
+                Double.parseDouble(source.prixTotal()),
+                Integer.parseInt(source.nombreProduit()),
                 this.userService.findById(Long.parseLong(clientUserId))
         );
     }

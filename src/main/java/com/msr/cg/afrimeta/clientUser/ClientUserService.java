@@ -3,6 +3,7 @@ package com.msr.cg.afrimeta.clientUser;
 import com.msr.cg.afrimeta.security.MyUserPrincipal;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
+import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,6 +38,7 @@ public class ClientUserService implements AfrimetaCrudInterface<ClientUser> , Us
     @Override
     public ClientUser save(ClientUser clientUser) {
         clientUser.setPassword(passwordEncoder.encode(clientUser.getPassword()));
+        clientUser.setEnable(true);
         return this.clientUserRepository.save(clientUser);
     }
 

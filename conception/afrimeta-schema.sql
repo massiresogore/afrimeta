@@ -83,6 +83,7 @@ create table if not exists produit(
                                       titre varchar(50) not null ,
                                       description TEXT,
                                       quantite_stock int(11),
+                                      quantite_commande int(11),
                                       prix numeric(10,2) not null,
                                       date_ajout datetime DEFAULT current_timestamp not null ,
                                       categorie_id int default null,

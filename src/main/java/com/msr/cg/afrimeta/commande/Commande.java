@@ -43,10 +43,13 @@ public class Commande {
     @Column(name = "nombre_produit")
     private int nombreProduit;
 
-   @NotNull
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private ClientUser clientUser;
+
+    @OneToMany(mappedBy = "commande")
+    private List<Contenir> contenirs;
 
 
     /*@NotNull
@@ -160,6 +163,13 @@ public class Commande {
         this.facture = facture;
     }*/
 
+    public List<Contenir> getContenirs() {
+        return contenirs;
+    }
+
+    public void setContenirs(List<Contenir> contenirs) {
+        this.contenirs = contenirs;
+    }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;

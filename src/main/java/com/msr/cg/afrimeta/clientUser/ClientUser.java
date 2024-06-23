@@ -3,7 +3,9 @@ package com.msr.cg.afrimeta.clientUser;
 import com.msr.cg.afrimeta.profile.Profile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Entity
 public class ClientUser {
@@ -22,7 +24,7 @@ public class ClientUser {
     @Length(min = 8, max = 200)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "boolean default true")
     private boolean enable;
 
     @Column(nullable = false)

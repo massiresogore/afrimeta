@@ -7,6 +7,7 @@ import com.msr.cg.afrimeta.clientUser.dto.ClientUserDto;
 import com.msr.cg.afrimeta.clientUser.dto.ClientUserRequest;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,7 +86,7 @@ public class UserController {
     }
 
     @PostMapping
-    public Result saveUser(@RequestBody ClientUserRequest clientUserRequest){
+    public Result saveUser( @Valid @RequestBody ClientUserRequest clientUserRequest){
         //System.out.print(clientUserRequest);
         return new Result(
                 true,

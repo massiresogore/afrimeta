@@ -3,9 +3,7 @@ package com.msr.cg.afrimeta.commande.request;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,18 +16,18 @@ public record CommandeRequest(
 
     @NotNull
     @Column(name = "commande_total")
-    int commandeTotal,
+    String commandeTotal,
 
     @NotNull
     String adresse,
 
     @NotNull
-    double prixTotal,
+    String prixTotal,
 
     @NotNull
-    int nombreProduit,
+    String nombreProduit,
 
-    List<String> produitIds
+    List<Panier> paniers
         //,
 
    // @PathVariable("clientUserId") String clientUserId

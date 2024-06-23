@@ -1,5 +1,8 @@
 package com.msr.cg.afrimeta.commande;
 
+import com.msr.cg.afrimeta.clientUser.ClientUser;
+import com.msr.cg.afrimeta.clientUser.ClientUserService;
+import com.msr.cg.afrimeta.commande.request.Panier;
 import com.msr.cg.afrimeta.embaddable.Contenir;
 import com.msr.cg.afrimeta.embaddable.ContenirRepository;
 import com.msr.cg.afrimeta.embaddable.ProduitCommandeKey;
@@ -22,11 +25,13 @@ public class CommandeService implements AfrimetaCrudInterface<Commande> {
     private final CommandeRepository repository;
     private final ProduitService  produitService;
     private final ContenirRepository contenirRepository;
+    private final ClientUserService clientUserService;
 
-    public CommandeService(CommandeRepository repository, ProduitService produitService, ContenirRepository contenirRepository) {
+    public CommandeService(CommandeRepository repository, ProduitService produitService, ContenirRepository contenirRepository, ClientUserService clientUserService) {
         this.repository = repository;
         this.produitService = produitService;
         this.contenirRepository = contenirRepository;
+        this.clientUserService = clientUserService;
     }
 
     @Override
@@ -37,6 +42,12 @@ public class CommandeService implements AfrimetaCrudInterface<Commande> {
     @Override
     public Commande findById(Long id) {
         return this.repository.findById(id).orElseThrow(()-> new ObjectNotFoundException(Commande.class.getSimpleName(), id));
+    }
+
+
+    public List<Commande> findByClientUser(String clienId) {
+        //Find Commande
+       return this.repository.retriveCommandeByIdClient(Long.parseLong(clienId));
     }
 
     @Override
@@ -74,30 +85,20 @@ public class CommandeService implements AfrimetaCrudInterface<Commande> {
         this.repository.delete(commande);
     }
 
-    public Commande save(Commande newComande, List<String> strings) {
+    public Commande save(Commande newComande, List<Panier> paniers) {
 
-        List<Produit> produits = new ArrayList<>();
-        strings.forEach(s -> {
-            Produit p = this.produitService.findById(Long.parseLong(s));
-            produits.add(p);
-        });
-
-        //SavedCommende
         Commande savedCommande = this.repository.save(newComande);
-
-
-        //Loop over produit to save into contenir table
-        for(Produit produit: produits) {
+        paniers.forEach(panier -> {
             Contenir contenir = new Contenir();
+            Produit p = this.produitService.findById(Long.parseLong(panier.produitId()));
+            contenir.setProduit(p);
+            contenir.setQuantite(Integer.parseInt(panier.quantity()));
+            ProduitCommandeKey produitCommandeKey = new ProduitCommandeKey(p.getProduitId(), savedCommande.getCommandeId());
             contenir.setCommande(savedCommande);
-            contenir.setQuantite(produit.getQuantiteStock());
-            contenir.setProduit(produit);
-            ProduitCommandeKey produitCommandeKey = new ProduitCommandeKey(produit.getProduitId(), savedCommande.getCommandeId());
             contenir.setId(produitCommandeKey);
             contenirRepository.save(contenir);
-        }
 
-        //System.out.println(produits);
+        });
 
         return  savedCommande;
     }
