@@ -90,7 +90,7 @@ public class CommandeController {
 
     @GetMapping("client/{clientId}")
     public Result userCommandes(@PathVariable("clientId") String clientId) {
-        List<CommandeResponse> commandeResponses= this.commandeService.findByClientUser(clientId).stream().map(commande ->  {
+        CommandeResponse commandeResponses= this.commandeService.findByClientUser(clientId).stream().map(commande ->  {
             //Liste des enregistrement des commandes de ce client dans la table Contenir issue de la relation (commande_produi)
             List<Contenir> contenirs = commande.getContenirs();
 
@@ -118,7 +118,9 @@ public class CommandeController {
                     commande.getCreatedAt().toString(),
                     commande.getUpdatedAt().toString()
             );
-        }).toList();
+        }).toList().get(0);
+
+
 
 
 

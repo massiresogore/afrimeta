@@ -68,6 +68,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"produits/bataclan").permitAll()
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/produits/**").permitAll()
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/bataclan/images/files/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/produits/**").hasAnyAuthority("ROLE_user","ROLE_admin")
                         /***********Produits**********/
 
                         /***********Commandes**********/
@@ -77,6 +78,12 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/commandes/**").permitAll()//active pou le test
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/commandes").hasAnyAuthority("ROLE_user","ROLE_admin")
                         /***********Commandes**********/
+
+                        /***********Website**********/
+                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/website/**").hasAnyAuthority("ROLE_user","ROLE_admin")
+                        //.requestMatchers(HttpMethod.GET,this.baseUrl+"/commandes/**").hasAnyAuthority("ROLE_user","ROLE_admin")//désactive pour le test
+                        //.requestMatchers(HttpMethod.GET,this.baseUrl+"/commandes").hasAnyAuthority("ROLE_user","ROLE_admin")
+                        /***********Website**********/
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/categories").permitAll()
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/categories").hasAuthority("ROLE_user") // etape 1
                         .requestMatchers(HttpMethod.PATCH,this.baseUrl+"/categories/**").hasAuthority("ROLE_user")
@@ -89,7 +96,6 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/magasins/**").hasAuthority("ROLE_user") //magasin de user ** ,etape 2
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/website/**").hasAuthority("ROLE_user") //website de magasin ** etape 3
-                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/produits/**").hasAuthority("ROLE_user") //produit de website ** etape4
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/commandes/client/**").hasAuthority("ROLE_user") //commande de client ** etape5
                         //desauthorise les connexion non securise
                         .anyRequest()

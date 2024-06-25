@@ -25,6 +25,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.Math.PI;
+import static org.apache.coyote.http11.Constants.a;
 
 @SpringBootApplication
 public class AfrimetaApplication {
@@ -123,6 +127,20 @@ public class AfrimetaApplication {
 //            contenir1.setId(produitCommandeKey);
 //            //contenirRepository.save(contenir1);
 //        }
+
+
+//        for (int i =0; i < 10; i = i + 1) {
+//            if(i==4) break;
+//            System.out.println(i * 5 + 1+ " ");
+//        }
+       //(int) Math.PI ?
+
+//        int  b = 2;
+//        int i=0; int j=2;
+//        do{
+//            i++;
+//            j--;
+//        }while (j>0);
 
 
 
