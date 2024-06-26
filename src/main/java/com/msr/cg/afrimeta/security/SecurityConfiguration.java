@@ -84,17 +84,22 @@ public class SecurityConfiguration {
                         //.requestMatchers(HttpMethod.GET,this.baseUrl+"/commandes/**").hasAnyAuthority("ROLE_user","ROLE_admin")//désactive pour le test
                         //.requestMatchers(HttpMethod.GET,this.baseUrl+"/commandes").hasAnyAuthority("ROLE_user","ROLE_admin")
                         /***********Website**********/
+
+                        /*********** User **********/
+                        .requestMatchers(HttpMethod.GET,this.baseUrl+"/users").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/users").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        .requestMatchers(HttpMethod.PATCH,this.baseUrl+"/users/**").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        .requestMatchers(HttpMethod.DELETE,this.baseUrl+"/users/**").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        /*********** End User **********/
+
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/categories").permitAll()
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/categories").hasAuthority("ROLE_user") // etape 1
                         .requestMatchers(HttpMethod.PATCH,this.baseUrl+"/categories/**").hasAuthority("ROLE_user")
                         .requestMatchers(HttpMethod.DELETE,this.baseUrl+"/categories/**").hasAuthority("ROLE_user")
-                        .requestMatchers(HttpMethod.GET,this.baseUrl+"/users").hasAnyAuthority("ROLE_admin","ROLE_user")
-                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/users").permitAll()
-                        .requestMatchers(HttpMethod.PATCH,this.baseUrl+"/users/**").hasAuthority("ROLE_admin")
-                        .requestMatchers(HttpMethod.DELETE,this.baseUrl+"/users/**").hasAuthority("ROLE_admin")
+
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/magasins/**").permitAll()
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/magasins/**").hasAuthority("ROLE_user") //magasin de user ** ,etape 2
+                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/magasins/**").hasAnyAuthority("ROLE_user","ROLE_admin") //magasin de user ** ,etape 2
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/website/**").hasAuthority("ROLE_user") //website de magasin ** etape 3
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/commandes/client/**").hasAuthority("ROLE_user") //commande de client ** etape5
                         //desauthorise les connexion non securise

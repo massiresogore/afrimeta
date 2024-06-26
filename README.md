@@ -664,3 +664,6 @@ la protection contre les attaques CSRF dans une application Spring Security, et 
 
 
 npm install @radix-ui/colors --save
+
+# Spring sécurité
+-   hasAuthority("ROLE_user","ROLE_admin"), signifit, si l'utilisateur à un role admin ou un role user
