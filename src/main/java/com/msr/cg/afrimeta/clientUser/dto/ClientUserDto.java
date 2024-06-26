@@ -6,7 +6,7 @@ public record ClientUserDto(
         Long user_id,
         String username,
         String email,
-        String password,
+      //  String password,
         boolean enable,
         String role,
         Profile profile

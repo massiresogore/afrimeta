@@ -1,4 +1,6 @@
 # PROJET DE FIN D'ANNEE 2024 Bachelor 3
+username=massire
+password=12345678
 # Route convention
   GET|HEAD   jobs .......................................................... JobController@index
   POST       jobs .......................................................... JobController@store

@@ -103,7 +103,7 @@ class WebsiteControllerTest {
         //Given
         given(this.websiteService.findAll()).willReturn(websites);
         //When and Then
-        mockMvc.perform(MockMvcRequestBuilders.get(url+"/website"))
+        mockMvc.perform(MockMvcRequestBuilders.get(url+"/websites"))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.message").value("tous les websites"))
@@ -116,7 +116,7 @@ class WebsiteControllerTest {
 
         given(this.websiteService.findById(1L)).willReturn(websites.get(0));
         //When and Then
-        mockMvc.perform(MockMvcRequestBuilders.get(url+"/website/{websiteId}",1))
+        mockMvc.perform(MockMvcRequestBuilders.get(url+"/websites/{websiteId}",1))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.message").value("website trouvé"))
@@ -128,7 +128,7 @@ class WebsiteControllerTest {
 
         given(this.websiteService.findById(1L)).willThrow(new ObjectNotFoundException("website", 1L));
         //When and Then
-        mockMvc.perform(MockMvcRequestBuilders.get(url+"/website/{websiteId}",1))
+        mockMvc.perform(MockMvcRequestBuilders.get(url+"/websites/{websiteId}",1))
                 .andExpect(jsonPath("$.flag").value(false))
                 .andExpect(jsonPath("$.code").value(404))
                 .andExpect(jsonPath("$.message").value("Nous ne retrouvons pas l'entité website avec id 1"))
@@ -154,7 +154,7 @@ class WebsiteControllerTest {
 
         given(this.websiteService.update(Mockito.any(Website.class),eq(1L))).willReturn(websites.get(0));
         //When and Then
-        mockMvc.perform(MockMvcRequestBuilders.patch(url+"/website/{websiteId}",1)
+        mockMvc.perform(MockMvcRequestBuilders.patch(url+"/websites/{websiteId}",1)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonWebsite)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -168,7 +168,7 @@ class WebsiteControllerTest {
     @Test
     void deleteWebsite() throws Exception {
         doNothing().when(this.websiteService).deleteById(1L);
-        mockMvc.perform(MockMvcRequestBuilders.delete(url+"/website/{websiteId}",1)
+        mockMvc.perform(MockMvcRequestBuilders.delete(url+"/websites/{websiteId}",1)
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(jsonPath("$.flag").value(true))
@@ -180,7 +180,7 @@ class WebsiteControllerTest {
     @Test
     void deleteWebsiteByIdNotFound() throws Exception {
         doThrow(new ObjectNotFoundException("website", 1L)).when(this.websiteService).deleteById(1L);
-        mockMvc.perform(MockMvcRequestBuilders.delete(url+"/website/{websiteId}",1)
+        mockMvc.perform(MockMvcRequestBuilders.delete(url+"/websites/{websiteId}",1)
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(jsonPath("$.flag").value(false))
@@ -216,7 +216,7 @@ class WebsiteControllerTest {
 
         given(this.websiteService.save(Mockito.any(Website.class))).willReturn(website);
         //When and Then
-        mockMvc.perform(MockMvcRequestBuilders.post(url+"/website/{magasinId}",1)
+        mockMvc.perform(MockMvcRequestBuilders.post(url+"/websites/{magasinId}",1)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(jsonWebsite)
                         .contentType(MediaType.APPLICATION_JSON)

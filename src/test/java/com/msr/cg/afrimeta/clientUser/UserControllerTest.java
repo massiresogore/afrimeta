@@ -3,6 +3,7 @@ package com.msr.cg.afrimeta.clientUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msr.cg.afrimeta.clientUser.converter.ClientUserDtoToClientUserConverter;
 import com.msr.cg.afrimeta.clientUser.dto.ClientUserDto;
+import com.msr.cg.afrimeta.clientUser.dto.ClientUserRequest;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -145,7 +146,7 @@ class UserControllerTest {
                 12L,
                 "Parolie",
                 "moile@gmail.com",
-                "1273637383",
+               // "1273637383",
                 true,
                 "0909090099",
                 null
@@ -174,9 +175,8 @@ class UserControllerTest {
                 12L,
                 "Parolie",
                 "moile@gmail.com",
-                "1273637383",
                 true,
-                "0909090099",
+                "user",
                 null
         );
 
@@ -240,21 +240,16 @@ class UserControllerTest {
     @Test
     void saveUser() throws Exception {
 
-
-
-        //Dto
-        ClientUserDto userDto = new ClientUserDto(
+        ClientUserRequest clientUserRequest = new ClientUserRequest(
                 null,
                 "Parolie",
-                "moile@gmail.com",
-                "1273637383",
-                true,
-                "0909090099",
+                "parolie@gmail.com",
+                "12345678",
                 null
         );
 
         //Stringify dto o json
-        String jsonDtoUser = objectMapper.writeValueAsString(userDto);
+        String jsonDtoUser = objectMapper.writeValueAsString(clientUserRequest);
 
         //Convert dto to objec
         ClientUser clientUser = new ClientUser(
@@ -265,8 +260,6 @@ class UserControllerTest {
                 "Admin",
                 null
         );
-
-
 
         //Given
         given(this.clientUserService.save(Mockito.any(ClientUser.class))).willReturn(clientUser);
