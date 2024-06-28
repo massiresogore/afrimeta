@@ -653,7 +653,7 @@ la protection contre les attaques CSRF dans une application Spring Security, et 
 
 - leROLE DOIT ETRE EN MINUSCULE
 
-# Test d'intégration im faut cette dépendance
+# Test d'intégration il faut cette dépendance
     <dependency>
     <groupId>org.springframework.security</groupId>
     <artifactId>spring-security-test</artifactId>
@@ -661,7 +661,7 @@ la protection contre les attaques CSRF dans une application Spring Security, et 
     <scope>test</scope>
     </dependency>
 
-## le test d'integration mlodifie la base de donnée.
+## le test d'integration modifie la base de donnée.
 ## le mock est une simullation
 
 
@@ -669,3 +669,84 @@ npm install @radix-ui/colors --save
 
 # Spring sécurité
 -   hasAuthority("ROLE_user","ROLE_admin"), signifit, si l'utilisateur à un role admin ou un role user
+
+# EXPLICATION DE LA DEMARCHE D'UNE AUTHENTIFICATION D'UN UTILISATEUR
+-   pour se connecter un utilisateur à besoin d'envoyer un username et un password comme paramètre coté
+    serveur, dans ce cas nous utilisons quelque chose appelé Http basic authentication, les parametre
+    username et password son stoker dans l'entête de la demande d'authorisation, si l'authentification 
+    réussit , le server nous revoie cette réponse 
+# 
+    {
+    "flag": true,
+    "code": 200,
+    "message": "user info and json web token",
+    "data": {
+        "userInfo": {
+            "user_id": 1,
+            "username": "massire",
+            "email": "massire@gmail.com",
+            "enable": true,
+            "role": "user admin super",
+            "profile": null
+        },
+        "token": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoibWFzc2lyZSIsImV4cCI6MTcxOTU2MDk2OSwiaWF0IjoxNzE5NTUzNzY5LCJhdXRob3JpdGllcyI6IlJPTEVfdXNlciBST0xFX2FkbWluIFJPTEVfc3VwZXIifQ.cJlFayBKzt7E6G6ym4MMtClUvB8ojHx-xO1wqBYvTUZAY9vCPefjetYShiNDnB5s-REVXp81zFXuv3l9FCMgfeH0aK8bYjsEydKXd2hcX35iD4VV5c8h_ALylLNFXdj7ubguX2arvi6UiX2KK2asEhFdlPPZUqZpsHWeHVBVvZP40eLLBw-Tji4jMioSW4Cuq-dgBdBhINzQ74m4uP8-Cam7o371zFj6xHnEEp3lbTII9Vs6JgpaePMfSOtGxe2Yr_ilp72hIQ7A7aX9OJwtLmHayyNgtk7uv1Z8k3o4LFsuShEkeYbKzEsposF752fiemyVDdl-DdhBalonFxD_jw"
+    }
+-   la répose contient deux partie, une affiche les information de l'utilisateur, et l'autre, affiche
+    le json web token (jwt)
+- le client récupérera ce jeton pour les requetes ultérieure, si l'authentification échoue, voici la
+    la réponse
+#   
+    {
+    "flag": false,
+    "code": 401,
+    "message": "usename or password not correctLes identifications sont erronées",
+    "data": null
+    }
+-   l'authentification , c'est de se poser la question qui êtes vous ?, et l'authorisation,
+    c'est de se dire, est ce que vous êtes autorisé à acceder à cette resource ? 
+
+# EXPLICATION DÉTAILLÉE
+    des lorqu'un utilisateur appelle le point de terminaison,
+    http://localhost:8080/api/v1/afrimeta/user/auth/login tout en fournissant son username
+    et son mot de passe avec l'Http basic authentification, spring boot prend en charge la 
+    complete authentification basic avec username et mot de passe dans une base de donnée.
+    
+    si l'authentification réussit, le serveur générera un jeton Web Token (jwt) et le renvera 
+    à l'utilisateur dans un format json, ainsi l'utilisateur poura utiliser ce jeton pour des
+    requette ultérieur pour acceder au resources protéger.
+
+    Single Sign On (SSO), la fontion d'authentification unique utilise jwt, spring securité
+    offre une prise en charge intégré de ce jeton (jwt),
+        
+    Bearer token Authentication, access token sont des information d'identifaction alors traiton
+    nos jetons comme des mots de passe.
+
+#   PROCESSUS D'AUTHENTIFICATION DÉTAILLÉ(photo): https://www.youtube.com/watch?v=PDAda_bQAv0&list=PLqq9AhcMm2oPdXXFT3fzjaKLsVymvMXaY&index=34
+    Partie 1:
+    lorsque username et password sont soumient avec lapide connexion, avant que le flux de controle
+    nateigne la classe controlleuret l'objet fournisseur d'authetification l'intercepte et récupère
+    le véritable utilisateur , c-a-d l'utilisateur avec son vrai mot de passe de la base de donné en
+    fonction du nom d'utilisateur,
+
+    le fournisseur de l'authentification, compare ensuite le mot de passe soumis avec le mot de passe
+    dans l'objet utilisateur récupéré, s'il réussit il renvoie true sinon il échoue,
+
+    comment se fait la récupération ?
+    UserService est responsable de la récupération de l'utilisateur, en demandant au repository
+    de chercher l'utilisateur par son nom, et place cet objet dans MyUserPrincipal.
+    MyUserPrincipal est renvoyé au fournisseur d'authentification(AuthenticationProvider) pour 
+    une comparaison de mot de passe
+
+    comment Authentication provider communique avec des object que nous avons définit ?
+    il se communique en suivant une règle.
+    la règle est que, le développeur à implementer dans UserService , l'interface du cadre de spring
+    sécurity dans laquelle, la valeur de retour de l'utilisateur doit etre enveloppé, 
+    une classe qui implemente l'interface de securité spring
+    
+    Partie:2(Génération de Jeson Web Token)
+    une foie basic Authentication réussit, l'appel Api continue, il atteindra la classe du controller
+    AuthControlleur, ici nous devons créé json web token pour l'utilisateur dans ce projet.
+    JwtProvider est responble de lacréation de token, le service obtient ainsi les information de 
+    l'utilisateur telque nom,prenom etc. dans cet objet (authentication) et les revoie dans le controller,
+    qui les serialisera en json et sera envoyé au coté client.
+    le paramettre d'authentification represente un utilisateur connecté
