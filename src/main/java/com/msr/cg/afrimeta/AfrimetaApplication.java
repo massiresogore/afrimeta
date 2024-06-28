@@ -20,10 +20,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -141,11 +144,14 @@ public class AfrimetaApplication {
 //            i++;
 //            j--;
 //        }while (j>0);
+        String role = "admin super";
 
-
+       List<SimpleGrantedAuthority> roleSeparer =  Arrays.stream(StringUtils.tokenizeToStringArray(role, " "))
+                .map(roleUser-> new SimpleGrantedAuthority("ROLE_"+roleUser)).toList();
 
         return args -> {
           //  System.out.println(commande1.getCommandeTotal());
+           // System.out.println(roleSeparer);
             System.out.println("done");
 
         };

@@ -19,9 +19,10 @@ public class MyUserPrincipal implements UserDetails {
     }
 
     /**
-     * on crée une chaine de caractère pour
-     * nous retourner "Role_admin" ou "Role_user", pour
-     * un utilisateur
+     * l'ajout d'un role suplémentaire doit être impérativement suivit d'un espace
+     * exemple role="admin" role="super user"
+     *
+     * Si l'utilisateur à un role = "admin super",la fonction renvera [ROLE_admin, ROLE_super]
      *
      */
     @Override

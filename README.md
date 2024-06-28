@@ -723,10 +723,10 @@ npm install @radix-ui/colors --save
 
 #   PROCESSUS D'AUTHENTIFICATION DÉTAILLÉ(photo): https://www.youtube.com/watch?v=PDAda_bQAv0&list=PLqq9AhcMm2oPdXXFT3fzjaKLsVymvMXaY&index=34
     Partie 1:
-    lorsque username et password sont soumient avec lapide connexion, avant que le flux de controle
-    nateigne la classe controlleuret l'objet fournisseur d'authetification l'intercepte et récupère
-    le véritable utilisateur , c-a-d l'utilisateur avec son vrai mot de passe de la base de donné en
-    fonction du nom d'utilisateur,
+    lorsque username et password sont soumient avec l'Api de connexion, avant que le flux de controle
+    nateigne la classe controlleuret l'objet fournisseur d'authetification(AuthenticationProvider) 
+    l'intercepte et récupère le véritable utilisateur , c-a-d l'utilisateur avec son vrai mot de passe
+    de la base de donné en fonction du nom d'utilisateur,
 
     le fournisseur de l'authentification, compare ensuite le mot de passe soumis avec le mot de passe
     dans l'objet utilisateur récupéré, s'il réussit il renvoie true sinon il échoue,
@@ -746,7 +746,11 @@ npm install @radix-ui/colors --save
     Partie:2(Génération de Jeson Web Token)
     une foie basic Authentication réussit, l'appel Api continue, il atteindra la classe du controller
     AuthControlleur, ici nous devons créé json web token pour l'utilisateur dans ce projet.
-    JwtProvider est responble de lacréation de token, le service obtient ainsi les information de 
-    l'utilisateur telque nom,prenom etc. dans cet objet (authentication) et les revoie dans le controller,
+    JwtProvider est responble de la création de token, le service obtient ainsi les informations de 
+    l'utilisateur tel que nom,prenom etc. dans cet objet (authentication) et les revoie dans le controller,
     qui les serialisera en json et sera envoyé au coté client.
     le paramettre d'authentification represente un utilisateur connecté
+
+# Sérializable -importance
+    User soit sérialisable, c'est-à-dire qu'elle puisse être convertie en un format qui peut être facilement 
+    stocké et transféré, vous devez implémenter l'interface Serializable.
