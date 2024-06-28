@@ -98,69 +98,6 @@ public class ProduitController{
         );
     }
 
-  /*  @PatchMapping("/{produitId}")
-    public Result update(@PathVariable("produitId") String produitId,@Valid @RequestBody ProduitDto produitDto) {
-      Produit produitUpdated =  this.produitService.update(this.produitDtoToProduitConverter.convert(produitDto), Long.valueOf(produitId));
-        System.out.println(produitUpdated);
-        return new Result(
-                true,
-                200,
-                "produit mis a jour"//,
-                //this.produitDtoSercice.converterToProduitDto(this.produitService.update(this.produitDtoToProduitConverter.convert(produitDto), Long.valueOf(produitId)))
-        );
-    }*/
 
 
-
-   /*@GetMapping("/{produitId}")
-    public Result show(@PathVariable("produitId") String produitId) {
-        System.out.println(this.produitService.singleProduitByProduitId(produitId));
-        return new Result(
-                true,
-                200,
-                "produit retrouvé",
-                this.produitDtoSercice.converterToProduitDtoList(this.produitService.findById(Long.valueOf(produitId)))
-        );
-    }*/
-    /*
-
-    @PatchMapping("/{produitId}")
-    public Result update(@PathVariable("produitId") String produitId,@Valid @RequestBody ProduitDto produitDto) {
-        return new Result(
-                true,
-                200,
-                "produit mis a jour",
-                this.produitDtoSercice.converterToProduitDto(this.produitService.update(this.produitDtoToProduitConverter.convert(produitDto), Long.valueOf(produitId)))
-        );
-    }
-
-    @DeleteMapping("/{produitId}")
-    public Result delete(@PathVariable("produitId") String produitId) {
-        this.produitService.deleteById(Long.valueOf(produitId));
-        return new Result(true, 200, "produit supprimé");
-    }
-
-    *//******************************************** les images par produits **************************//*
-    @GetMapping("/images/{produitId}")
-    public Result getImageByProduitId(@PathVariable("produitId") String produitId) throws IOException {
-        return new Result(true,200,"toutes les images de ce produit",this.imageService.downloadImagesFromFileSystem(Long.valueOf(produitId)));
-    }
-
-    *//******************************************** Ajouter une image dans un produit **************************//*
-    @PostMapping("/images/{produitId}")
-    public Result addImage(@PathVariable("produitId") String produitId, @RequestParam("image") MultipartFile image) throws IOException {
-        return new Result(true,200,this.imageService.uploadImageToFileSystem(image,produitId));
-    }
-
-    *//******************************************** une image par nom de l'image **************************//*
-    @GetMapping("/image/{imageName}")
-    public Result getImageByImageName(@PathVariable("produitId") String imageName) throws IOException {
-        return new Result(true,200,"toutes les images de ce produit",this.imageService.downloadImageFromFileSystem(imageName));
-    }
-*/
-
-  /*  @PostMapping("/images/{produitId}")
-    public Result addImage(@PathVariable("produitId") String produitId, @RequestParam("image") MultipartFile image) throws IOException {
-        return new Result(true,200,this.produitService.uploadImageToFileSystem(image,produitId));
-    }*/
 }

@@ -52,7 +52,7 @@ public class CommandeController {
     @PostMapping("/client/{clientUserId}")
     public Result save(@Valid @RequestBody CommandeRequest commandeRequest, @NotNull @PathVariable("clientUserId") String clientUserId) {
         //Convert to commande
-       // System.out.println(commandeRequest);
+        System.out.println(commandeRequest);
         Commande newComande = commandeRequestToCommandeConverter.convert(commandeRequest, clientUserId);
        // System.out.println(newComande);
         //Save Commande with produit
