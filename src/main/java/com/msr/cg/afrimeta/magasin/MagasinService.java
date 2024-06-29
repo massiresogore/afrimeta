@@ -1,12 +1,15 @@
 package com.msr.cg.afrimeta.magasin;
 
+import com.msr.cg.afrimeta.storage.StorageService;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MagasinService implements AfrimetaCrudInterface<Magasin> {
@@ -55,12 +58,29 @@ public class MagasinService implements AfrimetaCrudInterface<Magasin> {
 
     @Override
     public void deleteById(Long id) {
-        this.findById(id);
         this.magasinRepository.deleteById(id);
     }
 
     @Override
     public void delete(Magasin magasin) {
         this.magasinRepository.delete(magasin);
+    }
+
+    public void deleteMagasinAndHisLogoByIdMagasin(String magasinId, StorageService storageService) {
+        Magasin magasin = this.findById(Long.parseLong(magasinId));
+        Map<String,String > logo = magasin.getLogo();
+
+        for (Map.Entry<String,String> entry : logo.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            Path path = storageService.load(value);
+            if(path != null) {
+                storageService.deleteOne(key);
+                this.deleteById(Long.parseLong(magasinId));
+            }
+
+        }
+
     }
 }

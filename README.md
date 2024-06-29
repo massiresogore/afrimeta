@@ -754,3 +754,33 @@ npm install @radix-ui/colors --save
 # Sérializable -importance
     User soit sérialisable, c'est-à-dire qu'elle puisse être convertie en un format qui peut être facilement 
     stocké et transféré, vous devez implémenter l'interface Serializable.
+
+
+# NOTE
+    @Component
+    public class BeanA {
+    private final BeanB beanB;
+    
+        @Autowired
+        public BeanA(BeanB beanB) {
+            this.beanB = beanB;
+        }
+    }
+    
+    @Component
+    public class BeanB {
+    private final BeanA beanA;
+    
+        @Autowired
+        public BeanB(BeanA beanA) {
+            this.beanA = beanA;
+        }
+    }
+- Dans cet exemple, BeanA dépend de BeanB et vice versa, créant un cycle de dépendance.
+  Conclusion
+  Pour résoudre cette erreur, identifiez et supprimez les cycles de dépendances entre
+  vos beans, et utilisez la configuration pour autoriser les références circulaires uniquement
+  si nécessaire en dernier recours.
+ 
+solution temporaire
+spring.main.allow-circular-references=true

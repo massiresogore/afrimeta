@@ -1,18 +1,16 @@
 package com.msr.cg.afrimeta.magasin;
 
-import com.msr.cg.afrimeta.clientUser.ClientUserService;
 import com.msr.cg.afrimeta.magasin.converter.MagasinDtoToMagasinConverter;
 import com.msr.cg.afrimeta.magasin.converter.MagasinToMagasinDtoConverter;
 import com.msr.cg.afrimeta.magasin.dto.MagasinDto;
 import com.msr.cg.afrimeta.magasin.dto.MagasinRequest;
-import com.msr.cg.afrimeta.magasin.dto.MagasinResponse;
 import com.msr.cg.afrimeta.storage.StorageService;
 import com.msr.cg.afrimeta.system.Result;
 import com.msr.cg.afrimeta.system.StatusCode;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+
 //@Controller
 @RestController
 @RequestMapping("${api.endpoint.base-url}/magasins")
@@ -73,7 +71,8 @@ public class MagasinController {
 
     @DeleteMapping("/{magasinId}")
     public Result deleteMagasin(@PathVariable("magasinId") String magasinId){
-        this.magasinService.deleteById(Long.parseLong(magasinId));
+        //this.magasinService.deleteById(Long.parseLong(magasinId));
+        this.magasinService.deleteMagasinAndHisLogoByIdMagasin(magasinId, storageService);
         return new Result(true,StatusCode.SUCCESS,"magasin supprimé");
     }
 

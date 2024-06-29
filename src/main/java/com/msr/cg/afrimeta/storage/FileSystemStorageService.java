@@ -258,6 +258,12 @@ public class FileSystemStorageService implements StorageService {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
+    /**
+     * on supprime le magasin par son (file_path).
+     * dans Map<>, le file_path c'est la clé
+     *
+     * @param filename
+     */
     @Override
     public void deleteOne(String filename) {
         FileSystemUtils.deleteRecursively(new File(filename));

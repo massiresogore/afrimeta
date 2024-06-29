@@ -153,6 +153,8 @@ public class AfrimetaApplication {
           //  System.out.println(commande1.getCommandeTotal());
            // System.out.println(roleSeparer);
             System.out.println("done");
+            //fileSystemStorageService.deleteAll();
+
 
         };
     }
