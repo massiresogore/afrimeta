@@ -97,4 +97,8 @@ public class ProduitService implements AfrimetaCrudInterface<Produit> {
         this.delete(produit);
     }
 
+    public void deleteImageProduit(){
+
+    }
+
 }

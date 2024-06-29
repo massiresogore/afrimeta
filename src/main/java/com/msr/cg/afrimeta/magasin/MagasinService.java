@@ -1,6 +1,8 @@
 package com.msr.cg.afrimeta.magasin;
 
+import com.msr.cg.afrimeta.image.Image;
 import com.msr.cg.afrimeta.produit.Produit;
+import com.msr.cg.afrimeta.produit.ProduitService;
 import com.msr.cg.afrimeta.storage.StorageService;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
@@ -16,10 +18,12 @@ import java.util.Map;
 public class MagasinService implements AfrimetaCrudInterface<Magasin> {
     private final MagasinRepository magasinRepository;
 
+    private final ProduitService produitService;
 
 
-    public MagasinService(MagasinRepository magasinRepository) {
+    public MagasinService(MagasinRepository magasinRepository, ProduitService produitService) {
         this.magasinRepository = magasinRepository;
+        this.produitService = produitService;
     }
 
     @Override
@@ -72,16 +76,34 @@ public class MagasinService implements AfrimetaCrudInterface<Magasin> {
     public void deleteMagasinAndHisLogoByIdMagasin(String magasinId, StorageService storageService) {
         Magasin magasin = this.findById(Long.parseLong(magasinId));
 
-
         if (this.deleteLogoMagasin(storageService, magasin.getLogo())){
+            this.removeAllProductImagesBelongeToMagasinWebsite(magasinId, storageService);
             this.deleteById(Long.parseLong(magasinId));
         }
-
-
-
     }
 
-    private boolean deleteLogoMagasin( StorageService storageService, Map<String,String >  logo) {
+    private void removeAllProductImagesBelongeToMagasinWebsite(String magasinId, StorageService storageService) {
+        //Récupère l'id des produit appartenant à un magasin
+        List<Integer> produitId = this.findAllProduitsByIdMagasin(magasinId);
+
+        for(Integer produit : produitId) {
+            //Récupère produit
+            Produit produitFound = this.produitService.findById(Long.valueOf(produit));
+
+            //Récupère la liste d'image limage
+            List<Image> images = produitFound.getImages();
+            for (Image image : images) {
+                //Récupère le path
+                Path path = storageService.load(image.getFilePath());
+                System.out.println(path);
+
+                //Supprimer ces images
+                storageService.deleteOne(image.getFilePath());
+            }
+        }
+    }
+
+    private boolean deleteLogoMagasin(StorageService storageService, Map<String,String >  logo) {
 
         for (Map.Entry<String,String> entry : logo.entrySet()) {
             String key = entry.getKey();
