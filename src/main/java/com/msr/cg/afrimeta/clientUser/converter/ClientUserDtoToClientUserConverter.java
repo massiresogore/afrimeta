@@ -13,7 +13,7 @@ public class ClientUserDtoToClientUserConverter implements Converter<ClientUserD
         ClientUser clientUser = new ClientUser();
         clientUser.setUser_id(source.user_id());
         clientUser.setEmail(source.email());
-        clientUser.setPassword(source.password());
+       // clientUser.setPassword(source.password());
         clientUser.setRole(source.role());
         clientUser.setEnable(source.enable());
         clientUser.setUsername(source.username());

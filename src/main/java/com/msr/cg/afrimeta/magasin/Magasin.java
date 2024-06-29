@@ -1,10 +1,13 @@
 package com.msr.cg.afrimeta.magasin;
 
 import com.msr.cg.afrimeta.clientUser.ClientUser;
+import com.msr.cg.afrimeta.website.Website;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Reference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -88,6 +91,9 @@ public class Magasin {
     public void setLogo(Map<String, String> logo) {
         this.logo = logo;
     }
+
+    @OneToMany(mappedBy = "magasin", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<Website> websites = new ArrayList<>();
 
     @Override
     public String toString() {

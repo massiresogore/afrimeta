@@ -31,7 +31,7 @@ public class Website {
 
     @OneToMany(mappedBy = "website",
             fetch = FetchType.LAZY
-            ,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.MERGE})
+            ,cascade = CascadeType.ALL)
     List<Produit> produits;
 
     public List<Produit> getProduits() {

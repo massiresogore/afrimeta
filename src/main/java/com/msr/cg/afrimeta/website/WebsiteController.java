@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("${api.endpoint.base-url}/website")
+@RequestMapping("${api.endpoint.base-url}/websites")
 public class WebsiteController {
 
     private final WebsiteService websiteService;

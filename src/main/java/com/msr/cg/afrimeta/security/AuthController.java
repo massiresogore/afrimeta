@@ -28,7 +28,6 @@ public class AuthController {
         //ceci affichera le nom d'utilisatteur
         //LOGGER.debug("Autheticated user: $'{}'", authentication.getName());
 
-
         return new Result(true,
                 StatusCode.SUCCESS,
                 "user info and json web token",

@@ -44,7 +44,7 @@ public class UserController {
                         client.getUser_id(),
                         client.getUsername(),
                         client.getEmail(),
-                        client.getPassword(),
+                        //client.getPassword(),
                         client.isEnable(),
                         client.getRole(),
                         client.getProfile()

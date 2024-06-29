@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -155,6 +156,20 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.FORBIDDEN,"No perission", exception.getMessage());
     }
 
+
+
+
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR,"une erreur server ",exc.getMessage());
+    }
+
+    /*@ExceptionHandler(StorageFileNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return ResponseEntity.notFound().build();
+    }*/
 
     @ExceptionHandler({Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
