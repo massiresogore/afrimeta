@@ -12,6 +12,7 @@ import com.msr.cg.afrimeta.facture.Facture;
 import com.msr.cg.afrimeta.facture.FactureService;
 import com.msr.cg.afrimeta.facture.dto.FactureDto;
 import com.msr.cg.afrimeta.magasin.MagasinRepository;
+import com.msr.cg.afrimeta.magasin.MagasinService;
 import com.msr.cg.afrimeta.produit.Produit;
 import com.msr.cg.afrimeta.produit.ProduitService;
 import com.msr.cg.afrimeta.storage.FileSystemStorageService;
@@ -52,6 +53,7 @@ public class AfrimetaApplication {
             FileSystemStorageService fileSystemStorageService,
             ProduitService produitService, FactureService factureService,
             CommandeService commandeService,
+            MagasinService magasinService,
             CategorieService categorieService,
             ClientUserService clientUserService) {
       /*  Website website1 = new Website(null,"http://google.com",null);
@@ -149,9 +151,11 @@ public class AfrimetaApplication {
        List<SimpleGrantedAuthority> roleSeparer =  Arrays.stream(StringUtils.tokenizeToStringArray(role, " "))
                 .map(roleUser-> new SimpleGrantedAuthority("ROLE_"+roleUser)).toList();
 
+       List<Integer> profilIds = magasinService.findAllProduitsByIdMagasin("7");
         return args -> {
           //  System.out.println(commande1.getCommandeTotal());
            // System.out.println(roleSeparer);
+            System.out.println(profilIds);
             System.out.println("done");
             //fileSystemStorageService.deleteAll();
 

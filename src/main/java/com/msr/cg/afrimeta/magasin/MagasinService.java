@@ -1,5 +1,6 @@
 package com.msr.cg.afrimeta.magasin;
 
+import com.msr.cg.afrimeta.produit.Produit;
 import com.msr.cg.afrimeta.storage.StorageService;
 import com.msr.cg.afrimeta.system.exception.ObjectNotFoundException;
 import com.msr.cg.afrimeta.utils.AfrimetaCrudInterface;
@@ -14,6 +15,8 @@ import java.util.Map;
 @Service
 public class MagasinService implements AfrimetaCrudInterface<Magasin> {
     private final MagasinRepository magasinRepository;
+
+
 
     public MagasinService(MagasinRepository magasinRepository) {
         this.magasinRepository = magasinRepository;
@@ -68,19 +71,33 @@ public class MagasinService implements AfrimetaCrudInterface<Magasin> {
 
     public void deleteMagasinAndHisLogoByIdMagasin(String magasinId, StorageService storageService) {
         Magasin magasin = this.findById(Long.parseLong(magasinId));
-        Map<String,String > logo = magasin.getLogo();
+
+
+        if (this.deleteLogoMagasin(storageService, magasin.getLogo())){
+            this.deleteById(Long.parseLong(magasinId));
+        }
+
+
+
+    }
+
+    private boolean deleteLogoMagasin( StorageService storageService, Map<String,String >  logo) {
 
         for (Map.Entry<String,String> entry : logo.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-
+            //Verifie si l'image existe
             Path path = storageService.load(value);
             if(path != null) {
                 storageService.deleteOne(key);
-                this.deleteById(Long.parseLong(magasinId));
+                return true;
             }
-
         }
-
+        return false;
     }
+
+    public List<Integer> findAllProduitsByIdMagasin(String idMagasin) {
+        return this.magasinRepository.findAllProduitsByIdMagasin(idMagasin);
+    }
+
 }

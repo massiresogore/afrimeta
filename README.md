@@ -784,3 +784,14 @@ npm install @radix-ui/colors --save
  
 solution temporaire
 spring.main.allow-circular-references=true
+
+# APPLICATION CONTRAINTE
+-   suppression de magasin, entraine la suppression de website,et de tous ses produits.
+
+select produit_id from produit
+
+join website
+on produit.website_id = website.website_id
+
+join magasin
+on website.magasin_id = magasin.magasin_id;

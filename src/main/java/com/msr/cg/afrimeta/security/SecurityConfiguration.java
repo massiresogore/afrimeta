@@ -71,14 +71,17 @@ public class SecurityConfiguration {
                         /*********** End User **********/
 
                         /*********** Magasin **********/
-                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/magasins/**").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/magasins/**").permitAll()
+//                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/magasins/**").hasAnyAuthority("ROLE_admin","ROLE_super")
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/magasins/**").permitAll()
                         .requestMatchers(HttpMethod.PATCH,this.baseUrl+"/magasins/**").hasAnyAuthority("ROLE_admin","ROLE_super")
-                        .requestMatchers(HttpMethod.DELETE,this.baseUrl+"/magasins/**").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        .requestMatchers(HttpMethod.DELETE,this.baseUrl+"/magasins/**").permitAll()
+//                        .requestMatchers(HttpMethod.DELETE,this.baseUrl+"/magasins/**").hasAnyAuthority("ROLE_admin","ROLE_super")
                         /*********** End Magasin **********/
 
                         /*********** Website **********/
-                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/websites/**").hasAnyAuthority("ROLE_admin","ROLE_super")
+//                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/websites/**").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/websites/**").permitAll()
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/websites/**").permitAll()
                         .requestMatchers(HttpMethod.PATCH,this.baseUrl+"/websites/**").hasAnyAuthority("ROLE_admin","ROLE_super")
                         .requestMatchers(HttpMethod.DELETE,this.baseUrl+"/websites/**").hasAnyAuthority("ROLE_admin","ROLE_super")
@@ -89,8 +92,10 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"produits/bataclan").permitAll()
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/produits/**").permitAll()
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/bataclan/images/files/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/produits/**").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/produits/website/**").permitAll()
+//                        .requestMatchers(HttpMethod.POST,this.baseUrl+"/produits/**").hasAnyAuthority("ROLE_admin","ROLE_super")
                         .requestMatchers(HttpMethod.GET,this.baseUrl+"/produits/website/**").hasAnyAuthority("ROLE_admin","ROLE_super")
+                        .requestMatchers(HttpMethod.DELETE,this.baseUrl+"/produits/**").permitAll()
                         /***********Produits**********/
 
                         /***********Commandes**********/

@@ -46,7 +46,7 @@ public class ProduitController{
 
     //On ajoute un produit appatenant a un website
     // a faire , ajout image avvec id de website
-    @PostMapping("/{websiteId}")
+    @PostMapping("/website/{websiteId}")
     public Result store(ProduitRequest produitRequest) {
 
         Produit produit = produitDtoToProduitConverter.convert(produitRequest);
@@ -75,19 +75,11 @@ public class ProduitController{
     }
     @DeleteMapping("/{produitId}")
     public Result delete(@PathVariable("produitId") String produitId) {
-        this.produitService.deleteById(Long.valueOf(produitId));
+//        this.produitService.deleteById(Long.valueOf(produitId));
+        this.produitService.deleteProuitAndHisImage(produitId,storageService);
         return new Result(true, 200, "produit supprimé");
     }
 
-//    @GetMapping("/{produitId}")
-//    public String show(@PathVariable("produitId") String produitId, Model model) {
-//        model.addAttribute("produit",this.produitToProduitDtoConverter.convert(this.produitService.singleProduitByProduitId(produitId)));
-//
-//        return "produits";
-//
-//
-//    }
-//
    @GetMapping("/{produitId}")
     public Result show(@PathVariable("produitId") String produitId) {
         return new Result(
