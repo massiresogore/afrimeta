@@ -795,3 +795,15 @@ on produit.website_id = website.website_id
 
 join magasin
 on website.magasin_id = magasin.magasin_id;
+
+# PACKAGER LE SPRINGBOOT APPLICATION
+-   contenerize dans un fichier .jar
+- puis envoyé à la production
+a chaque fois que nous créeons un package et déployons,On utilisera github action pour le faire automatiquement , 
+
+## note
+        une fois le développement terminé, nous devons crée et empaqueté l'application dans un artefact et le deployé
+        sur le serveur de production
+-   jar, java archive est le type de packetage le plus populaire dans le démarrage spring.
+## Etape:1
+on supprime le dossier(target)
