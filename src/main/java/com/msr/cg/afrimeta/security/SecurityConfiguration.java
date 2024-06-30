@@ -23,6 +23,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -112,13 +113,14 @@ public class SecurityConfiguration {
                         /*********** Authentication **********/
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST,this.baseUrl+"/auth/logout").permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()//autorise h2-console
                         /*********** End Authentication **********/
 
                         .anyRequest()
                         .authenticated())
 
                 //.headers(AbstractHttpConfigurer::disable)
-                //.headers(AbstractHttpConfigurer::disable)//autorise h2-console
+                .headers(AbstractHttpConfigurer::disable)//autorise h2-console
                 .csrf(AbstractHttpConfigurer::disable)//
                 //.cors(Customizer.withDefaults())
                 //ceci permet dintercepter les erreur dautentification et d'autorisation

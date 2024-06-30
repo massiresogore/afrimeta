@@ -829,3 +829,14 @@ a chaque fois que nous créeons un package et déployons,On utilisera github act
     du démarrage de l'application
   - le fichier manifest.mf, contient l'attribut main-class:......., spécifit le point d'entré de lapplication
     l'attribut start-class:....., contient la class réel de l'application.
+
+# CONTAINERIZE L'PPLICATION
+        on conteneurise lapplication pour avec le demarrer partout
+-   meilleur façon de packager est de ne pas packager dans le container
+- on exécute la commande (java -Djarmode=layertools -jar afrimeta-0.0.1-SNAPSHOT.jar extract ).
+- meuilleur approche, Extraire le JAR et diviser l’application en couches est la meilleure pratique.
+- on demarrade docker avec cette commande (docker build -t tcu/afrimeta-bataclan:1.0 . )
+- on affiche les images avec cette commande(docker images)
+- on demarre limage avec ( docker run -d -p 8080:8080 tcu/afrimeta-bataclan:1.0 )
+    on aura ce resultat-> 1be30dd4d050c03c0d12effbab373c43512fd7cb04d20dd77ce3c3599c616792
+- 
