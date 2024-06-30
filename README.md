@@ -806,4 +806,26 @@ a chaque fois que nous créeons un package et déployons,On utilisera github act
         sur le serveur de production
 -   jar, java archive est le type de packetage le plus populaire dans le démarrage spring.
 ## Etape:1
-on supprime le dossier(target)
+- on supprime le dossier(target)
+- on écrit cette commande (./mvnw package -DskipTests ), ceci permet d'empaqueté le projet et -DskipTests pour 
+  s'assuer que le test ne soit pas pris en compte
+    cest cette dépendance, qui permet de conditionner des fichier jar exécutable et d'exécuter des application spring
+  - 
+          <plugins>
+          <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          </plugin>
+          </plugins>
+- on tape,cette commande(java -jar target/afrimeta-0.0.1-SNAPSHOT.jar ), permet de demarrer lapplication
+-  un server tomcat est intégré dans le jar file, pas besoin de l'installé séparement
+- on copie le fichier (target/afrimeta-0.0.1-SNAPSHOT.jar ) dans un dossier,
+    on rentre dans ce dossier, on extrait ce fichier avec cette commande(jar xf afrimeta-0.0.1-SNAPSHOT.jar ),
+    xf, indique que nous voulons extraire les fichiers du fichier .jar
+  - 
+        boot inf, contient les classes de chargeursnécessaire pour configurer et démarrer l'application
+        à partir du démarrage spring.
+  - dans le fichier boot -inf du package extrait, contient le fichier layers, dans lequel se trouve lordre
+    du démarrage de l'application
+  - le fichier manifest.mf, contient l'attribut main-class:......., spécifit le point d'entré de lapplication
+    l'attribut start-class:....., contient la class réel de l'application.

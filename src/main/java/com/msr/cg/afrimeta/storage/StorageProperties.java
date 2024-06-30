@@ -11,7 +11,7 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private String location = "/Users/esprit/www_java/projet_personnel_b3/afrimeta/afrimeta_server/src/main/resources/upload-dir/";
+    private String location = "/Users/esprit/www_java/projet_personnel_b3/afrimeta/afrimeta_server/src/main/resources/uploads/";
 
     public String getLocation() {
         return location;
